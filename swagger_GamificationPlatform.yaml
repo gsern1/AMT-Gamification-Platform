@@ -398,7 +398,7 @@ paths:
           description: unexpected error
           schema:
             $ref: '#/definitions/errorModel'
-  /users:
+  /leaderboard:
     get:
       summary: Returns the leaderboard
       description: |
