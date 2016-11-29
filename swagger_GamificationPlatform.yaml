@@ -3,16 +3,9 @@ info:
   version: '1.0.0'
   title: Gamification
   description: An API to implement gamification features in the swagger-2.0 specification. 
-  
-    Done 
-      - /bagges
     
     ToDo 
       (- /rules)
-      (- /users)
-      (- /users/id/pointScales)
-      (- /users/id/Badges)
-      (- /leaderboards)
     
   contact:
     name: Guillaume Serneels
@@ -397,6 +390,29 @@ paths:
       responses:
         '200':
           description: users response
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/user'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/errorModel'
+  /users:
+    get:
+      summary: Returns the leaderboard
+      description: |
+        Returns the leaderboard
+      operationId: leaderboard
+      parameters:
+        - name: token
+          in: header
+          description: token to be passed as a header
+          required: true
+          type: string
+      responses:
+        '200':
+          description: leaderboard response
           schema:
             type: array
             items:
