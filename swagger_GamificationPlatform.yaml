@@ -292,6 +292,29 @@ paths:
           description: unexpected error
           schema:
             $ref: '#/definitions/application'
+    get:
+      summary: Returns a the application token
+      description: |
+        Returns the application token
+      operationId: loginApplication
+      parameters:
+        - name: application
+          in: body
+          description: application object to add to the store
+          required: true
+          schema:
+            $ref: '#/definitions/application'
+      responses:
+        '200':
+          description: pointScale response
+          schema:
+            $ref: '#/definitions/pointScale'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/errorModel'
+
+  /application/{applicationId}:  
     delete:
       summary: Delete an existing application
       description: |
@@ -311,32 +334,6 @@ paths:
           description: application not found
         '400':
           description: Invalid Id supplied
-    get:
-      summary: Returns a the application token
-      description: |
-        Returns the application token
-      operationId: loginApplication
-      parameters:
-        - name: applicationName
-          in: path
-          description: ID of pointScale to fetch
-          required: true
-          type: integer
-          format: int64
-        - name: applicationPassword
-          in: path
-          description: ID of pointScale to fetch
-          required: true
-          type: string
-      responses:
-        '200':
-          description: pointScale response
-          schema:
-            $ref: '#/definitions/pointScale'
-        default:
-          description: unexpected error
-          schema:
-            $ref: '#/definitions/errorModel'
       
 definitions:
   badge:
