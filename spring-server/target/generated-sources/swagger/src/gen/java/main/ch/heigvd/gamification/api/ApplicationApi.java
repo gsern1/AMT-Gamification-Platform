@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringCodegen", date = "2016-12-10T13:17:26.974+01:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringCodegen", date = "2016-12-10T14:12:42.843+01:00")
 
 @Api(value = "application", description = "the application API")
 public interface ApplicationApi {
@@ -44,7 +44,6 @@ public interface ApplicationApi {
         @ApiResponse(code = 404, message = "application not found", response = Void.class) })
     @RequestMapping(value = "/application",
         produces = { "application/json" }, 
-        consumes = { "application/json" },
         method = RequestMethod.DELETE)
     ResponseEntity<Void> deleteApplication(
 @ApiParam(value = "token to be passed as a header" ,required=true ) @RequestHeader(value="token", required=true) String token
@@ -59,7 +58,6 @@ public interface ApplicationApi {
         @ApiResponse(code = 200, message = "unexpected error", response = PointScale.class) })
     @RequestMapping(value = "/application",
         produces = { "application/json" }, 
-        consumes = { "application/json" },
         method = RequestMethod.GET)
     ResponseEntity<PointScale> loginApplication(
 

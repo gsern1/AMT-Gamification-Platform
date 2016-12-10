@@ -12,7 +12,7 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * PointScale
  */
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringCodegen", date = "2016-12-10T13:17:26.974+01:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringCodegen", date = "2016-12-10T14:12:42.843+01:00")
 
 public class PointScale   {
   private Long id = null;
@@ -22,6 +22,8 @@ public class PointScale   {
   private Long app = null;
 
   private String description = null;
+
+  private String token = null;
 
   private Long userId = null;
 
@@ -97,6 +99,24 @@ public class PointScale   {
     this.description = description;
   }
 
+  public PointScale token(String token) {
+    this.token = token;
+    return this;
+  }
+
+   /**
+   * Get token
+   * @return token
+  **/
+  @ApiModelProperty(value = "")
+  public String getToken() {
+    return token;
+  }
+
+  public void setToken(String token) {
+    this.token = token;
+  }
+
   public PointScale userId(Long userId) {
     this.userId = userId;
     return this;
@@ -129,12 +149,13 @@ public class PointScale   {
         Objects.equals(this.name, pointScale.name) &&
         Objects.equals(this.app, pointScale.app) &&
         Objects.equals(this.description, pointScale.description) &&
+        Objects.equals(this.token, pointScale.token) &&
         Objects.equals(this.userId, pointScale.userId);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, app, description, userId);
+    return Objects.hash(id, name, app, description, token, userId);
   }
 
   @Override
@@ -146,6 +167,7 @@ public class PointScale   {
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    app: ").append(toIndentedString(app)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
+    sb.append("    token: ").append(toIndentedString(token)).append("\n");
     sb.append("    userId: ").append(toIndentedString(userId)).append("\n");
     sb.append("}");
     return sb.toString();

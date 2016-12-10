@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringCodegen", date = "2016-12-10T13:17:26.974+01:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringCodegen", date = "2016-12-10T14:12:42.843+01:00")
 
 @Api(value = "pointScales", description = "the pointScales API")
 public interface PointScalesApi {
@@ -47,7 +47,6 @@ public interface PointScalesApi {
         @ApiResponse(code = 404, message = "pointScale not found", response = Void.class) })
     @RequestMapping(value = "/pointScales/{pointScaleId}",
         produces = { "application/json" }, 
-        consumes = { "application/json" },
         method = RequestMethod.DELETE)
     ResponseEntity<Void> deletePointScale(
 @ApiParam(value = "Id of the pointScale that needs to be deleted",required=true ) @PathVariable("pointScaleId") Long pointScaleId
@@ -66,7 +65,6 @@ public interface PointScalesApi {
         @ApiResponse(code = 200, message = "unexpected error", response = PointScale.class) })
     @RequestMapping(value = "/pointScales/{pointScaleId}",
         produces = { "application/json" }, 
-        consumes = { "application/json" },
         method = RequestMethod.GET)
     ResponseEntity<PointScale> findPointScale(
 @ApiParam(value = "ID of pointScale to fetch",required=true ) @PathVariable("pointScaleId") Long pointScaleId
@@ -85,7 +83,6 @@ public interface PointScalesApi {
         @ApiResponse(code = 200, message = "unexpected error", response = PointScale.class) })
     @RequestMapping(value = "/pointScales",
         produces = { "application/json" }, 
-        consumes = { "application/json" },
         method = RequestMethod.GET)
     ResponseEntity<List<PointScale>> findPointScales(
 @ApiParam(value = "token to be passed as a header" ,required=true ) @RequestHeader(value="token", required=true) String token

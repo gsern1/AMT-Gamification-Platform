@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringCodegen", date = "2016-12-10T13:17:26.974+01:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringCodegen", date = "2016-12-10T14:12:42.843+01:00")
 
 @Api(value = "badges", description = "the badges API")
 public interface BadgesApi {
@@ -47,7 +47,6 @@ public interface BadgesApi {
         @ApiResponse(code = 404, message = "Badge not found", response = Void.class) })
     @RequestMapping(value = "/badges/{badgeId}",
         produces = { "application/json" }, 
-        consumes = { "application/json" },
         method = RequestMethod.DELETE)
     ResponseEntity<Void> deleteBadge(
 @ApiParam(value = "Id of the badge that needs to be deleted",required=true ) @PathVariable("badgeId") Long badgeId
@@ -66,7 +65,6 @@ public interface BadgesApi {
         @ApiResponse(code = 200, message = "unexpected error", response = Badge.class) })
     @RequestMapping(value = "/badges/{badgeId}",
         produces = { "application/json" }, 
-        consumes = { "application/json" },
         method = RequestMethod.GET)
     ResponseEntity<Badge> findBadge(
 @ApiParam(value = "ID of badge to fetch",required=true ) @PathVariable("badgeId") Long badgeId
@@ -85,7 +83,6 @@ public interface BadgesApi {
         @ApiResponse(code = 200, message = "unexpected error", response = Badge.class) })
     @RequestMapping(value = "/badges",
         produces = { "application/json" }, 
-        consumes = { "application/json" },
         method = RequestMethod.GET)
     ResponseEntity<List<Badge>> findBadges(
 @ApiParam(value = "token to be passed as a header" ,required=true ) @RequestHeader(value="token", required=true) String token
