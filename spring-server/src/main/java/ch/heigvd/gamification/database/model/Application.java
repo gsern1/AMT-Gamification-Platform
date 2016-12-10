@@ -1,4 +1,4 @@
-package ch.heigvd.gamification.BDD.Entities;
+package ch.heigvd.gamification.database.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

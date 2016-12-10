@@ -388,7 +388,7 @@ paths:
         '200':
           description: application response
           schema:
-            $ref: '#/definitions/application'
+            $ref: '#/definitions/token'
         default:
           description: unexpected error
           schema:
@@ -620,7 +620,13 @@ definitions:
         type: string
       password:
         type: string
-        
+  token:
+      type: object
+      required:
+        - token
+      properties:
+        token:
+          type: string
   errorModel:
     type: object
     required:

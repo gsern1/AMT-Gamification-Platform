@@ -1,6 +1,6 @@
-package ch.heigvd.gamification.BDD;
+package ch.heigvd.gamification.database;
 
-import ch.heigvd.gamification.BDD.Entities.Application;
+import ch.heigvd.gamification.database.model.Application;
 import org.springframework.data.repository.CrudRepository;
 
 /**

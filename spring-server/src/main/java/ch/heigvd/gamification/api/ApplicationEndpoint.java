@@ -1,8 +1,9 @@
 package ch.heigvd.gamification.api;
 
-import ch.heigvd.gamification.BDD.ApplicationRepository;
+import ch.heigvd.gamification.database.ApplicationRepository;
 import ch.heigvd.gamification.api.dto.Application;
 import ch.heigvd.gamification.api.dto.PointScale;
+import ch.heigvd.gamification.api.dto.Token;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
@@ -36,10 +37,10 @@ public class ApplicationEndpoint implements ApplicationApi {
     }
 
     @Override
-    public ResponseEntity<PointScale> loginApplication(@ApiParam(value = "application object to add to the store", required = true) @RequestBody Application application) {
+    public ResponseEntity<Token> loginApplication(@ApiParam(value = "application object to add to the store", required = true) @RequestBody Application application) {
         long id = application.getId();
         //TODO CHANGER LE INT EN LONG DANS LA DB
-        ch.heigvd.gamification.BDD.Entities.Application DBapp = applicationRepository.findOne((int)id);
+        ch.heigvd.gamification.database.model.Application DBapp = applicationRepository.findOne((int)id);
 
         if(DBapp == null)
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
@@ -47,14 +48,16 @@ public class ApplicationEndpoint implements ApplicationApi {
         if(!DBapp.getName().equals(application.getName()) || !DBapp.getPassword().equals(application.getPassword()))
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
-        PointScale tmp = new PointScale();
+        /*PointScale tmp = new PointScale();
         tmp.setName(application.getName());
         tmp.setApp(application.getId());
         tmp.setDescription("NON IMPLEMENTE");
         tmp.setToken(createToken((int)id));
-        tmp.setUserId((long)-1);
+        tmp.setUserId((long)-1);*/
+        Token token = new Token();
+        token.setToken(createToken((int)id));
 
-        return new ResponseEntity<>(tmp, HttpStatus.OK);
+        return new ResponseEntity<>(token, HttpStatus.OK);
     }
 
     private String createToken(int id)
