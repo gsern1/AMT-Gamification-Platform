@@ -14,7 +14,7 @@ info:
   license:
     name: MIT
     url: http://opensource.org/licenses/MIT
-host: localhost
+host: localhost:8090
 basePath: /api
 schemes:
   - http

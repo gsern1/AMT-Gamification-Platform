@@ -1,0 +1,58 @@
+-------------------------------------------------------------------------------
+Test set: ch.heigvd.amt.gamification.spec.SpecificationTest
+-------------------------------------------------------------------------------
+Tests run: 19, Failures: 0, Errors: 6, Skipped: 9, Time elapsed: 0.766 sec <<< FAILURE!
+When I POST it to the \/registrations endpoint(Scenario: Register a new application)  Time elapsed: 0.002 sec  <<< ERROR!
+ch.heigvd.gamification.ApiException: Method Not Allowed
+	at ch.heigvd.gamification.ApiClient.handleResponse(ApiClient.java:1058)
+	at ch.heigvd.gamification.ApiClient.execute(ApiClient.java:981)
+	at ch.heigvd.gamification.ApiClient.execute(ApiClient.java:964)
+	at ch.heigvd.gamification.api.DefaultApi.registrationsPostWithHttpInfo(DefaultApi.java:233)
+	at ch.heigvd.gamification.api.DefaultApi.registrationsPost(DefaultApi.java:221)
+	at ch.heigvd.amt.gamification.spec.steps.ApplicationSteps.i_POST_it_to_the_registrations_endpoint(ApplicationSteps.java:36)
+	at ✽.When I POST it to the /registrations endpoint(scenario.feature:5)
+Scenario: Register a new application  Time elapsed: 0.002 sec  <<< ERROR!
+ch.heigvd.gamification.ApiException: Method Not Allowed
+	at ch.heigvd.gamification.ApiClient.handleResponse(ApiClient.java:1058)
+	at ch.heigvd.gamification.ApiClient.execute(ApiClient.java:981)
+	at ch.heigvd.gamification.ApiClient.execute(ApiClient.java:964)
+	at ch.heigvd.gamification.api.DefaultApi.registrationsPostWithHttpInfo(DefaultApi.java:233)
+	at ch.heigvd.gamification.api.DefaultApi.registrationsPost(DefaultApi.java:221)
+	at ch.heigvd.amt.gamification.spec.steps.ApplicationSteps.i_POST_it_to_the_registrations_endpoint(ApplicationSteps.java:36)
+	at ✽.When I POST it to the /registrations endpoint(scenario.feature:5)
+When I POST it to the \/registrations endpoint(Scenario: Check that the application has been registered)  Time elapsed: 0 sec  <<< ERROR!
+ch.heigvd.gamification.ApiException: Method Not Allowed
+	at ch.heigvd.gamification.ApiClient.handleResponse(ApiClient.java:1058)
+	at ch.heigvd.gamification.ApiClient.execute(ApiClient.java:981)
+	at ch.heigvd.gamification.ApiClient.execute(ApiClient.java:964)
+	at ch.heigvd.gamification.api.DefaultApi.registrationsPostWithHttpInfo(DefaultApi.java:233)
+	at ch.heigvd.gamification.api.DefaultApi.registrationsPost(DefaultApi.java:221)
+	at ch.heigvd.amt.gamification.spec.steps.ApplicationSteps.i_POST_it_to_the_registrations_endpoint(ApplicationSteps.java:36)
+	at ✽.When I POST it to the /registrations endpoint(scenario.feature:10)
+Scenario: Check that the application has been registered  Time elapsed: 0 sec  <<< ERROR!
+ch.heigvd.gamification.ApiException: Method Not Allowed
+	at ch.heigvd.gamification.ApiClient.handleResponse(ApiClient.java:1058)
+	at ch.heigvd.gamification.ApiClient.execute(ApiClient.java:981)
+	at ch.heigvd.gamification.ApiClient.execute(ApiClient.java:964)
+	at ch.heigvd.gamification.api.DefaultApi.registrationsPostWithHttpInfo(DefaultApi.java:233)
+	at ch.heigvd.gamification.api.DefaultApi.registrationsPost(DefaultApi.java:221)
+	at ch.heigvd.amt.gamification.spec.steps.ApplicationSteps.i_POST_it_to_the_registrations_endpoint(ApplicationSteps.java:36)
+	at ✽.When I POST it to the /registrations endpoint(scenario.feature:10)
+When I POST it to the \/registrations endpoint(Scenario: Check that it is not possible to create two apps with the same name)  Time elapsed: 0 sec  <<< ERROR!
+ch.heigvd.gamification.ApiException: Method Not Allowed
+	at ch.heigvd.gamification.ApiClient.handleResponse(ApiClient.java:1058)
+	at ch.heigvd.gamification.ApiClient.execute(ApiClient.java:981)
+	at ch.heigvd.gamification.ApiClient.execute(ApiClient.java:964)
+	at ch.heigvd.gamification.api.DefaultApi.registrationsPostWithHttpInfo(DefaultApi.java:233)
+	at ch.heigvd.gamification.api.DefaultApi.registrationsPost(DefaultApi.java:221)
+	at ch.heigvd.amt.gamification.spec.steps.ApplicationSteps.i_POST_it_to_the_registrations_endpoint(ApplicationSteps.java:36)
+	at ✽.When I POST it to the /registrations endpoint(scenario.feature:16)
+Scenario: Check that it is not possible to create two apps with the same name  Time elapsed: 0 sec  <<< ERROR!
+ch.heigvd.gamification.ApiException: Method Not Allowed
+	at ch.heigvd.gamification.ApiClient.handleResponse(ApiClient.java:1058)
+	at ch.heigvd.gamification.ApiClient.execute(ApiClient.java:981)
+	at ch.heigvd.gamification.ApiClient.execute(ApiClient.java:964)
+	at ch.heigvd.gamification.api.DefaultApi.registrationsPostWithHttpInfo(DefaultApi.java:233)
+	at ch.heigvd.gamification.api.DefaultApi.registrationsPost(DefaultApi.java:221)
+	at ch.heigvd.amt.gamification.spec.steps.ApplicationSteps.i_POST_it_to_the_registrations_endpoint(ApplicationSteps.java:36)
+	at ✽.When I POST it to the /registrations endpoint(scenario.feature:16)
