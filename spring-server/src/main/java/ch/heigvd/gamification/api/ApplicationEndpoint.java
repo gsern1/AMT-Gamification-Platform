@@ -26,6 +26,7 @@ public class ApplicationEndpoint implements ApplicationApi {
 
     @Override
     public ResponseEntity<Void> addApplication(@ApiParam(value = "application object to add to the platform", required = true) @RequestBody Application application) {
+
         return null;
     }
 
