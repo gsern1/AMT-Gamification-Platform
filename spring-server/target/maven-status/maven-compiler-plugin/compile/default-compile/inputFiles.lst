@@ -8,6 +8,7 @@
 /home/lux/HEIG_ANNE_3/TWEB/AMT-Gamification-Platform/spring-server/target/generated-sources/swagger/src/gen/java/main/ch/heigvd/gamification/api/dto/User.java
 /home/lux/HEIG_ANNE_3/TWEB/AMT-Gamification-Platform/spring-server/src/main/java/ch/heigvd/gamification/configuration/SwaggerDocumentationConfig.java
 /home/lux/HEIG_ANNE_3/TWEB/AMT-Gamification-Platform/spring-server/target/generated-sources/swagger/src/gen/java/main/ch/heigvd/gamification/api/UserApi.java
+/home/lux/HEIG_ANNE_3/TWEB/AMT-Gamification-Platform/spring-server/src/main/java/ch/heigvd/gamification/api/ApplicationEndpoint.java
 /home/lux/HEIG_ANNE_3/TWEB/AMT-Gamification-Platform/spring-server/src/main/java/ch/heigvd/gamification/configuration/HomeController.java
 /home/lux/HEIG_ANNE_3/TWEB/AMT-Gamification-Platform/spring-server/src/main/java/ch/heigvd/gamification/api/ApiException.java
 /home/lux/HEIG_ANNE_3/TWEB/AMT-Gamification-Platform/spring-server/src/main/java/ch/heigvd/gamification/api/ApiOriginFilter.java

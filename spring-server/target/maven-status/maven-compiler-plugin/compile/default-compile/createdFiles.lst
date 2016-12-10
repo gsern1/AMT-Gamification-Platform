@@ -16,6 +16,7 @@ ch/heigvd/gamification/api/ApiException.class
 ch/heigvd/gamification/api/UserApi.class
 ch/heigvd/gamification/api/NotFoundException.class
 ch/heigvd/gamification/api/dto/ErrorModel.class
+ch/heigvd/gamification/api/ApplicationEndpoint.class
 ch/heigvd/gamification/api/UsersApi.class
 ch/heigvd/gamification/api/ApplicationApi.class
 ch/heigvd/gamification/api/ApiOriginFilter.class
