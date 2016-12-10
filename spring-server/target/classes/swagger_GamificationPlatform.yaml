@@ -18,10 +18,6 @@ host: localhost
 basePath: /api
 schemes:
   - http
-consumes:
-  - application/json
-produces:
-  - application/json
 paths:
   /badges:
     get:
@@ -29,6 +25,8 @@ paths:
       description: |
         Returns every badges
       operationId: findBadges
+      produces:
+        - application/json
       parameters:
         - name: token
           in: header
@@ -51,6 +49,10 @@ paths:
       description: |
         Creates a new badge
       operationId: addBadge
+      consumes:
+        - application/json
+      produces:
+        - application/json
       parameters:
         - name: badge
           in: body
@@ -79,6 +81,8 @@ paths:
       description: |
         Returns a single badge
       operationId: findBadge
+      produces:
+        - application/json
       parameters:
         - name: badgeId
           in: path
@@ -105,6 +109,10 @@ paths:
       description: |
         Update an existing badge
       operationId: UpdateBadge
+      consumes:
+        - application/json
+      produces:
+        - application/json
       parameters:
         - name: badge
           in: body
@@ -137,6 +145,8 @@ paths:
       description: |
         Delete an existing badge
       operationId: DeleteBadge
+      produces:
+        - application/json
       parameters:
         - name: badgeId
           in: path
@@ -163,6 +173,8 @@ paths:
       description: |
         Returns every pointScales
       operationId: findPointScales
+      produces:
+        - application/json
       parameters:
         - name: token
           in: header
@@ -185,6 +197,10 @@ paths:
       description: |
         Creates a new pointScale
       operationId: addPointScale
+      consumes:
+        - application/json
+      produces:
+        - application/json
       parameters:
         - name: pointScale
           in: body
@@ -214,6 +230,8 @@ paths:
       description: |
         Returns a single pointScale
       operationId: findPointScale
+      produces:
+        - application/json
       parameters:
         - name: pointScaleId
           in: path
@@ -240,6 +258,10 @@ paths:
       description: |
         Update an existing pointScale
       operationId: UpdatePointScale
+      consumes:
+        - application/json
+      produces:
+        - application/json
       parameters:
         - name: pointScale
           in: body
@@ -272,6 +294,8 @@ paths:
       description: |
         Delete an existing pointScale
       operationId: DeletePointScale
+      produces:
+        - application/json
       parameters:
         - name: pointScaleId
           in: path
@@ -297,6 +321,10 @@ paths:
       description: |
         Creates a new event
       operationId: addEvent
+      consumes:
+        - application/json
+      produces:
+        - application/json
       parameters:
         - name: event
           in: body
@@ -322,6 +350,10 @@ paths:
       description: |
         Creates a new application
       operationId: addApplication
+      consumes:
+        - application/json
+      produces:
+        - application/json
       parameters:
         - name: application
           in: body
@@ -341,6 +373,8 @@ paths:
       description: |
         Returns the application token
       operationId: loginApplication
+      produces:
+        - application/json
       parameters:
         - name: application
           in: body
@@ -362,6 +396,8 @@ paths:
       description: |
         Delete an existing application
       operationId: DeleteApplication
+      produces:
+        - application/json
       parameters:
         - name: token
           in: header
@@ -381,6 +417,8 @@ paths:
       description: |
         Returns every users
       operationId: findUsers
+      produces:
+        - application/json
       parameters:
         - name: token
           in: header
@@ -404,6 +442,8 @@ paths:
       description: |
         Returns the leaderboard
       operationId: leaderboard
+      produces:
+        - application/json
       parameters:
         - name: token
           in: header
@@ -421,12 +461,14 @@ paths:
           description: unexpected error
           schema:
             $ref: '#/definitions/errorModel'
-  /user/{userId}/badges: 
+  /users/{userId}/badges:
     get:
       summary: Returns a user's badges
       description: |
         Returns a user's badges
       operationId: findUserBadges
+      produces:
+        - application/json
       parameters:
         - name: userId
           in: path
@@ -450,12 +492,14 @@ paths:
           description: unexpected error
           schema:
             $ref: '#/definitions/errorModel'
-  /user/{userId}/pointScales: 
+  /users/{userId}/pointScales:
     get:
       summary: Returns a user's pointScales
       description: |
         Returns a user's pointScales
       operationId: findUserPointScales
+      produces:
+        - application/json
       parameters:
         - name: userId
           in: path
