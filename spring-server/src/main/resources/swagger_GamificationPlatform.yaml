@@ -369,24 +369,26 @@ paths:
           schema:
             $ref: '#/definitions/application'
     get:
-      summary: Returns a the application token
+      summary: Returns an application token
       description: |
         Returns the application token
       operationId: loginApplication
       produces:
         - application/json
+      consumes:
+        - application/json
       parameters:
         - name: application
           in: body
-          description: application object to add to the store
+          description: application object to get
           required: true
           schema:
             $ref: '#/definitions/application'
       responses:
         '200':
-          description: pointScale response
+          description: application response
           schema:
-            $ref: '#/definitions/pointScale'
+            $ref: '#/definitions/application'
         default:
           description: unexpected error
           schema:
