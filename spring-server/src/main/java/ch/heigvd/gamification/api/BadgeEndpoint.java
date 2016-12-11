@@ -18,7 +18,7 @@ import java.util.List;
  * Created by lux on 30.11.16.
  */
 @RestController
-public class BadgesEndpoint implements BadgesApi {
+public class BadgeEndpoint implements BadgesApi {
     @Autowired
     BadgeRepository badgeRepository;
 
