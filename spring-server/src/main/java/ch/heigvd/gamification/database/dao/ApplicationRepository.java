@@ -1,4 +1,4 @@
-package ch.heigvd.gamification.database;
+package ch.heigvd.gamification.database.dao;
 
 import ch.heigvd.gamification.database.model.Application;
 import org.springframework.data.repository.CrudRepository;

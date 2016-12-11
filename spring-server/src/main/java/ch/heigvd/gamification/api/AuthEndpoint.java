@@ -2,7 +2,7 @@ package ch.heigvd.gamification.api;
 
 import ch.heigvd.gamification.api.dto.Credentials;
 import ch.heigvd.gamification.api.dto.Token;
-import ch.heigvd.gamification.database.ApplicationRepository;
+import ch.heigvd.gamification.database.dao.ApplicationRepository;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;

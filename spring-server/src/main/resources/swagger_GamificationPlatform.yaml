@@ -533,35 +533,18 @@ definitions:
     type: object
     required:
       - name
-      - app
-      - userId
     properties:
       name:
         type: string
-      app:
-        type: integer
-        format: int64
-      tag:
-        type: string
-      userId:
-        type: integer
-        format: int64
+
         
   pointScale:
     type: object
     required:
       - name
-      - app
-      - userId
     properties:
       name:
         type: string
-      app:
-        type: integer
-        format: int64
-      userId:
-        type: integer
-        format: int64
         
   user:
     type: object
@@ -573,6 +556,14 @@ definitions:
         type: string
       name:
         type: string
+      badges:
+        type: array
+        items:
+          $ref: '#/definitions/badge'
+      pointScales:
+        type: array
+        items:
+          $ref: '#/definitions/pointScale'
     
   event:
     type: object
@@ -585,7 +576,8 @@ definitions:
         type: integer
         format: int64
       pointScale:
-        type: string
+        type: integer
+        format: int64
       increase:
         type: integer
         format: int64
