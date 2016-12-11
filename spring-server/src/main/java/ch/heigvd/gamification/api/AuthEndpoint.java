@@ -34,18 +34,18 @@ public class AuthEndpoint implements AuthApi{
         if(!application.getPassword().equals(credentials.getPassword()))
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         Token token = new Token();
-        token.setToken(createToken(application.getId()));
+        token.setToken(createToken(application.getName()));
 
         return new ResponseEntity<>(token, HttpStatus.OK);
     }
 
-    private String createToken(int id)
+    private String createToken(String name)
     {
         String token;
         try {
             token = JWT.create()
                     .withIssuer("auth0")
-                    .withClaim("id", id) //on passe l'id de l'app dans le Json web Token
+                    .withClaim("name", name) //on passe le nom de l'app dans le Json web Token
                     //TODO CONFIGURER LE SECRET EN UNE CLE RSA
                     .sign(Algorithm.HMAC256("secret"));
         } catch (JWTCreationException exception){
