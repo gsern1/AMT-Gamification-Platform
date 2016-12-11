@@ -30,7 +30,7 @@ import ch.heigvd.gamification.Pair;
 import java.util.Map;
 import java.util.List;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-12-10T16:19:34.571+01:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-12-11T23:23:28.255+01:00")
 public class OAuth implements Authentication {
   private String accessToken;
 

@@ -100,11 +100,11 @@ Class | Method | HTTP request | Description
 *DefaultApi* | [**findBadges**](docs/DefaultApi.md#findBadges) | **GET** /badges | Returns every badges
 *DefaultApi* | [**findPointScale**](docs/DefaultApi.md#findPointScale) | **GET** /pointScales/{pointScaleId} | Returns a single pointScale
 *DefaultApi* | [**findPointScales**](docs/DefaultApi.md#findPointScales) | **GET** /pointScales | Returns every pointScales
-*DefaultApi* | [**findUserBadges**](docs/DefaultApi.md#findUserBadges) | **GET** /user/{userId}/badges | Returns a user&#39;s badges
-*DefaultApi* | [**findUserPointScales**](docs/DefaultApi.md#findUserPointScales) | **GET** /user/{userId}/pointScales | Returns a user&#39;s pointScales
+*DefaultApi* | [**findUserBadges**](docs/DefaultApi.md#findUserBadges) | **GET** /users/{userId}/badges | Returns a user&#39;s badges
+*DefaultApi* | [**findUserPointScales**](docs/DefaultApi.md#findUserPointScales) | **GET** /users/{userId}/pointScales | Returns a user&#39;s pointScales
 *DefaultApi* | [**findUsers**](docs/DefaultApi.md#findUsers) | **GET** /users | Returns every users
 *DefaultApi* | [**leaderboard**](docs/DefaultApi.md#leaderboard) | **GET** /leaderboard | Returns the leaderboard
-*DefaultApi* | [**loginApplication**](docs/DefaultApi.md#loginApplication) | **GET** /application | Returns a the application token
+*DefaultApi* | [**loginApplication**](docs/DefaultApi.md#loginApplication) | **POST** /auth | Returns an application token
 *DefaultApi* | [**updateBadge**](docs/DefaultApi.md#updateBadge) | **PUT** /badges/{badgeId} | Update an existing badge
 *DefaultApi* | [**updatePointScale**](docs/DefaultApi.md#updatePointScale) | **PUT** /pointScales/{pointScaleId} | Update an existing pointScale
 
@@ -113,9 +113,11 @@ Class | Method | HTTP request | Description
 
  - [Application](docs/Application.md)
  - [Badge](docs/Badge.md)
+ - [Credentials](docs/Credentials.md)
  - [ErrorModel](docs/ErrorModel.md)
  - [Event](docs/Event.md)
  - [PointScale](docs/PointScale.md)
+ - [Token](docs/Token.md)
  - [User](docs/User.md)
 
 

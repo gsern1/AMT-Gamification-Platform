@@ -15,11 +15,11 @@ Method | HTTP request | Description
 [**findBadges**](DefaultApi.md#findBadges) | **GET** /badges | Returns every badges
 [**findPointScale**](DefaultApi.md#findPointScale) | **GET** /pointScales/{pointScaleId} | Returns a single pointScale
 [**findPointScales**](DefaultApi.md#findPointScales) | **GET** /pointScales | Returns every pointScales
-[**findUserBadges**](DefaultApi.md#findUserBadges) | **GET** /user/{userId}/badges | Returns a user&#39;s badges
-[**findUserPointScales**](DefaultApi.md#findUserPointScales) | **GET** /user/{userId}/pointScales | Returns a user&#39;s pointScales
+[**findUserBadges**](DefaultApi.md#findUserBadges) | **GET** /users/{userId}/badges | Returns a user&#39;s badges
+[**findUserPointScales**](DefaultApi.md#findUserPointScales) | **GET** /users/{userId}/pointScales | Returns a user&#39;s pointScales
 [**findUsers**](DefaultApi.md#findUsers) | **GET** /users | Returns every users
 [**leaderboard**](DefaultApi.md#leaderboard) | **GET** /leaderboard | Returns the leaderboard
-[**loginApplication**](DefaultApi.md#loginApplication) | **GET** /application | Returns a the application token
+[**loginApplication**](DefaultApi.md#loginApplication) | **POST** /auth | Returns an application token
 [**updateBadge**](DefaultApi.md#updateBadge) | **PUT** /badges/{badgeId} | Update an existing badge
 [**updatePointScale**](DefaultApi.md#updatePointScale) | **PUT** /pointScales/{pointScaleId} | Update an existing pointScale
 
@@ -249,7 +249,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 <a name="deleteBadge"></a>
@@ -295,7 +295,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 <a name="deletePointScale"></a>
@@ -341,7 +341,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 <a name="findBadge"></a>
@@ -388,7 +388,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 <a name="findBadges"></a>
@@ -433,7 +433,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 <a name="findPointScale"></a>
@@ -480,7 +480,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 <a name="findPointScales"></a>
@@ -525,7 +525,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 <a name="findUserBadges"></a>
@@ -572,7 +572,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 <a name="findUserPointScales"></a>
@@ -619,7 +619,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 <a name="findUsers"></a>
@@ -664,7 +664,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 <a name="leaderboard"></a>
@@ -709,14 +709,14 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 <a name="loginApplication"></a>
 # **loginApplication**
-> PointScale loginApplication(application)
+> Token loginApplication(application)
 
-Returns a the application token
+Returns an application token
 
 Returns the application token 
 
@@ -728,9 +728,9 @@ Returns the application token
 
 
 DefaultApi apiInstance = new DefaultApi();
-Application application = new Application(); // Application | application object to add to the store
+Credentials application = new Credentials(); // Credentials | application object to get
 try {
-    PointScale result = apiInstance.loginApplication(application);
+    Token result = apiInstance.loginApplication(application);
     System.out.println(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling DefaultApi#loginApplication");
@@ -742,11 +742,11 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **application** | [**Application**](Application.md)| application object to add to the store |
+ **application** | [**Credentials**](Credentials.md)| application object to get |
 
 ### Return type
 
-[**PointScale**](PointScale.md)
+[**Token**](Token.md)
 
 ### Authorization
 

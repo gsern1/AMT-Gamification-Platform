@@ -32,6 +32,8 @@ import ch.heigvd.gamification.api.dto.Badge;
 import ch.heigvd.gamification.api.dto.Event;
 import ch.heigvd.gamification.api.dto.PointScale;
 import ch.heigvd.gamification.api.dto.User;
+import ch.heigvd.gamification.api.dto.Token;
+import ch.heigvd.gamification.api.dto.Credentials;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -297,7 +299,7 @@ public class DefaultApiTest {
     }
     
     /**
-     * Returns a the application token
+     * Returns an application token
      *
      * Returns the application token 
      *
@@ -306,8 +308,8 @@ public class DefaultApiTest {
      */
     @Test
     public void loginApplicationTest() throws ApiException {
-        Application application = null;
-        // PointScale response = api.loginApplication(application);
+        Credentials application = null;
+        // Token response = api.loginApplication(application);
 
         // TODO: test validations
     }

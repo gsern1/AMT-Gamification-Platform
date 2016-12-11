@@ -44,6 +44,8 @@ import ch.heigvd.gamification.api.dto.Badge;
 import ch.heigvd.gamification.api.dto.Event;
 import ch.heigvd.gamification.api.dto.PointScale;
 import ch.heigvd.gamification.api.dto.User;
+import ch.heigvd.gamification.api.dto.Token;
+import ch.heigvd.gamification.api.dto.Credentials;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -544,7 +546,7 @@ public class DefaultApi {
         if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
 
         final String[] localVarContentTypes = {
-            "application/json"
+            
         };
         final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
@@ -654,7 +656,7 @@ public class DefaultApi {
         if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
 
         final String[] localVarContentTypes = {
-            "application/json"
+            
         };
         final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
@@ -767,7 +769,7 @@ public class DefaultApi {
         if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
 
         final String[] localVarContentTypes = {
-            "application/json"
+            
         };
         final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
@@ -880,7 +882,7 @@ public class DefaultApi {
         if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
 
         final String[] localVarContentTypes = {
-            "application/json"
+            
         };
         final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
@@ -991,7 +993,7 @@ public class DefaultApi {
         if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
 
         final String[] localVarContentTypes = {
-            "application/json"
+            
         };
         final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
@@ -1105,7 +1107,7 @@ public class DefaultApi {
         if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
 
         final String[] localVarContentTypes = {
-            "application/json"
+            
         };
         final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
@@ -1216,7 +1218,7 @@ public class DefaultApi {
         if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
 
         final String[] localVarContentTypes = {
-            "application/json"
+            
         };
         final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
@@ -1312,7 +1314,7 @@ public class DefaultApi {
         
 
         // create path and map variables
-        String localVarPath = "/user/{userId}/badges".replaceAll("\\{format\\}","json")
+        String localVarPath = "/users/{userId}/badges".replaceAll("\\{format\\}","json")
         .replaceAll("\\{" + "userId" + "\\}", apiClient.escapeString(userId.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -1330,7 +1332,7 @@ public class DefaultApi {
         if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
 
         final String[] localVarContentTypes = {
-            "application/json"
+            
         };
         final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
@@ -1429,7 +1431,7 @@ public class DefaultApi {
         
 
         // create path and map variables
-        String localVarPath = "/user/{userId}/pointScales".replaceAll("\\{format\\}","json")
+        String localVarPath = "/users/{userId}/pointScales".replaceAll("\\{format\\}","json")
         .replaceAll("\\{" + "userId" + "\\}", apiClient.escapeString(userId.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -1447,7 +1449,7 @@ public class DefaultApi {
         if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
 
         final String[] localVarContentTypes = {
-            "application/json"
+            
         };
         final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
@@ -1558,7 +1560,7 @@ public class DefaultApi {
         if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
 
         final String[] localVarContentTypes = {
-            "application/json"
+            
         };
         final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
@@ -1666,7 +1668,7 @@ public class DefaultApi {
         if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
 
         final String[] localVarContentTypes = {
-            "application/json"
+            
         };
         final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
@@ -1747,7 +1749,7 @@ public class DefaultApi {
         return call;
     }
     /* Build call for loginApplication */
-    private com.squareup.okhttp.Call loginApplicationCall(Application application, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call loginApplicationCall(Credentials application, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = application;
         
         // verify the required parameter 'application' is set
@@ -1757,7 +1759,7 @@ public class DefaultApi {
         
 
         // create path and map variables
-        String localVarPath = "/application".replaceAll("\\{format\\}","json");
+        String localVarPath = "/auth".replaceAll("\\{format\\}","json");
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
 
@@ -1790,43 +1792,43 @@ public class DefaultApi {
         }
 
         String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
 
     /**
-     * Returns a the application token
+     * Returns an application token
      * Returns the application token 
-     * @param application application object to add to the store (required)
-     * @return PointScale
+     * @param application application object to get (required)
+     * @return Token
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public PointScale loginApplication(Application application) throws ApiException {
-        ApiResponse<PointScale> resp = loginApplicationWithHttpInfo(application);
+    public Token loginApplication(Credentials application) throws ApiException {
+        ApiResponse<Token> resp = loginApplicationWithHttpInfo(application);
         return resp.getData();
     }
 
     /**
-     * Returns a the application token
+     * Returns an application token
      * Returns the application token 
-     * @param application application object to add to the store (required)
-     * @return ApiResponse&lt;PointScale&gt;
+     * @param application application object to get (required)
+     * @return ApiResponse&lt;Token&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<PointScale> loginApplicationWithHttpInfo(Application application) throws ApiException {
+    public ApiResponse<Token> loginApplicationWithHttpInfo(Credentials application) throws ApiException {
         com.squareup.okhttp.Call call = loginApplicationCall(application, null, null);
-        Type localVarReturnType = new TypeToken<PointScale>(){}.getType();
+        Type localVarReturnType = new TypeToken<Token>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
 
     /**
-     * Returns a the application token (asynchronously)
+     * Returns an application token (asynchronously)
      * Returns the application token 
-     * @param application application object to add to the store (required)
+     * @param application application object to get (required)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call loginApplicationAsync(Application application, final ApiCallback<PointScale> callback) throws ApiException {
+    public com.squareup.okhttp.Call loginApplicationAsync(Credentials application, final ApiCallback<Token> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -1848,7 +1850,7 @@ public class DefaultApi {
         }
 
         com.squareup.okhttp.Call call = loginApplicationCall(application, progressListener, progressRequestListener);
-        Type localVarReturnType = new TypeToken<PointScale>(){}.getType();
+        Type localVarReturnType = new TypeToken<Token>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
