@@ -20,4 +20,54 @@ public class Event {
 
     @ManyToOne
     private PointScale pointScale;
+
+    public Event() {
+    }
+
+    public Event(String name, User user, int increase, PointScale pointScale) {
+        this.name = name;
+        this.user = user;
+        this.increase = increase;
+        this.pointScale = pointScale;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public int getIncrease() {
+        return increase;
+    }
+
+    public void setIncrease(int increase) {
+        this.increase = increase;
+    }
+
+    public PointScale getPointScale() {
+        return pointScale;
+    }
+
+    public void setPointScale(PointScale pointScale) {
+        this.pointScale = pointScale;
+    }
 }

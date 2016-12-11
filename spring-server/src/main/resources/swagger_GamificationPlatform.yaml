@@ -66,10 +66,8 @@ paths:
           required: true
           type: string
       responses:
-        '200':
+        '201':
           description: badge response
-          schema:
-            $ref: '#/definitions/badge'
         default:
           description: unexpected error
           schema:
@@ -134,8 +132,6 @@ paths:
       responses:
         '200':
           description: badge response
-          schema:
-            $ref: '#/definitions/badge'
         default:
           description: unexpected error
           schema:
@@ -214,10 +210,8 @@ paths:
           required: true
           type: string
       responses:
-        '200':
+        '201':
           description: pointScale response
-          schema:
-            $ref: '#/definitions/pointScale'
         default:
           description: unexpected error
           schema:
@@ -283,8 +277,6 @@ paths:
       responses:
         '200':
           description: pointScale response
-          schema:
-            $ref: '#/definitions/pointScale'
         default:
           description: unexpected error
           schema:
@@ -338,7 +330,7 @@ paths:
           required: true
           type: string
       responses:
-        '200':
+        '201':
           description: event response
         default:
           description: unexpected error
@@ -362,12 +354,12 @@ paths:
           schema:
             $ref: '#/definitions/application'
       responses:
-        '200':
+        '201':
           description: application response
         default:
           description: unexpected error
           schema:
-            $ref: '#/definitions/application'
+            $ref: '#/definitions/errorModel'
     delete:
       summary: Delete an existing application
       description: |

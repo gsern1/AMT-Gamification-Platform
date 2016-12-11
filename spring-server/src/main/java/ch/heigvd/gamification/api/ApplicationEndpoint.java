@@ -4,6 +4,8 @@ import ch.heigvd.gamification.database.dao.ApplicationRepository;
 import ch.heigvd.gamification.api.dto.Application;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -19,8 +21,17 @@ public class ApplicationEndpoint implements ApplicationApi {
 
     @Override
     public ResponseEntity<Void> addApplication(@ApiParam(value = "application object to add to the platform", required = true) @RequestBody Application application) {
-
-        return null;
+        ch.heigvd.gamification.database.model.Application newApplication = new ch.heigvd.gamification.database.model.Application();
+        newApplication.setName(application.getName());
+        newApplication.setPassword(application.getPassword());
+        try{
+            applicationRepository.save(newApplication);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        } catch (DataIntegrityViolationException e){
+            System.out.println(e.getMessage());
+            System.out.println(e.getClass());
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
+        }
     }
 
     @Override

@@ -16,6 +16,10 @@ public class Application {
     private String name;
     private String password;
 
+    public Application(){
+
+    }
+
     public Application(String name, String password) {
         this.name = name;
         this.password = password;

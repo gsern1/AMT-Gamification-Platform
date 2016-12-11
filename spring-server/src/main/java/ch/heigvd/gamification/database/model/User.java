@@ -15,4 +15,36 @@ public class User {
 
     @ManyToOne
     private Application application;
+
+    public User() {
+    }
+
+    public User(String name, Application application) {
+        this.name = name;
+        this.application = application;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Application getApplication() {
+        return application;
+    }
+
+    public void setApplication(Application application) {
+        this.application = application;
+    }
 }
