@@ -1,9 +1,6 @@
 package ch.heigvd.gamification.database.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Created by lux on 10.12.16.
@@ -14,6 +11,8 @@ public class Application {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private int id;
+
+    @Column(unique=true)
     private String name;
     private String password;
 

@@ -389,7 +389,7 @@ paths:
         '400':
           description: Invalid Id supplied
   /auth:
-    get:
+    post:
       summary: Returns an application token
       description: |
         Returns the application token
@@ -536,9 +536,6 @@ definitions:
       - app
       - userId
     properties:
-      id:
-        type: integer
-        format: int64
       name:
         type: string
       app:
@@ -557,9 +554,6 @@ definitions:
       - app
       - userId
     properties:
-      id:
-        type: integer
-        format: int64
       name:
         type: string
       app:
@@ -572,6 +566,7 @@ definitions:
   user:
     type: object
     required:
+      - id
       - name
     properties:
       id:
@@ -587,9 +582,6 @@ definitions:
       - pointScale
       - increase
     properties:
-      id:
-        type: integer
-        format: int64
       userId:
         type: integer
         format: int64
@@ -605,9 +597,6 @@ definitions:
       - name
       - password
     properties:
-      id:
-        type: integer
-        format: int64
       name:
         type: string
       password:
@@ -619,9 +608,6 @@ definitions:
         - name
         - password
       properties:
-        id:
-          type: integer
-          format: int64
         name:
           type: string
         password:
