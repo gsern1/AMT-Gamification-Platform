@@ -15,4 +15,9 @@ public class Event {
 
     @ManyToOne
     private User user;
+
+    private int increase;
+
+    @ManyToOne
+    private PointScale pointScale;
 }
