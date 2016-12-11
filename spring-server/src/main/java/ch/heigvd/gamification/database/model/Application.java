@@ -10,7 +10,7 @@ public class Application {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private int id;
+    private long id;
 
     @Column(unique=true)
     private String name;
@@ -25,7 +25,7 @@ public class Application {
         this.password = password;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -37,7 +37,7 @@ public class Application {
         return password;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

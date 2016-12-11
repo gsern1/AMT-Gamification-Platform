@@ -36,6 +36,8 @@ public class ApplicationEndpoint implements ApplicationApi {
 
     @Override
     public ResponseEntity<Void> deleteApplication(@ApiParam(value = "token to be passed as a header", required = true) @RequestHeader(value = "token", required = true) String token) {
+
+        // TODO : Comment on récupère l'app depuis le token
         return null;
     }
 }

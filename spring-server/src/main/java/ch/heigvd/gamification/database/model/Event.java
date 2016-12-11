@@ -9,14 +9,12 @@ import javax.persistence.*;
 public class Event {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private int id;
-
-    private String name;
+    private long id;
 
     @ManyToOne
     private User user;
 
-    private int increase;
+    private long increase;
 
     @ManyToOne
     private PointScale pointScale;
@@ -24,27 +22,18 @@ public class Event {
     public Event() {
     }
 
-    public Event(String name, User user, int increase, PointScale pointScale) {
-        this.name = name;
+    public Event(User user, int increase, PointScale pointScale) {
         this.user = user;
         this.increase = increase;
         this.pointScale = pointScale;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public User getUser() {
@@ -55,11 +44,11 @@ public class Event {
         this.user = user;
     }
 
-    public int getIncrease() {
+    public long getIncrease() {
         return increase;
     }
 
-    public void setIncrease(int increase) {
+    public void setIncrease(long increase) {
         this.increase = increase;
     }
 
