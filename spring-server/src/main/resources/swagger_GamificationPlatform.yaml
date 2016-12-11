@@ -368,31 +368,6 @@ paths:
           description: unexpected error
           schema:
             $ref: '#/definitions/application'
-    get:
-      summary: Returns an application token
-      description: |
-        Returns the application token
-      operationId: loginApplication
-      produces:
-        - application/json
-      consumes:
-        - application/json
-      parameters:
-        - name: application
-          in: body
-          description: application object to get
-          required: true
-          schema:
-            $ref: '#/definitions/application'
-      responses:
-        '200':
-          description: application response
-          schema:
-            $ref: '#/definitions/token'
-        default:
-          description: unexpected error
-          schema:
-            $ref: '#/definitions/errorModel'
     delete:
       summary: Delete an existing application
       description: |
@@ -413,6 +388,32 @@ paths:
           description: application not found
         '400':
           description: Invalid Id supplied
+  /auth:
+    get:
+      summary: Returns an application token
+      description: |
+        Returns the application token
+      operationId: loginApplication
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - name: application
+          in: body
+          description: application object to get
+          required: true
+          schema:
+            $ref: '#/definitions/credentials'
+      responses:
+        '200':
+          description: application response
+          schema:
+            $ref: '#/definitions/token'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/errorModel'
   /users:
     get:
       summary: Returns every users
@@ -531,7 +532,6 @@ definitions:
   badge:
     type: object
     required:
-      - id
       - name
       - app
       - userId
@@ -553,7 +553,6 @@ definitions:
   pointScale:
     type: object
     required:
-      - id 
       - name
       - app
       - userId
@@ -573,7 +572,6 @@ definitions:
   user:
     type: object
     required:
-      - id
       - name
     properties:
       id:
@@ -585,7 +583,6 @@ definitions:
   event:
     type: object
     required:
-      - id 
       - userId
       - pointScale
       - increase
@@ -605,7 +602,6 @@ definitions:
   application:
     type: object
     required:
-      - id 
       - name
       - password
     properties:
@@ -616,6 +612,21 @@ definitions:
         type: string
       password:
         type: string
+
+  credentials:
+      type: object
+      required:
+        - name
+        - password
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        password:
+          type: string
+
   token:
       type: object
       required:
@@ -623,6 +634,7 @@ definitions:
       properties:
         token:
           type: string
+
   errorModel:
     type: object
     required:
