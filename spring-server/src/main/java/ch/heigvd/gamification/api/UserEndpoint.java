@@ -62,16 +62,17 @@ public class UserEndpoint implements UsersApi {
             return new ResponseEntity<>(new ArrayList<>(), HttpStatus.BAD_REQUEST);
         Application application = applicationRepository.findByName(name);
 
-        ch.heigvd.gamification.database.model.User user = userRepository.findByIdAndApplication(userId, application);
-        List<ch.heigvd.gamification.database.model.UserPointScale> userPointScales = userPointScaleRepository.findByUser(user);
+        List<Object[]> userPointScales = userPointScaleRepository.findSumPointScalePerUser(userId);
 
         // TODO : magic group by user_pointscale by user and sum the total amount of point then return list of point per pointscale name
+
+        // We must return an array of {pointScaleId: 1, points: 1054}
         /*for(ch.heigvd.gamification.database.model.PointScale pointScale : user.get){
             Badge badgeDto = new Badge();
             badgeDto.setName(badge.getName());
             pointscales.add(badgeDto);
         }*/
-        return ResponseEntity.ok(pointscales);
+        //return ResponseEntity.ok(userPointScales);
     }
 
     @Override
