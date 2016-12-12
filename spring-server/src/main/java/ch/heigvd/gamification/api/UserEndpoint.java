@@ -72,7 +72,8 @@ public class UserEndpoint implements UsersApi {
             badgeDto.setName(badge.getName());
             pointscales.add(badgeDto);
         }*/
-        //return ResponseEntity.ok(userPointScales);
+        //return ResponseEntity.ok(userPointScales);r
+        return null;
     }
 
     @Override
