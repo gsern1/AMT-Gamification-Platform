@@ -1,21 +1,15 @@
 package ch.heigvd.gamification.api;
 
-import ch.heigvd.gamification.api.dto.Badge;
 import ch.heigvd.gamification.api.dto.Event;
-import ch.heigvd.gamification.database.dao.BadgeRepository;
-import ch.heigvd.gamification.database.dao.EventRepository;
 import ch.heigvd.gamification.services.EventProcessor;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 /**
  * Created by lux on 30.11.16.
