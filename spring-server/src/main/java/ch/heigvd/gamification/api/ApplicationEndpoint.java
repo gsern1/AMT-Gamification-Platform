@@ -41,7 +41,12 @@ public class ApplicationEndpoint implements ApplicationApi {
         String name = JWTutils.getAppNameInToken(token);
         if(name == null)
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        applicationRepository.delete(applicationRepository.findByName(name));
+        try {
+            applicationRepository.delete(applicationRepository.findByName(name));
+        } catch(IllegalArgumentException e){
+            System.out.println(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 }
