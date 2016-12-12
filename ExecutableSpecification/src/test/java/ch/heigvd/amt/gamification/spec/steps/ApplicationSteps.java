@@ -20,13 +20,17 @@ public class ApplicationSteps {
 
     private final DefaultApi api = new DefaultApi();
 
+    private int applicationsCounter = 1;
+
+
     private int statusCode;
     private Application application;
 
     @Given("^I have an application payload$")
     public void i_have_an_application_payload() throws Throwable {
         application = new Application();
-        application.setName("MyApp");
+        String randomAppName = "random-app-" + (applicationsCounter)+ "-" + System.currentTimeMillis();
+        application.setName(randomAppName);
         application.setPassword("12345");
     }
 
