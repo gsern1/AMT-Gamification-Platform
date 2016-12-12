@@ -1,0 +1,31 @@
+# User-specific stuff:
+.idea/workspace.xml
+.idea/tasks.xml
+
+# Sensitive or high-churn files:
+.idea/dataSources/
+.idea/dataSources.ids
+.idea/dataSources.xml
+.idea/dataSources.local.xml
+.idea/sqlDataSources.xml
+.idea/dynamic.xml
+.idea/
+
+# Gradle:
+.idea/gradle.xml
+.idea/libraries
+
+# Mongo Explorer plugin:
+.idea/mongoSettings.xml
+
+# IntelliJ
+out/
+
+# Spring boot
+target/
+
+# mpeltonen/sbt-idea plugin
+.idea_modules/
+
+swagger-spring.ipr
+swagger-spring.iml
