@@ -1,5 +1,6 @@
 package ch.heigvd.amt.gamification.spec.steps;
 
+import ch.heigvd.gamification.ApiException;
 import ch.heigvd.gamification.ApiResponse;
 import ch.heigvd.gamification.api.DefaultApi;
 import ch.heigvd.gamification.api.dto.Application;
@@ -31,9 +32,14 @@ public class ApplicationSteps {
 
     @When("^I POST it to the /application endpoint$")
     public void i_POST_it_to_the_registrations_endpoint() throws Throwable {
-        api.addApplication(application);
-        ApiResponse response = api.addApplicationWithHttpInfo(application);
-        statusCode = response.getStatusCode();
+        try{
+            ApiResponse response = api.addApplicationWithHttpInfo(application);
+            statusCode = response.getStatusCode();
+
+        }catch(ApiException e){
+            statusCode = e.getCode();
+
+        }
     }
 
     @Then("^I receive a (\\d+) status code$")
@@ -50,6 +56,12 @@ public class ApplicationSteps {
 
     @Then("^I see my app in the list$")
     public void i_see_my_app_in_the_list() throws Throwable {
+        // Write code here that turns the phrase above into concrete actions
+        throw new PendingException();
+    }
+
+    @Given("^I try something new$")
+    public void iTrySomethingNew() throws Throwable {
         // Write code here that turns the phrase above into concrete actions
         throw new PendingException();
     }

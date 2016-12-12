@@ -26,4 +26,10 @@ public class BadgeManagementSteps {
         // Write code here that turns the phrase above into concrete actions
         throw new PendingException();
     }
+
+    @Given("^a token for a new gamified application A(\\d+)$")
+    public void aTokenForANewGamifiedApplicationA(int arg0) throws Throwable {
+        // Write code here that turns the phrase above into concrete actions
+        throw new PendingException();
+    }
 }

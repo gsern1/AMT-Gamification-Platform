@@ -3,7 +3,7 @@ Feature: Application registration
 Scenario: Register a new application
 Given I have an application payload
 When I POST it to the /application endpoint
-Then I receive a 200 status code
+Then I receive a 422 status code
 
 Scenario: Check that the application has been registered
 Given I have an application payload
@@ -16,3 +16,4 @@ Given I have an application payload
 When I POST it to the /application endpoint
 And I POST it to the /application endpoint
 Then I receive a 422 status code
+
