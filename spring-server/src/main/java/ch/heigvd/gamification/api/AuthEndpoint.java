@@ -14,8 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.UnsupportedEncodingException;
-
 /**
  * Created by antoi on 11.12.2016.
  */
@@ -32,13 +30,15 @@ public class AuthEndpoint implements AuthApi{
         if(application == null)
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 
-        System.out.println(application.getPassword());
-        System.out.println(credentials.getPassword());
+        if(credentials == null || credentials.getName() == null || credentials.getPassword() == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
         if(!application.getPassword().equals(credentials.getPassword()))
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
         Token token = new Token();
+
         token.setToken(JWTutils.createToken(application.getName()));
 
         return new ResponseEntity<>(token, HttpStatus.OK);

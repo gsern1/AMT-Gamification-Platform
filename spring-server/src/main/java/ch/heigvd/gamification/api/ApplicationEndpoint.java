@@ -23,6 +23,13 @@ public class ApplicationEndpoint implements ApplicationApi {
 
     @Override
     public ResponseEntity<Void> addApplication(@ApiParam(value = "application object to add to the platform", required = true) @RequestBody Application application) {
+        // TODO : USE VALIDATORS ?
+        // TODO : Use transactions
+        if(application.getName() == null || application.getName().isEmpty())
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        if(application.getPassword() == null || application.getPassword().isEmpty())
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+
         ch.heigvd.gamification.database.model.Application newApplication = new ch.heigvd.gamification.database.model.Application();
         newApplication.setName(application.getName());
         newApplication.setPassword(application.getPassword());
@@ -38,11 +45,15 @@ public class ApplicationEndpoint implements ApplicationApi {
 
     @Override
     public ResponseEntity<Void> deleteApplication(@ApiParam(value = "token to be passed as a header", required = true) @RequestHeader(value = "token", required = true) String token) {
-
         String name = JWTutils.getAppNameInToken(token);
         if(name == null)
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        applicationRepository.delete(applicationRepository.findByName(name));
+        try {
+            applicationRepository.delete(applicationRepository.findByName(name));
+        } catch(IllegalArgumentException e){
+            System.out.println(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 }
