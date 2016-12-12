@@ -1,6 +1,7 @@
 package ch.heigvd.gamification.database.model;
 
 import javax.persistence.*;
+import java.util.Set;
 
 /**
  * Created by antoi on 11.12.2016.
@@ -17,12 +18,17 @@ public class Badge {
     @JoinColumn(name="app_id")
     private Application application;
 
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "user_badge", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "badge_id", referencedColumnName = "id"))
+    private Set<User> users;
+
     public Badge() {
     }
 
-    public Badge(String name, Application application) {
+    public Badge(String name, Application application, Set<User> users) {
         this.name = name;
         this.application = application;
+        this.users = users;
     }
 
     public int getId() {
@@ -47,5 +53,13 @@ public class Badge {
 
     public void setApplication(Application application) {
         this.application = application;
+    }
+
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
 }
