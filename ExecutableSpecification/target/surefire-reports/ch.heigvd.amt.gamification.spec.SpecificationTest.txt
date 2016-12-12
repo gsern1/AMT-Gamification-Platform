@@ -1,0 +1,20 @@
+-------------------------------------------------------------------------------
+Test set: ch.heigvd.amt.gamification.spec.SpecificationTest
+-------------------------------------------------------------------------------
+Tests run: 34, Failures: 2, Errors: 0, Skipped: 19, Time elapsed: 0.635 sec <<< FAILURE!
+Then I receive a 422 status code(Scenario: Check that it is not possible to create two apps with the same name)  Time elapsed: 0.002 sec  <<< FAILURE!
+java.lang.AssertionError: expected:<422> but was:<200>
+	at org.junit.Assert.fail(Assert.java:88)
+	at org.junit.Assert.failNotEquals(Assert.java:834)
+	at org.junit.Assert.assertEquals(Assert.java:645)
+	at org.junit.Assert.assertEquals(Assert.java:631)
+	at ch.heigvd.amt.gamification.spec.steps.ApplicationSteps.i_receive_a_status_code(ApplicationSteps.java:41)
+	at ✽.Then I receive a 422 status code(application_registration.feature:18)
+Scenario: Check that it is not possible to create two apps with the same name  Time elapsed: 0.002 sec  <<< FAILURE!
+java.lang.AssertionError: expected:<422> but was:<200>
+	at org.junit.Assert.fail(Assert.java:88)
+	at org.junit.Assert.failNotEquals(Assert.java:834)
+	at org.junit.Assert.assertEquals(Assert.java:645)
+	at org.junit.Assert.assertEquals(Assert.java:631)
+	at ch.heigvd.amt.gamification.spec.steps.ApplicationSteps.i_receive_a_status_code(ApplicationSteps.java:41)
+	at ✽.Then I receive a 422 status code(application_registration.feature:18)

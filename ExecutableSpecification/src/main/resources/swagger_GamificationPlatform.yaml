@@ -18,10 +18,6 @@ host: localhost:8090
 basePath: /api
 schemes:
   - http
-consumes:
-  - application/json
-produces:
-  - application/json
 paths:
   /badges:
     get:
@@ -29,6 +25,8 @@ paths:
       description: |
         Returns every badges
       operationId: findBadges
+      produces:
+        - application/json
       parameters:
         - name: token
           in: header
@@ -51,6 +49,10 @@ paths:
       description: |
         Creates a new badge
       operationId: addBadge
+      consumes:
+        - application/json
+      produces:
+        - application/json
       parameters:
         - name: badge
           in: body
@@ -79,6 +81,8 @@ paths:
       description: |
         Returns a single badge
       operationId: findBadge
+      produces:
+        - application/json
       parameters:
         - name: badgeId
           in: path
@@ -105,6 +109,10 @@ paths:
       description: |
         Update an existing badge
       operationId: UpdateBadge
+      consumes:
+        - application/json
+      produces:
+        - application/json
       parameters:
         - name: badge
           in: body
@@ -137,6 +145,8 @@ paths:
       description: |
         Delete an existing badge
       operationId: DeleteBadge
+      produces:
+        - application/json
       parameters:
         - name: badgeId
           in: path
@@ -163,6 +173,8 @@ paths:
       description: |
         Returns every pointScales
       operationId: findPointScales
+      produces:
+        - application/json
       parameters:
         - name: token
           in: header
@@ -185,6 +197,10 @@ paths:
       description: |
         Creates a new pointScale
       operationId: addPointScale
+      consumes:
+        - application/json
+      produces:
+        - application/json
       parameters:
         - name: pointScale
           in: body
@@ -214,6 +230,8 @@ paths:
       description: |
         Returns a single pointScale
       operationId: findPointScale
+      produces:
+        - application/json
       parameters:
         - name: pointScaleId
           in: path
@@ -240,6 +258,10 @@ paths:
       description: |
         Update an existing pointScale
       operationId: UpdatePointScale
+      consumes:
+        - application/json
+      produces:
+        - application/json
       parameters:
         - name: pointScale
           in: body
@@ -272,6 +294,8 @@ paths:
       description: |
         Delete an existing pointScale
       operationId: DeletePointScale
+      produces:
+        - application/json
       parameters:
         - name: pointScaleId
           in: path
@@ -297,6 +321,10 @@ paths:
       description: |
         Creates a new event
       operationId: addEvent
+      consumes:
+        - application/json
+      produces:
+        - application/json
       parameters:
         - name: event
           in: body
@@ -322,6 +350,10 @@ paths:
       description: |
         Creates a new application
       operationId: addApplication
+      consumes:
+        - application/json
+      produces:
+        - application/json
       parameters:
         - name: application
           in: body
@@ -336,32 +368,13 @@ paths:
           description: unexpected error
           schema:
             $ref: '#/definitions/application'
-    get:
-      summary: Returns a the application token
-      description: |
-        Returns the application token
-      operationId: loginApplication
-      parameters:
-        - name: application
-          in: body
-          description: application object to add to the store
-          required: true
-          schema:
-            $ref: '#/definitions/application'
-      responses:
-        '200':
-          description: pointScale response
-          schema:
-            $ref: '#/definitions/pointScale'
-        default:
-          description: unexpected error
-          schema:
-            $ref: '#/definitions/errorModel'
     delete:
       summary: Delete an existing application
       description: |
         Delete an existing application
       operationId: DeleteApplication
+      produces:
+        - application/json
       parameters:
         - name: token
           in: header
@@ -375,12 +388,40 @@ paths:
           description: application not found
         '400':
           description: Invalid Id supplied
+  /auth:
+    post:
+      summary: Returns an application token
+      description: |
+        Returns the application token
+      operationId: loginApplication
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - name: application
+          in: body
+          description: application object to get
+          required: true
+          schema:
+            $ref: '#/definitions/credentials'
+      responses:
+        '200':
+          description: application response
+          schema:
+            $ref: '#/definitions/token'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/errorModel'
   /users:
     get:
       summary: Returns every users
       description: |
         Returns every users
       operationId: findUsers
+      produces:
+        - application/json
       parameters:
         - name: token
           in: header
@@ -404,6 +445,8 @@ paths:
       description: |
         Returns the leaderboard
       operationId: leaderboard
+      produces:
+        - application/json
       parameters:
         - name: token
           in: header
@@ -421,12 +464,14 @@ paths:
           description: unexpected error
           schema:
             $ref: '#/definitions/errorModel'
-  /user/{userId}/badges: 
+  /users/{userId}/badges:
     get:
       summary: Returns a user's badges
       description: |
         Returns a user's badges
       operationId: findUserBadges
+      produces:
+        - application/json
       parameters:
         - name: userId
           in: path
@@ -450,12 +495,14 @@ paths:
           description: unexpected error
           schema:
             $ref: '#/definitions/errorModel'
-  /user/{userId}/pointScales: 
+  /users/{userId}/pointScales:
     get:
       summary: Returns a user's pointScales
       description: |
         Returns a user's pointScales
       operationId: findUserPointScales
+      produces:
+        - application/json
       parameters:
         - name: userId
           in: path
@@ -485,46 +532,19 @@ definitions:
   badge:
     type: object
     required:
-      - id
       - name
-      - app
-      - userId
     properties:
-      id:
-        type: integer
-        format: int64
       name:
         type: string
-      app:
-        type: integer
-        format: int64
-      tag:
-        type: string
-      userId:
-        type: integer
-        format: int64
+
         
   pointScale:
     type: object
     required:
-      - id 
       - name
-      - app
-      - userId
     properties:
-      id:
-        type: integer
-        format: int64
       name:
         type: string
-      app:
-        type: integer
-        format: int64
-      description:
-        type: string
-      userId:
-        type: integer
-        format: int64
         
   user:
     type: object
@@ -533,27 +553,31 @@ definitions:
       - name
     properties:
       id:
-        type: integer
-        format: int64
+        type: string
       name:
         type: string
+      badges:
+        type: array
+        items:
+          $ref: '#/definitions/badge'
+      pointScales:
+        type: array
+        items:
+          $ref: '#/definitions/pointScale'
     
   event:
     type: object
     required:
-      - id 
       - userId
       - pointScale
       - increase
     properties:
-      id:
-        type: integer
-        format: int64
       userId:
         type: integer
         format: int64
       pointScale:
-        type: string
+        type: integer
+        format: int64
       increase:
         type: integer
         format: int64
@@ -561,18 +585,33 @@ definitions:
   application:
     type: object
     required:
-      - id 
       - name
       - password
     properties:
-      id:
-        type: integer
-        format: int64
       name:
         type: string
       password:
         type: string
-        
+
+  credentials:
+      type: object
+      required:
+        - name
+        - password
+      properties:
+        name:
+          type: string
+        password:
+          type: string
+
+  token:
+      type: object
+      required:
+        - token
+      properties:
+        token:
+          type: string
+
   errorModel:
     type: object
     required:

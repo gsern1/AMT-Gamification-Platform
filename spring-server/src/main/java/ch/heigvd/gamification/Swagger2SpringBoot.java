@@ -3,12 +3,16 @@ package ch.heigvd.gamification;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.ExitCodeGenerator;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import org.springframework.context.annotation.ComponentScan;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableSwagger2
+@EnableAutoConfiguration
+@ComponentScan
 //@ComponentScan(basePackages = "io.swagger")
 public class Swagger2SpringBoot implements CommandLineRunner {
 
