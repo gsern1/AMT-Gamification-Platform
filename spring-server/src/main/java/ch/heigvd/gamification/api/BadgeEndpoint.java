@@ -1,7 +1,9 @@
 package ch.heigvd.gamification.api;
 
 import ch.heigvd.gamification.api.dto.Badge;
+import ch.heigvd.gamification.database.dao.ApplicationRepository;
 import ch.heigvd.gamification.database.dao.BadgeRepository;
+import ch.heigvd.gamification.utils.JWTutils;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -21,12 +23,20 @@ import java.util.List;
 public class BadgeEndpoint implements BadgesApi {
     @Autowired
     BadgeRepository badgeRepository;
+    @Autowired
+    ApplicationRepository applicationRepository;
 
     @Override
     public ResponseEntity<Void> addBadge(@ApiParam(value = "Badge object to add to the store", required = true) @RequestBody Badge badge, @ApiParam(value = "token to be passed as a header", required = true) @RequestHeader(value = "token", required = true) String token) {
+
+        String name = JWTutils.getAppNameInToken(token);
+        if(name == null)
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+
         ch.heigvd.gamification.database.model.Badge newBadge = new ch.heigvd.gamification.database.model.Badge();
         newBadge.setName(badge.getName());
         try{
+            newBadge.setApplication(applicationRepository.findByName(name));
             badgeRepository.save(newBadge);
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (DataIntegrityViolationException e){

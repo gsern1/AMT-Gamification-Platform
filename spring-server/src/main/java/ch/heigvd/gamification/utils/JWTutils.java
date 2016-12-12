@@ -1,25 +1,18 @@
-package ch.heigvd.gamification.services;
+package ch.heigvd.gamification.utils;
 
-import ch.heigvd.gamification.api.dto.Token;
-import ch.heigvd.gamification.database.dao.ApplicationRepository;
-import ch.heigvd.gamification.database.model.Application;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.auth0.jwt.exceptions.JWTDecodeException;
 
 import java.io.UnsupportedEncodingException;
 
 /**
- * Created by antoi on 12/12/2016.
+ * Created by lux on 12.12.16.
  */
-@Service
-public class TokenManager {
-    @Autowired
-    ApplicationRepository applicationRepository;
+public class JWTutils {
 
-    public String createToken(String name)
+    public static String createToken(String name)
     {
         String token;
         try {
@@ -36,8 +29,15 @@ public class TokenManager {
         return token;
     }
 
-    public Application getApplication(String token){
-        String applicationName = JWT.decode(token).toString();
-        return applicationRepository.findByName(applicationName);
+    public static String getAppNameInToken(String token)
+    {
+        String name = null;
+        try {
+            JWT jwt = JWT.decode(token);
+            name = jwt.getClaim("name").asString();
+        } catch (JWTDecodeException exception){ //Invalid token
+            return null;
+        }
+        return name;
     }
 }

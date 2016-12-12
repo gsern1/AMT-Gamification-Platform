@@ -3,7 +3,7 @@ package ch.heigvd.gamification.api;
 import ch.heigvd.gamification.api.dto.Credentials;
 import ch.heigvd.gamification.api.dto.Token;
 import ch.heigvd.gamification.database.dao.ApplicationRepository;
-import ch.heigvd.gamification.services.TokenManager;
+import ch.heigvd.gamification.utils.JWTutils;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
@@ -23,8 +23,6 @@ import java.io.UnsupportedEncodingException;
 public class AuthEndpoint implements AuthApi{
     @Autowired
     private ApplicationRepository applicationRepository;
-    @Autowired
-    private TokenManager tokenManager;
 
     @Override
     public ResponseEntity<Token> loginApplication(@ApiParam(value = "application object to add to the store", required = true) @RequestBody Credentials credentials) {
@@ -34,13 +32,16 @@ public class AuthEndpoint implements AuthApi{
         if(application == null)
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 
+        System.out.println(application.getPassword());
+        System.out.println(credentials.getPassword());
+
         if(!application.getPassword().equals(credentials.getPassword()))
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+
         Token token = new Token();
-        token.setToken(tokenManager.createToken(application.getName()));
+
+        token.setToken(JWTutils.createToken(application.getName()));
 
         return new ResponseEntity<>(token, HttpStatus.OK);
     }
-
-
 }
