@@ -46,9 +46,12 @@ public class Authentication {
     @When("^I POST the credentials to the /auth endpoint$")
     public void iPOSTTheCredentialsToTheAuthEndpoint() throws Throwable {
       try{
-            ApiResponse response = api.loginApplicationWithHttpInfo(credentials);
+            /*ApiResponse response = api.loginApplicationWithHttpInfo(credentials);
             token = new Token();
-            token.setToken(response.getData().toString());
+            token.setToken(response.getData().toString());*/
+
+          ApiResponse<Token> response = api.loginApplicationWithHttpInfo(credentials);
+          token = response.getData();
             statusCode = response.getStatusCode();
 
         }catch(ApiException e){
