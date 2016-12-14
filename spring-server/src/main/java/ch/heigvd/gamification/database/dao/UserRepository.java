@@ -10,7 +10,8 @@ import java.util.List;
 /**
  * Created by lux on 10.12.16.
  */
-public interface UserRepository extends CrudRepository<User, Integer> {
+public interface UserRepository extends CrudRepository<User, Long> {
     List<User> findByApplication(Application application);
     User findByIdAndApplication(long id, Application application);
+    User findByName(String name);
 }

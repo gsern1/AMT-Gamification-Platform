@@ -560,13 +560,12 @@ definitions:
   event:
     type: object
     required:
-      - userId
+      - username
       - pointScale
       - increase
     properties:
-      userId:
-        type: integer
-        format: int64
+      username:
+        type: string
       pointScale:
         type: integer
         format: int64

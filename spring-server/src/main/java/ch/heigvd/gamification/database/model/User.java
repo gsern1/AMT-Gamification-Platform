@@ -12,6 +12,7 @@ public class User {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private long id;
 
+    @Column(unique=true)
     private String name;
 
     @ManyToOne
@@ -22,6 +23,11 @@ public class User {
     private Set<Badge> badges;
 
     public User() {
+    }
+
+    public User(String name, Application application) {
+        this.name = name;
+        this.application = application;
     }
 
     public User(String name, Application application, Set<Badge> badges) {

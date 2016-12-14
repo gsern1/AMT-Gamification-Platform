@@ -1,13 +1,8 @@
 package ch.heigvd.gamification.api;
 
-import ch.heigvd.gamification.api.dto.PointScale;
 import ch.heigvd.gamification.api.dto.User;
-import ch.heigvd.gamification.database.dao.PointScaleRepository;
 import io.swagger.annotations.ApiParam;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
