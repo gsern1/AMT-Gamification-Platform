@@ -3,6 +3,7 @@ package ch.heigvd.gamification.api;
 import ch.heigvd.gamification.api.dto.Badge;
 import ch.heigvd.gamification.api.dto.PointScale;
 import ch.heigvd.gamification.api.dto.User;
+import ch.heigvd.gamification.api.dto.UserPointScale;
 import ch.heigvd.gamification.database.dao.ApplicationRepository;
 import ch.heigvd.gamification.database.dao.BadgeRepository;
 import ch.heigvd.gamification.database.dao.UserPointScaleRepository;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +38,11 @@ public class UserEndpoint implements UsersApi {
 
     @Autowired
     UserPointScaleRepository userPointScaleRepository;
+
+    // TODO : Retourner et utiliser l'id précisé dans l'event pour identifier le user ?
+    // TODO : Faire des dtos pour les autres endpoint pour retourner l'id
+    // TODO : Utiliser les validators pour valider les données genre login
+    // TODO : Retourner au POST la location des badges ou pointscales dans les headers...
 
     @Override
     public ResponseEntity<List<Badge>> findUserBadges(@ApiParam(value = "ID of user", required = true) @PathVariable("userId") Long userId, @ApiParam(value = "token to be passed as a header", required = true) @RequestHeader(value = "token", required = true) String token) {
@@ -55,7 +63,7 @@ public class UserEndpoint implements UsersApi {
     }
 
     @Override
-    public ResponseEntity<List<PointScale>> findUserPointScales(@ApiParam(value = "ID of user", required = true) @PathVariable("userId") Long userId, @ApiParam(value = "token to be passed as a header", required = true) @RequestHeader(value = "token", required = true) String token) {
+    public ResponseEntity<List<UserPointScale>> findUserPointScales(@ApiParam(value = "ID of user", required = true) @PathVariable("userId") Long userId, @ApiParam(value = "token to be passed as a header", required = true) @RequestHeader(value = "token", required = true) String token) {
         List<PointScale> pointscales = new ArrayList<>();
         String name = JWTutils.getAppNameInToken(token);
         if(name == null)
@@ -63,17 +71,14 @@ public class UserEndpoint implements UsersApi {
         Application application = applicationRepository.findByName(name);
 
         List<Object[]> userPointScales = userPointScaleRepository.findSumPointScalePerUser(userId);
-
-        // TODO : magic group by user_pointscale by user and sum the total amount of point then return list of point per pointscale name
-
-        // We must return an array of {pointScaleId: 1, points: 1054}
-        /*for(ch.heigvd.gamification.database.model.PointScale pointScale : user.get){
-            Badge badgeDto = new Badge();
-            badgeDto.setName(badge.getName());
-            pointscales.add(badgeDto);
-        }*/
-        //return ResponseEntity.ok(userPointScales);r
-        return null;
+        List<UserPointScale> userPointScalesDto = new ArrayList<>();
+        for(Object[] userPointScale : userPointScales){
+            UserPointScale userPointScaleDto = new UserPointScale();
+            userPointScaleDto.setName((String)userPointScale[0]);
+            userPointScaleDto.setPoints(((BigDecimal)userPointScale[1]).longValue());
+            userPointScalesDto.add(userPointScaleDto);
+        }
+        return ResponseEntity.ok(userPointScalesDto);
     }
 
     @Override
@@ -86,6 +91,7 @@ public class UserEndpoint implements UsersApi {
         for(ch.heigvd.gamification.database.model.User user : userRepository.findByApplication(application)){
             User userDto = new User();
             userDto.setName(user.getName());
+            userDto.setId(user.getId());
             users.add(userDto);
         }
         return ResponseEntity.ok(users);

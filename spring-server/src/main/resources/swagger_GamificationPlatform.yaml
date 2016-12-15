@@ -513,7 +513,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/pointScale'
+              $ref: '#/definitions/userPointScale'
         default:
           description: unexpected error
           schema:
@@ -537,6 +537,18 @@ definitions:
     properties:
       name:
         type: string
+
+  userPointScale:
+      type: object
+      required:
+        - name
+        - points
+      properties:
+        name:
+          type: string
+        points:
+          type: integer
+          format: int64
         
   user:
     type: object
@@ -545,17 +557,10 @@ definitions:
       - name
     properties:
       id:
-        type: string
+        type: integer
+        format: int64
       name:
         type: string
-      badges:
-        type: array
-        items:
-          $ref: '#/definitions/badge'
-      pointScales:
-        type: array
-        items:
-          $ref: '#/definitions/pointScale'
     
   event:
     type: object
