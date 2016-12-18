@@ -55,7 +55,10 @@ com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
 fabric.properties
+ExecutableSpecification/ExecutableSpecification.iml
 ExecutableSpecification/target/*
+ExecutableSpecification/.idea/*
+
 ExecutableSpecification/.idea/workspace.xml
 spring-server/.idea/misc.xml
 spring-server/.idea/workspace.xml
