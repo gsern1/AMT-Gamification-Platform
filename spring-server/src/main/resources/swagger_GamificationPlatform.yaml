@@ -356,6 +356,8 @@ paths:
       responses:
         '201':
           description: application response
+          schema:
+            $ref: '#/definitions/token'
         default:
           description: unexpected error
           schema:
