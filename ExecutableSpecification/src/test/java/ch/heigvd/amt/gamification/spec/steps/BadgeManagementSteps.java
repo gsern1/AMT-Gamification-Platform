@@ -19,6 +19,8 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  *
@@ -86,6 +88,14 @@ public class BadgeManagementSteps {
     }
 
 
+    @When("^I GET in to the /badges endpoint$")
+    public void iGETInToTheBadgesEndpoint() throws Throwable {
+        response = api.findBadgesWithHttpInfo(token.getToken());
+        world.setStatusCode(response.getStatusCode());
+    }
 
-
+    @And("^I receive a list of badges$")
+    public void iReceiveAListOfBadges() throws Throwable {
+        assertNotNull(response.getData());
+    }
 }
