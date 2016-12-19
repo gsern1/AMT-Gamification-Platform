@@ -2,11 +2,7 @@ swagger: '2.0'
 info:
   version: '1.0.0'
   title: Gamification
-  description: An API to implement gamification features in the swagger-2.0 specification. 
-    
-    ToDo 
-      (- /rules)
-    
+  description: An API to implement gamification features in the swagger-2.0 specification.
   contact:
     name: Guillaume Serneels
     email: guillaume.serneels@heig-vd.ch
@@ -39,7 +35,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/badge'
+              $ref: '#/definitions/badgeWithLocation'
         default:
           description: unexpected error
           schema:
@@ -189,7 +185,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/pointScale'
+              $ref: '#/definitions/pointScaleWithLocation'
         default:
           description: unexpected error
           schema:
@@ -362,6 +358,8 @@ paths:
       responses:
         '201':
           description: application response
+          schema:
+            $ref: '#/definitions/token'
         default:
           description: unexpected error
           schema:
@@ -542,6 +540,29 @@ definitions:
       - name
     properties:
       name:
+        type: string
+
+  badgeWithLocation:
+      type: object
+      required:
+        - name
+        - location
+      properties:
+        name:
+          type: string
+        location:
+          type: string
+
+
+  pointScaleWithLocation:
+    type: object
+    required:
+      - name
+      - location
+    properties:
+      name:
+        type: string
+      location:
         type: string
 
   userPointScale:

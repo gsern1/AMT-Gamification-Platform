@@ -4,6 +4,7 @@ import ch.heigvd.gamification.ApiException;
 import ch.heigvd.gamification.ApiResponse;
 import ch.heigvd.gamification.api.DefaultApi;
 import ch.heigvd.gamification.api.dto.Application;
+import ch.heigvd.gamification.api.dto.Token;
 import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -33,7 +34,7 @@ public class ApplicationSteps {
     @Given("^I have an application payload$")
     public void i_have_an_application_payload() throws Throwable {
         application = new Application();
-        String randomAppName = "random-app-" + (applicationsCounter)+ "-" + System.currentTimeMillis();
+        String randomAppName = "random-app-tata" + (applicationsCounter)+ "-" + System.currentTimeMillis();
         application.setName(randomAppName);
         application.setPassword("12345");
     }
@@ -41,7 +42,7 @@ public class ApplicationSteps {
     @When("^I POST it to the /application endpoint$")
     public void i_POST_it_to_the_registrations_endpoint() throws Throwable {
         try{
-            ApiResponse response = api.addApplicationWithHttpInfo(application);
+            ApiResponse response = api.addApplicationWithHttpInfo(world.getApplication());
             world.setStatusCode(response.getStatusCode());
 
         }catch(ApiException e){

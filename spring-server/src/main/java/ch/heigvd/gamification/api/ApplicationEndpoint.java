@@ -1,5 +1,6 @@
 package ch.heigvd.gamification.api;
 
+import ch.heigvd.gamification.api.dto.Token;
 import ch.heigvd.gamification.database.dao.ApplicationRepository;
 import ch.heigvd.gamification.api.dto.Application;
 import ch.heigvd.gamification.utils.JWTutils;
@@ -22,24 +23,26 @@ public class ApplicationEndpoint implements ApplicationApi {
     private ApplicationRepository applicationRepository;
 
     @Override
-    public ResponseEntity<Void> addApplication(@ApiParam(value = "application object to add to the platform", required = true) @RequestBody Application application) {
+    public ResponseEntity<Token> addApplication(@ApiParam(value = "application object to add to the platform", required = true) @RequestBody Application application) {
         // TODO : USE VALIDATORS ?
         // TODO : Use transactions
         if(application.getName() == null || application.getName().isEmpty())
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         if(application.getPassword() == null || application.getPassword().isEmpty())
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         ch.heigvd.gamification.database.model.Application newApplication = new ch.heigvd.gamification.database.model.Application();
         newApplication.setName(application.getName());
         newApplication.setPassword(application.getPassword());
         try{
             applicationRepository.save(newApplication);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+            Token token = new Token();
+            token.setToken(JWTutils.createToken(application.getName()));
+            return new ResponseEntity<>(token, HttpStatus.CREATED);
         } catch (DataIntegrityViolationException e){
             System.out.println(e.getMessage());
             System.out.println(e.getClass());
-            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
+            return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
         }
     }
 

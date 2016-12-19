@@ -1,6 +1,7 @@
 package ch.heigvd.gamification.api;
 
 import ch.heigvd.gamification.api.dto.Badge;
+import ch.heigvd.gamification.api.dto.BadgeWithLocation;
 import ch.heigvd.gamification.database.dao.ApplicationRepository;
 import ch.heigvd.gamification.database.dao.BadgeRepository;
 import ch.heigvd.gamification.utils.JSONParser;
@@ -94,18 +95,20 @@ public class BadgeEndpoint implements BadgesApi {
     }
 
     @Override
-    public ResponseEntity<List<Badge>> findBadges(@ApiParam(value = "token to be passed as a header", required = true) @RequestHeader(value = "token", required = true) String token) {
+    public ResponseEntity<List<BadgeWithLocation>> findBadges(@ApiParam(value = "token to be passed as a header", required = true) @RequestHeader(value = "token", required = true) String token) {
         String name = JWTutils.getAppNameInToken(token);
         if(name == null)
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 
         List<ch.heigvd.gamification.database.model.Badge> list = badgeRepository.findAll();
-        List<Badge> toReturn = new LinkedList<>();
+        List<BadgeWithLocation> toReturn = new LinkedList<>();
         Iterator i = list.iterator();
         while(i.hasNext())
         {
-            Badge tmp = new Badge();
-            tmp.setName(((ch.heigvd.gamification.database.model.Badge)i.next()).getName());
+            BadgeWithLocation tmp = new BadgeWithLocation();
+            ch.heigvd.gamification.database.model.Badge b = (ch.heigvd.gamification.database.model.Badge)i.next();
+            tmp.setName(b.getName());
+            tmp.setLocation("/badges/" + b.getId());
             toReturn.add(tmp);
         }
         return new ResponseEntity<>(toReturn, HttpStatus.OK);
