@@ -28,7 +28,7 @@ public class Authentication {
     private SharedData world;
     private Event event;
     private PointScale pointScale;
-    private int pointScaleId;
+    private long pointScaleId;
 
     public Authentication(SharedData world) {
         this.world = world;
@@ -74,7 +74,7 @@ public class Authentication {
 
         event.setUsername("Toto");
         event.setIncrease(2l);
-        event.setPointScale(1l);
+        event.setPointScale(pointScaleId);
     }
 
     @When("^I POST an event for that application to the /events endpoint with the recieved token$")
@@ -106,12 +106,9 @@ public class Authentication {
 
 
             Map<String, List<String>> map = response.getHeaders();
-            pointScaleId = Integer.parseInt(map.get("location").get(0));
-            /*
-            System.out.print("Hello");
-            System.out.print(map.keySet());*/
-             //map.get("location").get(0);
-             //System.out.print(map.get("location").get(0));
+            pointScaleId = Long.parseLong(map.get("location").get(0).split("/")[map.get("location").get(0).split("/").length - 1]);
+            System.out.print(pointScaleId);
+
 
         } catch (ApiException e) {
             world.setStatusCode(e.getCode());
