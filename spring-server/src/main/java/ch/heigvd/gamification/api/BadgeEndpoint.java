@@ -46,7 +46,7 @@ public class BadgeEndpoint implements BadgesApi {
             badgeRepository.save(newBadge);
             HttpHeaders responseHeaders = new HttpHeaders();
             responseHeaders.set("location", "/badges/" + newBadge.getId());
-            return new ResponseEntity<>(new HttpHeaders(),HttpStatus.CREATED);
+            return new ResponseEntity<>(responseHeaders,HttpStatus.CREATED);
         } catch (DataIntegrityViolationException e){
             System.out.println(e.getMessage());
             System.out.println(e.getClass());
