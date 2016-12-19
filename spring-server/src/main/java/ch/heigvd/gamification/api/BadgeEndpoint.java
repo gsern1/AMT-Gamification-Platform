@@ -10,6 +10,7 @@ import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,7 +44,9 @@ public class BadgeEndpoint implements BadgesApi {
         try{
             newBadge.setApplication(applicationRepository.findByName(name));
             badgeRepository.save(newBadge);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+            HttpHeaders responseHeaders = new HttpHeaders();
+            responseHeaders.set("location", "/badges/" + newBadge.getId());
+            return new ResponseEntity<>(new HttpHeaders(),HttpStatus.CREATED);
         } catch (DataIntegrityViolationException e){
             System.out.println(e.getMessage());
             System.out.println(e.getClass());
