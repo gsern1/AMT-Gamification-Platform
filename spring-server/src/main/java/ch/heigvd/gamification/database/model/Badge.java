@@ -19,7 +19,7 @@ public class Badge {
     private Application application;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "user_badge", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "badge_id", referencedColumnName = "id"))
+    @JoinTable(name = "user_badge", joinColumns = @JoinColumn(name = "badge_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
     private Set<User> users;
 
     public Badge() {

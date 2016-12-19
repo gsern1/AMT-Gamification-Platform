@@ -34,11 +34,6 @@ public class EventProcessingSteps {
         throw new PendingException();
     }
 
-    @Then("^it receives a (\\d+) status code$")
-    public void it_receives_a_status_code(int arg1) throws Throwable {
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
-    }
 
     @Then("^the payload in the response has a property numberOfEvents with a value of (\\d+)$")
     public void the_payload_in_the_response_has_a_property_numberOfEvents_with_a_value_of(int arg1) throws Throwable {

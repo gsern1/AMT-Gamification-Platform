@@ -22,9 +22,13 @@ public class ApplicationSteps {
 
     private int applicationsCounter = 1;
 
+    private SharedData world;
 
-    private int statusCode;
     private Application application;
+
+    public ApplicationSteps(SharedData world){
+        this.world = world;
+    }
 
     @Given("^I have an application payload$")
     public void i_have_an_application_payload() throws Throwable {
@@ -38,18 +42,12 @@ public class ApplicationSteps {
     public void i_POST_it_to_the_registrations_endpoint() throws Throwable {
         try{
             ApiResponse response = api.addApplicationWithHttpInfo(application);
-            statusCode = response.getStatusCode();
+            world.setStatusCode(response.getStatusCode());
 
         }catch(ApiException e){
-            statusCode = e.getCode();
+            world.setStatusCode(e.getCode());
 
         }
-    }
-
-    @Then("^I receive a (\\d+) status code$")
-    public void i_receive_a_status_code(int arg1) throws Throwable {
-        assertEquals(arg1, statusCode);
-
     }
 
     @When("^I ask for a list of registered apps with a GET on the /application endpoint$")
