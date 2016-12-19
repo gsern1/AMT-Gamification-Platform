@@ -40,9 +40,8 @@ public class UserEndpoint implements UsersApi {
     UserPointScaleRepository userPointScaleRepository;
 
     // TODO : Retourner et utiliser l'id précisé dans l'event pour identifier le user ?
-    // TODO : Faire des dtos pour les autres endpoint pour retourner l'id
+    // TODO : Javadoc, leaderboardendpoint
     // TODO : Utiliser les validators pour valider les données genre login
-    // TODO : Retourner au POST la location des badges ou pointscales dans les headers...
 
     @Override
     public ResponseEntity<List<Badge>> findUserBadges(@ApiParam(value = "ID of user", required = true) @PathVariable("userId") Long userId, @ApiParam(value = "token to be passed as a header", required = true) @RequestHeader(value = "token", required = true) String token) {

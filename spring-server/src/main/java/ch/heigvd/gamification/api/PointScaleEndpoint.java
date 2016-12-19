@@ -35,8 +35,6 @@ public class PointScaleEndpoint implements PointScalesApi {
     @Autowired
     ApplicationRepository applicationRepository;
 
-    // TODO : Retourner l'id des point scales (genre le header location pour le post)
-
     @Override
     public ResponseEntity<Void> addPointScale(@ApiParam(value = "pointScale object to add to the store", required = true) @RequestBody PointScale pointScale, @ApiParam(value = "token to be passed as a header", required = true) @RequestHeader(value = "token", required = true) String token) {
         String name = JWTutils.getAppNameInToken(token);
