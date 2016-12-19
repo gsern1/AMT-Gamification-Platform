@@ -2,6 +2,7 @@ package ch.heigvd.gamification.api;
 
 import ch.heigvd.gamification.api.dto.Badge;
 import ch.heigvd.gamification.api.dto.PointScale;
+import ch.heigvd.gamification.api.dto.PointScaleWithLocation;
 import ch.heigvd.gamification.api.dto.User;
 import ch.heigvd.gamification.database.dao.ApplicationRepository;
 import ch.heigvd.gamification.database.dao.PointScaleRepository;
@@ -12,6 +13,7 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.geo.Point;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -47,6 +49,8 @@ public class PointScaleEndpoint implements PointScalesApi {
         newPointScale.setApplication(application);
         try{
             pointScaleRepository.save(newPointScale);
+            HttpHeaders responseHeaders = new HttpHeaders();
+            responseHeaders.set("location", "/pointscales/" + newPointScale.getId());
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (DataIntegrityViolationException e){
             System.out.println(e.getMessage());
@@ -83,15 +87,16 @@ public class PointScaleEndpoint implements PointScalesApi {
     }
 
     @Override
-    public ResponseEntity<List<PointScale>> findPointScales(@ApiParam(value = "token to be passed as a header", required = true) @RequestHeader(value = "token", required = true) String token) {
-        List<PointScale> pointScales = new ArrayList<>();
+    public ResponseEntity<List<PointScaleWithLocation>> findPointScales(@ApiParam(value = "token to be passed as a header", required = true) @RequestHeader(value = "token", required = true) String token) {
+        List<PointScaleWithLocation> pointScales = new ArrayList<>();
         String name = JWTutils.getAppNameInToken(token);
         if(name == null)
             return new ResponseEntity<>(new ArrayList<>(), HttpStatus.BAD_REQUEST);
         Application application = applicationRepository.findByName(name);
         for(ch.heigvd.gamification.database.model.PointScale pointScale : pointScaleRepository.findByApplication(application)){
-            PointScale pointScaleDto = new PointScale();
+            PointScaleWithLocation pointScaleDto = new PointScaleWithLocation();
             pointScaleDto.setName(pointScale.getName());
+            pointScaleDto.setLocation("/pointscales/" + pointScale.getId());
             pointScales.add(pointScaleDto);
         }
         return ResponseEntity.ok(pointScales);

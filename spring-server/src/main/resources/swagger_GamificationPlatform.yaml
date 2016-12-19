@@ -39,7 +39,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/badge'
+              $ref: '#/definitions/badgeWithLocation'
         default:
           description: unexpected error
           schema:
@@ -97,7 +97,7 @@ paths:
         '200':
           description: badge response
           schema:
-            $ref: '#/definitions/badgeWithLocation'
+            $ref: '#/definitions/badge'
         default:
           description: unexpected error
           schema:
@@ -548,8 +548,8 @@ definitions:
       properties:
         name:
           type: string
-      location:
-        type: string
+        location:
+          type: string
 
 
   pointScaleWithLocation:
