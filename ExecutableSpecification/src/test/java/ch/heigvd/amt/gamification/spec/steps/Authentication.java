@@ -11,6 +11,9 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.junit.Assert;
 
+import java.util.List;
+import java.util.Map;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -25,6 +28,7 @@ public class Authentication {
     private SharedData world;
     private Event event;
     private PointScale pointScale;
+    private int pointScaleId;
 
     public Authentication(SharedData world) {
         this.world = world;
@@ -67,9 +71,10 @@ public class Authentication {
     @And("^I have an event payload$")
     public void iHaveAnEventPayload() throws Throwable {
         event = new Event();
-        event.setUserId(1l);
+
+        event.setUsername("Toto");
         event.setIncrease(2l);
-        event.setPointScale(3l);
+        event.setPointScale(1l);
     }
 
     @When("^I POST an event for that application to the /events endpoint with the recieved token$")
@@ -99,9 +104,20 @@ public class Authentication {
             ApiResponse response = api.addPointScaleWithHttpInfo(pointScale, token.getToken());
             world.setStatusCode(response.getStatusCode());
 
+
+            Map<String, List<String>> map = response.getHeaders();
+            pointScaleId = Integer.parseInt(map.get("location").get(0));
+            /*
+            System.out.print("Hello");
+            System.out.print(map.keySet());*/
+             //map.get("location").get(0);
+             //System.out.print(map.get("location").get(0));
+
         } catch (ApiException e) {
             world.setStatusCode(e.getCode());
 
         }
     }
+
+
 }

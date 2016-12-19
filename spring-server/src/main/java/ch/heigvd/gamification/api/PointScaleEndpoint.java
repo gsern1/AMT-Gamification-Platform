@@ -49,7 +49,7 @@ public class PointScaleEndpoint implements PointScalesApi {
             pointScaleRepository.save(newPointScale);
             HttpHeaders responseHeaders = new HttpHeaders();
             responseHeaders.set("location", "/pointscales/" + newPointScale.getId());
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+            return ResponseEntity.status(HttpStatus.CREATED).headers(responseHeaders).build();
         } catch (DataIntegrityViolationException e){
             System.out.println(e.getMessage());
             System.out.println(e.getClass());
