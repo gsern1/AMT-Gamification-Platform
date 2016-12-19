@@ -106,8 +106,9 @@ public class BadgeEndpoint implements BadgesApi {
         while(i.hasNext())
         {
             BadgeWithLocation tmp = new BadgeWithLocation();
-            tmp.setName(((ch.heigvd.gamification.database.model.Badge)i.next()).getName());
-            tmp.setLocation("/badges/" + ((ch.heigvd.gamification.database.model.Badge)i.next()).getId());
+            ch.heigvd.gamification.database.model.Badge b = (ch.heigvd.gamification.database.model.Badge)i.next();
+            tmp.setName(b.getName());
+            tmp.setLocation("/badges/" + b.getId());
             toReturn.add(tmp);
         }
         return new ResponseEntity<>(toReturn, HttpStatus.OK);

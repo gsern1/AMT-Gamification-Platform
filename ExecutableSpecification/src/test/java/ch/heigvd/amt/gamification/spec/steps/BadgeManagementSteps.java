@@ -38,10 +38,8 @@ public class BadgeManagementSteps {
         this.world = world;
     }
 
-
-    @Given("^a token for a new gamified application $")
-    public void aTokenForANewGamifiedApplicationA(int arg0) throws Throwable {
-
+    @Given("^a token for a new gamified application$")
+    public void aTokenForANewGamifiedApplication() throws Throwable {
         Application application = new Application();
 
         String randomAppName = "random-app-1-" + System.currentTimeMillis();
@@ -63,7 +61,6 @@ public class BadgeManagementSteps {
 
     }
 
-
     @Given("^I have an badge payload$")
     public void i_have_an_badge_payload() throws Throwable {
 
@@ -83,8 +80,12 @@ public class BadgeManagementSteps {
 
     @And("^I receive a reference about the created badge$")
     public void iReceiveAReferenceAboutTheCreatedBadge() throws Throwable {
-        String location = response.getHeaders().get("location").toString();
+        String location = (String)response.getHeaders().get("location");
         assertEquals(location, "/api/badges/" + badgeNbr);
         throw new PendingException();
     }
+
+
+
+
 }
