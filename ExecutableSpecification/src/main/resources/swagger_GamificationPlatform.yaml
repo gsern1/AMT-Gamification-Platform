@@ -2,11 +2,7 @@ swagger: '2.0'
 info:
   version: '1.0.0'
   title: Gamification
-  description: An API to implement gamification features in the swagger-2.0 specification. 
-    
-    ToDo 
-      (- /rules)
-    
+  description: An API to implement gamification features in the swagger-2.0 specification.
   contact:
     name: Guillaume Serneels
     email: guillaume.serneels@heig-vd.ch
@@ -39,7 +35,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/badge'
+              $ref: '#/definitions/badgeWithLocation'
         default:
           description: unexpected error
           schema:
@@ -66,10 +62,8 @@ paths:
           required: true
           type: string
       responses:
-        '200':
+        '201':
           description: badge response
-          schema:
-            $ref: '#/definitions/badge'
         default:
           description: unexpected error
           schema:
@@ -134,8 +128,6 @@ paths:
       responses:
         '200':
           description: badge response
-          schema:
-            $ref: '#/definitions/badge'
         default:
           description: unexpected error
           schema:
@@ -187,7 +179,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/pointScale'
+              $ref: '#/definitions/pointScaleWithLocation'
         default:
           description: unexpected error
           schema:
@@ -214,10 +206,8 @@ paths:
           required: true
           type: string
       responses:
-        '200':
+        '201':
           description: pointScale response
-          schema:
-            $ref: '#/definitions/pointScale'
         default:
           description: unexpected error
           schema:
@@ -283,8 +273,6 @@ paths:
       responses:
         '200':
           description: pointScale response
-          schema:
-            $ref: '#/definitions/pointScale'
         default:
           description: unexpected error
           schema:
@@ -338,7 +326,7 @@ paths:
           required: true
           type: string
       responses:
-        '200':
+        '201':
           description: event response
         default:
           description: unexpected error
@@ -362,12 +350,14 @@ paths:
           schema:
             $ref: '#/definitions/application'
       responses:
-        '200':
+        '201':
           description: application response
+          schema:
+            $ref: '#/definitions/token'
         default:
           description: unexpected error
           schema:
-            $ref: '#/definitions/application'
+            $ref: '#/definitions/errorModel'
     delete:
       summary: Delete an existing application
       description: |
@@ -521,7 +511,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/pointScale'
+              $ref: '#/definitions/userPointScale'
         default:
           description: unexpected error
           schema:
@@ -545,6 +535,41 @@ definitions:
     properties:
       name:
         type: string
+
+  badgeWithLocation:
+      type: object
+      required:
+        - name
+        - location
+      properties:
+        name:
+          type: string
+        location:
+          type: string
+
+
+  pointScaleWithLocation:
+    type: object
+    required:
+      - name
+      - location
+    properties:
+      name:
+        type: string
+      location:
+        type: string
+
+  userPointScale:
+      type: object
+      required:
+        - name
+        - points
+      properties:
+        name:
+          type: string
+        points:
+          type: integer
+          format: int64
         
   user:
     type: object
@@ -553,28 +578,20 @@ definitions:
       - name
     properties:
       id:
-        type: string
+        type: integer
+        format: int64
       name:
         type: string
-      badges:
-        type: array
-        items:
-          $ref: '#/definitions/badge'
-      pointScales:
-        type: array
-        items:
-          $ref: '#/definitions/pointScale'
     
   event:
     type: object
     required:
-      - userId
+      - username
       - pointScale
       - increase
     properties:
-      userId:
-        type: integer
-        format: int64
+      username:
+        type: string
       pointScale:
         type: integer
         format: int64
