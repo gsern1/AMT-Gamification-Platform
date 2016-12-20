@@ -5,6 +5,7 @@
  */
 package ch.heigvd.amt.gamification.spec.steps;
 
+import ch.heigvd.amt.gamification.ExtendedAPI;
 import ch.heigvd.gamification.ApiException;
 import ch.heigvd.gamification.ApiResponse;
 import ch.heigvd.gamification.api.DefaultApi;
@@ -18,9 +19,9 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import java.util.ArrayList;
+
+import static org.junit.Assert.*;
 
 /**
  *
@@ -29,8 +30,10 @@ import static org.junit.Assert.assertTrue;
 public class BadgeManagementSteps {
 
     private final DefaultApi api = new DefaultApi();
+    private final ExtendedAPI api2 = new ExtendedAPI();
 
     private Token token;
+    private Token tokenSaved;
     private Badge badge;
     private ApiResponse response;
     private SharedData world;
@@ -58,8 +61,10 @@ public class BadgeManagementSteps {
 
         ApiResponse<Token> response = api.loginApplicationWithHttpInfo(credentials);
         token = response.getData();
+        tokenSaved = new Token();
+        tokenSaved.setToken(response.getData().getToken());
 
-        badgeNbr = api.findBadges(token.getToken()).size();
+        badgeNbr = api.findBadges(token.getToken()).size() + 1;
 
     }
 
@@ -75,6 +80,7 @@ public class BadgeManagementSteps {
     public void i_POST_it_to_the_badges_endpoint() throws Throwable {
         response = api.addBadgeWithHttpInfo(badge,token.getToken());
         world.setStatusCode(response.getStatusCode());
+        badgeNbr = Integer.valueOf((String)response.getHeaders().get("location").toString().replaceAll("[^\\d]",""));
 
     }
 
@@ -82,9 +88,12 @@ public class BadgeManagementSteps {
 
     @And("^I receive a reference about the created badge$")
     public void iReceiveAReferenceAboutTheCreatedBadge() throws Throwable {
-        String location = (String)response.getHeaders().get("location");
-        assertEquals(location, "/api/badges/" + badgeNbr);
-        throw new PendingException();
+        String location = (response.getHeaders().get("location")).toString();
+        location = location.substring(1,location.length()-1);
+        System.out.println(location);
+        assertTrue(location.matches("/badges/(?:\\d++\\w)*+\\d++"));
+
+
     }
 
 
@@ -97,5 +106,34 @@ public class BadgeManagementSteps {
     @And("^I receive a list of badges$")
     public void iReceiveAListOfBadges() throws Throwable {
         assertNotNull(response.getData());
+    }
+
+
+    @When("^I PUT in to the /badge/id endpoint$")
+    public void iPUTInToTheBadgeIdEndpoint() throws Throwable {
+        badge.setName("modified-" + System.currentTimeMillis());
+        try{
+            response = api.updateBadgeWithHttpInfo(badge, (long) badgeNbr, token.getToken());
+            world.setStatusCode(response.getStatusCode());
+        }catch (ApiException e){
+            world.setStatusCode(e.getCode());
+        }
+
+    }
+
+    @And("^The badge has been modified$")
+    public void theBadgeHasBeenModified() throws Throwable {
+        assertEquals(api.findBadge((long) badgeNbr,token.getToken()).getName(),badge.getName());
+    }
+
+    @And("^I have a bad token$")
+    public void iHaveABadToken() throws Throwable {
+        token.setToken("badToken");
+    }
+
+    @And("^The badge is unchanged$")
+    public void theBadgeIsUnchanged() throws Throwable {
+        assertNotEquals(api.findBadge((long) badgeNbr,tokenSaved.getToken()).getName(),badge.getName());
+
     }
 }
