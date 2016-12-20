@@ -66,6 +66,9 @@ public class BadgeManagementSteps {
 
         badgeNbr = api.findBadges(token.getToken()).size() + 1;
 
+        world.setApi(api2);
+        world.setToken(token);
+
     }
 
     @Given("^I have an badge payload$")

@@ -3,16 +3,15 @@ package ch.heigvd.amt.gamification.spec.steps;
 import ch.heigvd.gamification.ApiException;
 import ch.heigvd.gamification.ApiResponse;
 import ch.heigvd.gamification.api.DefaultApi;
-import ch.heigvd.gamification.api.dto.*;
+import ch.heigvd.gamification.api.dto.Application;
+import ch.heigvd.gamification.api.dto.Credentials;
+import ch.heigvd.gamification.api.dto.Token;
 import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.junit.Assert;
-
-import java.util.List;
-import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
@@ -24,28 +23,19 @@ public class Authentication {
     private final DefaultApi api = new DefaultApi();
     private Credentials credentials;
     Application application;
+    private int statusCode;
     private Token token;
-    private SharedData world;
-    private Event event;
-    private PointScale pointScale;
-    private long pointScaleId;
-
-    public Authentication(SharedData world) {
-        this.world = world;
-    }
-
+    private Token tokenBis;
 
     @Given("^a new gamified application and its credentials$")
     public void aNewGamifiedApplication() throws Throwable {
 
-        world.setApplication(new Application());
-        world.incrementApplicationCounter();
-
-        String randomAppName = "random-app-1-" + world.getApplicationCounter() + "-" + System.currentTimeMillis();
-        world.getApplication().setName(randomAppName);
+        application = new Application();
+        String randomAppName = "random-app-1-" + System.currentTimeMillis();
+        application.setName(randomAppName);
 
         String password = "56789";
-        world.getApplication().setPassword(password);
+        application.setPassword(password);
 
         credentials = new Credentials();
         credentials.setName(randomAppName);
@@ -55,66 +45,39 @@ public class Authentication {
 
     @When("^I POST the credentials to the /auth endpoint$")
     public void iPOSTTheCredentialsToTheAuthEndpoint() throws Throwable {
-        try {
-            ApiResponse<Token> response = api.loginApplicationWithHttpInfo(credentials);
-            world.setStatusCode(response.getStatusCode());
-            token = response.getData();
+      try{
+            /*ApiResponse response = api.loginApplicationWithHttpInfo(credentials);
+            token = new Token();
+            token.setToken(response.getData().toString());*/
 
-        } catch (ApiException e) {
-            world.setStatusCode(e.getCode());
+          ApiResponse<Token> response = api.loginApplicationWithHttpInfo(credentials);
+          token = response.getData();
+            statusCode = response.getStatusCode();
+
+        }catch(ApiException e){
+            statusCode = e.getCode();
 
         }
 
     }
 
 
-    @And("^I have an event payload$")
-    public void iHaveAnEventPayload() throws Throwable {
-        event = new Event();
+    @And("^I POST the same credentials again to the /auth endpoint$")
+    public void iPOSTTheSameCredentialsAgainToTheAuthEndpoint() throws Throwable {
+        try{
+            ApiResponse response = api.loginApplicationWithHttpInfo(credentials);
+            tokenBis = new Token();
+            tokenBis.setToken(response.getData().toString());
+            statusCode = response.getStatusCode();
 
-        event.setUsername("Toto");
-        event.setIncrease(2l);
-        event.setPointScale(pointScaleId);
-    }
-
-    @When("^I POST an event for that application to the /events endpoint with the recieved token$")
-    public void iPostAnEventForThatApplicationToTheEventsEndpointWithTheRecievedToken() throws Throwable {
-        try {
-            ApiResponse response = api.addEventWithHttpInfo(event,token.getToken());
-            world.setStatusCode(response.getStatusCode());
-
-        } catch (ApiException e) {
-            world.setStatusCode(e.getCode());
+        }catch(ApiException e){
+            statusCode = e.getCode();
 
         }
     }
 
-
-    @And("^I have an pointscale payload$")
-    public void iHaveAnPointscalePayload() throws Throwable {
-        pointScale = new PointScale();
-        pointScale.setName("Hardcore Coder");
-
+    @Then("^I recieve the same token twice$")
+    public void iRecieveTheSameTokenTwice() throws Throwable {
+        assertEquals(token,tokenBis);
     }
-
-
-    @When("^I POST a pointscale for that application to the /pointScales endpoint with the recieved token$")
-    public void iPOSTAPointscaleForThatApplicationToThePointScalesEndpointWithTheRecievedToken() throws Throwable {
-        try {
-            ApiResponse response = api.addPointScaleWithHttpInfo(pointScale, token.getToken());
-            world.setStatusCode(response.getStatusCode());
-
-
-            Map<String, List<String>> map = response.getHeaders();
-            pointScaleId = Long.parseLong(map.get("location").get(0).split("/")[map.get("location").get(0).split("/").length - 1]);
-            System.out.print(pointScaleId);
-
-
-        } catch (ApiException e) {
-            world.setStatusCode(e.getCode());
-
-        }
-    }
-
-
 }

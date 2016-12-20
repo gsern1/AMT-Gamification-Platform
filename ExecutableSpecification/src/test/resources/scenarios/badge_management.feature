@@ -9,6 +9,14 @@ Scenario: register a badge for the gamified application
   Then I receive a 201 status code
   And I receive a reference about the created badge
 
+Scenario: register a badge with a bad payload
+  When I perform a "POST" on "/badges/" endpoint with a wrong payload
+  Then I receive a 400 status code
+
+
+Scenario: register a badge without permission a bad payload
+
+
 Scenario: get all the badges
   When I GET in to the /badges endpoint
   Then I receive a 200 status code
@@ -29,4 +37,12 @@ Scenario: modify badge without permission
   Then I receive a 401 status code
   And The badge is unchanged
 
-Scenario:
+Scenario: modify badge with a bad payload
+
+Scenario: modify badge with a bad payload
+
+Scenario: modify badge with a bad payload
+
+Scenario: modify badge with a bad payload
+
+Scenario: modify badge with a bad payload

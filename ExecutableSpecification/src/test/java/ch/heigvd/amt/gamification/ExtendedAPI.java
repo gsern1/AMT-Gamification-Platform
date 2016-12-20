@@ -39,6 +39,7 @@ public class ExtendedAPI  {
                 "application/json"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
         if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
 
         final String[] localVarContentTypes = {
@@ -48,7 +49,7 @@ public class ExtendedAPI  {
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         if (token != null)
-            localVarHeaderParams.put("token", apiClient.parameterToString(token));
+            localVarHeaderParams.put("token", token);
 
         String[] localVarAuthNames = new String[] {  };
 
