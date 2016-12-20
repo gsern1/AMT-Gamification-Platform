@@ -19,8 +19,6 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
 
-import java.util.ArrayList;
-
 import static org.junit.Assert.*;
 
 /**
@@ -71,8 +69,8 @@ public class BadgeManagementSteps {
 
     }
 
-    @Given("^I have an badge payload$")
-    public void i_have_an_badge_payload() throws Throwable {
+    @Given("^I have a badge payload$")
+    public void iHaveABadgePayload() throws Throwable {
 
         badge = new Badge();
         badge.setName("badge-" + System.currentTimeMillis());
@@ -81,9 +79,14 @@ public class BadgeManagementSteps {
 
     @When("^I POST it to the /badges endpoint$")
     public void i_POST_it_to_the_badges_endpoint() throws Throwable {
-        response = api.addBadgeWithHttpInfo(badge,token.getToken());
-        world.setStatusCode(response.getStatusCode());
-        badgeNbr = Integer.valueOf((String)response.getHeaders().get("location").toString().replaceAll("[^\\d]",""));
+        try {
+            response = api.addBadgeWithHttpInfo(badge,token.getToken());
+            world.setStatusCode(response.getStatusCode());
+            badgeNbr = Integer.valueOf((String)response.getHeaders().get("location").toString().replaceAll("[^\\d]",""));
+        }catch (ApiException e){
+            world.setStatusCode(e.getCode());
+        }
+
 
     }
 
@@ -138,5 +141,11 @@ public class BadgeManagementSteps {
     public void theBadgeIsUnchanged() throws Throwable {
         assertNotEquals(api.findBadge((long) badgeNbr,tokenSaved.getToken()).getName(),badge.getName());
 
+    }
+
+
+    @Given("^I have null badge payload$")
+    public void iHaveNullBadgePayload() throws Throwable {
+        badge = new Badge();
     }
 }
