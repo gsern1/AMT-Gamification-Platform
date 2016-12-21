@@ -97,7 +97,6 @@ public class BadgeManagementSteps {
     public void iReceiveAReferenceAboutTheCreatedBadge() throws Throwable {
         String location = (response.getHeaders().get("location")).toString();
         location = location.substring(1,location.length()-1);
-        System.out.println(location);
         assertTrue(location.matches("/badges/(?:\\d++\\w)*+\\d++"));
 
 

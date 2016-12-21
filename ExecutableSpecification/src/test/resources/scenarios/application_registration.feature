@@ -7,7 +7,7 @@ Then I receive a 201 status code
 
 Scenario: Check that the application has been registered
 Given I have an application payload
-When I POST it to the /application endpoint
+  When I perform a "POST" on "/application" endpoint with a wrong payload that return "Application"
 And I ask for a list of registered apps with a GET on the /application endpoint
 Then I see my app in the list
 
