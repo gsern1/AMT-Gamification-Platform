@@ -15,6 +15,7 @@ public class SharedData {
     private ExtendedAPI api;
     private Token token;
     private ApiResponse response;
+    private long badgeNbr;
 
     public int getStatusCode() {
         return statusCode;
@@ -66,5 +67,13 @@ public class SharedData {
 
     public void setResponse(ApiResponse response) {
         this.response = response;
+    }
+
+    public long getBadgeNbr() {
+        return badgeNbr;
+    }
+
+    public void setBadgeNbr(long badgeNbr) {
+        this.badgeNbr = badgeNbr;
     }
 }

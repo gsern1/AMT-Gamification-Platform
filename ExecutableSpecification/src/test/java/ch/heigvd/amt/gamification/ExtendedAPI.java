@@ -1,6 +1,7 @@
 package ch.heigvd.amt.gamification;
 
 import ch.heigvd.gamification.*;
+import ch.heigvd.gamification.api.dto.Badge;
 import ch.heigvd.gamification.api.dto.PointScale;
 import com.google.gson.reflect.TypeToken;
 import com.squareup.okhttp.Call;
@@ -25,7 +26,7 @@ public class ExtendedAPI  {
         this.apiClient = apiClient;
     }
 
-    public ApiResponse<Object> callWithParams(String method, String path, Object body, String token) throws ApiException {
+    public ApiResponse<Object> callWithParams(String method, String path, Object body, String token, String returnType) throws ApiException {
 
         String localVarPath = path.replaceAll("\\{format\\}","json");
 
@@ -56,6 +57,15 @@ public class ExtendedAPI  {
         Call call = apiClient.buildCall(localVarPath, method, localVarQueryParams, body, localVarHeaderParams, localVarFormParams, localVarAuthNames, null);
 
         Type localVarReturnType = new TypeToken<List<PointScale>>(){}.getType();
+
+        if(returnType.equals("PointScales")){
+            localVarReturnType = new TypeToken<List<PointScale>>(){}.getType();
+        }
+        else if(returnType.equals("Badge")){
+            localVarReturnType = new TypeToken<Badge>(){}.getType();
+        }
+
+
 
         return apiClient.execute(call, localVarReturnType);
     }

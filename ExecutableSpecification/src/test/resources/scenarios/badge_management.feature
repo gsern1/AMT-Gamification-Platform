@@ -3,7 +3,7 @@ Feature: Badges Registration
 Background:
   Given a token for a new gamified application
 
-#Tests pour l'ajout de badge
+#Test about badge registering
 # =====================================================================
 Scenario: register a badge for the gamified application
   Given I have a badge payload
@@ -12,7 +12,7 @@ Scenario: register a badge for the gamified application
   And I receive a reference about the created badge
 
 Scenario: register a badge with a bad payload
-  When I perform a "POST" on "/badges/" endpoint with a wrong payload
+  When I perform a "POST" on "/badges/" endpoint with a wrong payload that return "null"
   Then I receive a 400 status code
 
 Scenario: register a badge with null
@@ -26,17 +26,33 @@ Scenario: register a badge without permission
   When I POST it to the /badges endpoint
   Then I receive a 403 status code
 
-#Tests pour le get sur /badges
+#Tests about GET on /badges
 # =====================================================================
 Scenario: get all the badges
-  When I GET in to the /badges endpoint
+  Given I have a badge payload
+  When I POST it to the /badges endpoint
+  And I GET in to the /badges endpoint
   Then I receive a 200 status code
   And I receive a list of badges
 
-Scenario:
+Scenario: get all the badges (no badges registered)
+  When I GET in to the /badges endpoint
+  Then I receive a 200 status code
+  And I don't receive any bages
 
-
-#Test pour la modification des badges
+Scenario: get all the badges with a wrong payload
+  Given I have a badge payload
+  When I POST it to the /badges endpoint
+  And I perform a "GET" on "/badges" endpoint with a wrong payload that return "PointScales"
+  Then I receive a 200 status code
+  And I receive a list of badges
+  
+Scenario: get all the badges with a wrong token
+  Given I have a bad token
+  When I perform a "GET" on "/badges" endpoint with an empty payload tha return "PointScales"
+  Then I receive a 403 status code
+  
+#Tests about PUT on /badges/id
 # =====================================================================
 Scenario: modify badge with permission
   Given I have a badge payload
@@ -50,15 +66,63 @@ Scenario: modify badge without permission
   When I POST it to the /badges endpoint
   And I have a bad token
   And I PUT in to the /badge/id endpoint
-  Then I receive a 401 status code
+  Then I receive a 403 status code
+  And The badge is unchanged
+
+Scenario: modify badge with an empty payload
+  Given I have a badge payload
+  When I POST it to the /badges endpoint
+  And I have null badge payload
+  And I PUT in to the /badge/id endpoint
+  Then I receive a 400 status code
   And The badge is unchanged
 
 Scenario: modify badge with a bad payload
+  Given I have a badge payload
+  When I POST it to the /badges endpoint
+  And I perform a "PUT" on "/badges/12" endpoint with a wrong payload that return "null"
+  Then I receive a 400 status code
 
-Scenario: modify badge with a bad payload
+#Test about DELETE on /badges/id
+# =====================================================================
+Scenario: delete a badge
+  Given I have a badge payload
+  When I POST it to the /badges endpoint
+  And I perform a "DELETE" on "/badges" endpoint with id that return "null"
+  Then I receive a 200 status code
 
-Scenario: modify badge with a bad payload
 
-Scenario: modify badge with a bad payload
+Scenario: delete a badge with a wrong token
+  Given I have a badge payload
+  When I POST it to the /badges endpoint
+  And I have a bad token
+  And I perform a "DELETE" on "/badges" endpoint with id that return "null"
+  Then I receive a 403 status code
 
-Scenario: modify badge with a bad payload
+
+#Test about GET on /badges/id
+# =====================================================================
+Scenario: get a badge
+  Given I have a badge payload
+  When I POST it to the /badges endpoint
+  And I perform a "GET" on "/badges" endpoint with id that return "Badge"
+  Then I receive a 200 status code
+
+Scenario: get a badge with a wrong token
+  Given I have a badge payload
+  When I POST it to the /badges endpoint
+  And I have a bad token
+  And I perform a "GET" on "/badges" endpoint with id that return "Badge"
+  Then I receive a 403 status code
+
+Scenario: get a badge with an incorrect ID
+  Given I have a badge payload
+  When I POST it to the /badges endpoint
+  And I have a bad item id
+  And I perform a "GET" on "/badges" endpoint with id that return "Badge"
+  Then I receive a 404 status code
+
+
+
+
+

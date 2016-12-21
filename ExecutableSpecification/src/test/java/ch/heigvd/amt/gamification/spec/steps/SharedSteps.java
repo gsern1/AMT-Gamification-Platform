@@ -30,16 +30,37 @@ public class SharedSteps {
 
     }
 
-
-    @When("^I perform a \"([^\"]*)\" on \"([^\"]*)\" endpoint with a wrong payload$")
-    public void iPerformAOnEndpointWithAWrongPayload(String action, String endpoint) throws Throwable {
+    @When("^I perform a \"([^\"]*)\" on \"([^\"]*)\" endpoint with a wrong payload that return \"([^\"]*)\"$")
+    public void iPerformAOnEndpointWithAWrongPayloadThatReturn(String action, String endpoint, String returnType) throws Throwable {
         class WrongDTO{
             private int a;
             private boolean b;
             private char c;
         }
         try{
-            world.setResponse(world.getApi().callWithParams(action,endpoint, new WrongDTO(),world.getToken().getToken()));
+            world.setResponse(world.getApi().callWithParams(action,endpoint, new WrongDTO(),world.getToken().getToken(),returnType));
+            world.setStatusCode(world.getResponse().getStatusCode());
+        }
+        catch (ApiException e){
+            world.setStatusCode(e.getCode());
+        }
+    }
+
+    @When("^I perform a \"([^\"]*)\" on \"([^\"]*)\" endpoint with an empty payload tha return \"([^\"]*)\"$")
+    public void iPerformAOnEndpointWithAnEmptyPayloadThaReturn(String action, String endpoint, String returnType) throws Throwable {
+        try{
+            world.setResponse(world.getApi().callWithParams(action,endpoint, null,world.getToken().getToken(),returnType));
+            world.setStatusCode(world.getResponse().getStatusCode());
+        }
+        catch (ApiException e){
+            world.setStatusCode(e.getCode());
+        }
+    }
+
+    @And("^I perform a \"([^\"]*)\" on \"([^\"]*)\" endpoint with id that return \"([^\"]*)\"$")
+    public void iPerformAOnEndpointWithIdThatReturn(String action, String endpoint, String returnType) throws Throwable {
+        try{
+            world.setResponse(world.getApi().callWithParams(action,endpoint+ "/" + world.getBadgeNbr(), null,world.getToken().getToken(),returnType));
             world.setStatusCode(world.getResponse().getStatusCode());
         }
         catch (ApiException e){

@@ -18,6 +18,7 @@ import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
+import org.assertj.core.util.Compatibility;
 
 import static org.junit.Assert.*;
 
@@ -35,7 +36,7 @@ public class BadgeManagementSteps {
     private Badge badge;
     private ApiResponse response;
     private SharedData world;
-    private int badgeNbr;
+    private long badgeNbr;
 
     public BadgeManagementSteps(SharedData world){
         this.world = world;
@@ -71,7 +72,6 @@ public class BadgeManagementSteps {
 
     @Given("^I have a badge payload$")
     public void iHaveABadgePayload() throws Throwable {
-
         badge = new Badge();
         badge.setName("badge-" + System.currentTimeMillis());
 
@@ -83,6 +83,8 @@ public class BadgeManagementSteps {
             response = api.addBadgeWithHttpInfo(badge,token.getToken());
             world.setStatusCode(response.getStatusCode());
             badgeNbr = Integer.valueOf((String)response.getHeaders().get("location").toString().replaceAll("[^\\d]",""));
+            world.setBadgeNbr(badgeNbr);
+
         }catch (ApiException e){
             world.setStatusCode(e.getCode());
         }
@@ -111,7 +113,10 @@ public class BadgeManagementSteps {
 
     @And("^I receive a list of badges$")
     public void iReceiveAListOfBadges() throws Throwable {
-        assertNotNull(response.getData());
+        if(response != null)
+            assertNotNull(response.getData());
+        else
+            assertNotNull(world.getResponse().getData());
     }
 
 
@@ -119,7 +124,7 @@ public class BadgeManagementSteps {
     public void iPUTInToTheBadgeIdEndpoint() throws Throwable {
         badge.setName("modified-" + System.currentTimeMillis());
         try{
-            response = api.updateBadgeWithHttpInfo(badge, (long) badgeNbr, token.getToken());
+            response = api.updateBadgeWithHttpInfo(badge, badgeNbr, token.getToken());
             world.setStatusCode(response.getStatusCode());
         }catch (ApiException e){
             world.setStatusCode(e.getCode());
@@ -129,7 +134,7 @@ public class BadgeManagementSteps {
 
     @And("^The badge has been modified$")
     public void theBadgeHasBeenModified() throws Throwable {
-        assertEquals(api.findBadge((long) badgeNbr,token.getToken()).getName(),badge.getName());
+        assertEquals(api.findBadge( badgeNbr,token.getToken()).getName(),badge.getName());
     }
 
     @And("^I have a bad token$")
@@ -147,5 +152,24 @@ public class BadgeManagementSteps {
     @Given("^I have null badge payload$")
     public void iHaveNullBadgePayload() throws Throwable {
         badge = new Badge();
+    }
+
+    @And("^I GET on smth$")
+    public void iGETOnSmth() throws Throwable {
+        response = api.findBadgeWithHttpInfo(badgeNbr,token.getToken());
+    }
+
+    @And("^I don't receive any bages$")
+    public void iDonTReceiveAnyBages() throws Throwable {
+        if(response != null)
+            assertNull(response.getData());
+        else
+            assertNull(world.getResponse().getData());
+    }
+
+    @And("^I have a bad item id$")
+    public void iHaveABadItemId() throws Throwable {
+        world.setBadgeNbr(System.currentTimeMillis());
+        badgeNbr = System.currentTimeMillis();
     }
 }
