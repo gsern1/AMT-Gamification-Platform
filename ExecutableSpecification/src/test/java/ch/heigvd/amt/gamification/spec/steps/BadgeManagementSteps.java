@@ -113,16 +113,17 @@ public class BadgeManagementSteps {
 
     @And("^I receive a list of badges$")
     public void iReceiveAListOfBadges() throws Throwable {
-        if(response != null)
-            assertNotNull(response.getData());
-        else
+        if(world.getResponse() != null)
             assertNotNull(world.getResponse().getData());
+        else
+            assertNotNull(response.getData());
     }
 
 
     @When("^I PUT in to the /badge/id endpoint$")
     public void iPUTInToTheBadgeIdEndpoint() throws Throwable {
-        badge.setName("modified-" + System.currentTimeMillis());
+        if(badge.getName() != null)
+             badge.setName("modified-" + System.currentTimeMillis());
         try{
             response = api.updateBadgeWithHttpInfo(badge, badgeNbr, token.getToken());
             world.setStatusCode(response.getStatusCode());
@@ -144,7 +145,7 @@ public class BadgeManagementSteps {
 
     @And("^The badge is unchanged$")
     public void theBadgeIsUnchanged() throws Throwable {
-        assertNotEquals(api.findBadge((long) badgeNbr,tokenSaved.getToken()).getName(),badge.getName());
+        assertNotEquals(api.findBadge( badgeNbr,tokenSaved.getToken()).getName(),badge.getName());
 
     }
 
