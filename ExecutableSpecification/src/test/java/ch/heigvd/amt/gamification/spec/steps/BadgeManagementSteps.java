@@ -9,16 +9,15 @@ import ch.heigvd.amt.gamification.ExtendedAPI;
 import ch.heigvd.gamification.ApiException;
 import ch.heigvd.gamification.ApiResponse;
 import ch.heigvd.gamification.api.DefaultApi;
-import ch.heigvd.gamification.api.dto.Application;
-import ch.heigvd.gamification.api.dto.Badge;
-import ch.heigvd.gamification.api.dto.Credentials;
-import ch.heigvd.gamification.api.dto.Token;
+import ch.heigvd.gamification.api.dto.*;
 
 import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
 import org.assertj.core.util.Compatibility;
+
+import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
@@ -163,9 +162,9 @@ public class BadgeManagementSteps {
     @And("^I don't receive any bages$")
     public void iDonTReceiveAnyBages() throws Throwable {
         if(response != null)
-            assertNull(response.getData());
+            assertEquals(response.getData(), new ArrayList<>());
         else
-            assertNull(world.getResponse().getData());
+            assertEquals(world.getResponse().getData(), new ArrayList<>());
     }
 
     @And("^I have a bad item id$")

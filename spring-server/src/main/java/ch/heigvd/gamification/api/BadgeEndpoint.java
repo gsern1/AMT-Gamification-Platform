@@ -83,7 +83,7 @@ public class BadgeEndpoint implements BadgesApi {
         try{
             ch.heigvd.gamification.database.model.Badge badgeDB = badgeRepository.findOne((int)tmp);
             if(badgeDB == null)
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             Badge badge = new Badge();
             badge.setName(badgeDB.getName());
             return new ResponseEntity<>(badge, HttpStatus.OK);
@@ -100,7 +100,7 @@ public class BadgeEndpoint implements BadgesApi {
         if(name == null)
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 
-        List<ch.heigvd.gamification.database.model.Badge> list = badgeRepository.findAll();
+        List<ch.heigvd.gamification.database.model.Badge> list = badgeRepository.findByApplication(applicationRepository.findByName(name));
         List<BadgeWithLocation> toReturn = new LinkedList<>();
         Iterator i = list.iterator();
         while(i.hasNext())
@@ -123,7 +123,7 @@ public class BadgeEndpoint implements BadgesApi {
         long tmp = badgeId;
         try {
             ch.heigvd.gamification.database.model.Badge badgeDB = badgeRepository.findOne((int) tmp);
-            if (badgeDB == null)
+            if (badgeDB == null || badge.getName() == null)
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             badgeDB.setName(badge.getName());
             badgeRepository.save(badgeDB);
