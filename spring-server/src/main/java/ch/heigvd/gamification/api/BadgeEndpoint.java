@@ -6,6 +6,7 @@ import ch.heigvd.gamification.database.dao.ApplicationRepository;
 import ch.heigvd.gamification.database.dao.BadgeRepository;
 import ch.heigvd.gamification.utils.JSONParser;
 import ch.heigvd.gamification.utils.JWTutils;
+import ch.heigvd.gamification.validators.BadgesValidator;
 import io.swagger.annotations.ApiParam;
 import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +15,11 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -33,15 +34,17 @@ public class BadgeEndpoint implements BadgesApi {
     @Autowired
     ApplicationRepository applicationRepository;
 
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        binder.setValidator(new BadgesValidator());
+    }
+
     @Override
-    public ResponseEntity<Void> addBadge(@ApiParam(value = "Badge object to add to the store", required = true) @RequestBody Badge badge, @ApiParam(value = "token to be passed as a header", required = true) @RequestHeader(value = "token", required = true) String token) {
+    public ResponseEntity<Void> addBadge(@ApiParam(value = "Badge object to add to the store", required = true)  @Valid @RequestBody Badge badge, @ApiParam(value = "token to be passed as a header", required = true) @RequestHeader(value = "token", required = true) String token) {
 
         String name = JWTutils.getAppNameInToken(token);
         if(name == null)
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-
-        if(badge.getName() == null)
-            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
 
         ch.heigvd.gamification.database.model.Badge newBadge = new ch.heigvd.gamification.database.model.Badge();
         newBadge.setName(badge.getName());
@@ -64,7 +67,6 @@ public class BadgeEndpoint implements BadgesApi {
         if(name == null)
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 
-        //TODO PASSE EN LONG DANS LA BDD OU PASSER EN INT (a discuter)
         long tmp = badgeId;
         try{
             badgeRepository.delete((int)tmp);
@@ -118,7 +120,7 @@ public class BadgeEndpoint implements BadgesApi {
     }
 
     @Override
-    public ResponseEntity<Void> updateBadge(@ApiParam(value = "Badge object to add to the store", required = true) @RequestBody Badge badge, @ApiParam(value = "Id of the badge that needs to be updated", required = true) @PathVariable("badgeId") Long badgeId, @ApiParam(value = "token to be passed as a header", required = true) @RequestHeader(value = "token", required = true) String token) {
+    public ResponseEntity<Void> updateBadge(@ApiParam(value = "Badge object to add to the store", required = true)  @Valid @RequestBody Badge badge, @ApiParam(value = "Id of the badge that needs to be updated", required = true) @PathVariable("badgeId") Long badgeId, @ApiParam(value = "token to be passed as a header", required = true) @RequestHeader(value = "token", required = true) String token) {
         String name = JWTutils.getAppNameInToken(token);
         if(name == null)
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
@@ -126,7 +128,7 @@ public class BadgeEndpoint implements BadgesApi {
         long tmp = badgeId;
         try {
             ch.heigvd.gamification.database.model.Badge badgeDB = badgeRepository.findOne((int) tmp);
-            if (badgeDB == null || badge.getName() == null)
+            if (badgeDB == null)
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             badgeDB.setName(badge.getName());
             badgeRepository.save(badgeDB);
