@@ -5,6 +5,7 @@ import ch.heigvd.gamification.ApiResponse;
 import ch.heigvd.gamification.api.DefaultApi;
 import ch.heigvd.gamification.api.dto.Application;
 import ch.heigvd.gamification.api.dto.Credentials;
+import ch.heigvd.gamification.api.dto.PointScale;
 import ch.heigvd.gamification.api.dto.Token;
 import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
@@ -18,7 +19,10 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by guillaume on 12.12.16.
  */
-public class Authentication {
+public class AuthenticationSteps {
+
+    private SharedData world;
+
 
     private final DefaultApi api = new DefaultApi();
     private Credentials credentials;
@@ -26,6 +30,12 @@ public class Authentication {
     private int statusCode;
     private Token token;
     private Token tokenBis;
+    private PointScale pointScale;
+
+    public AuthenticationSteps(SharedData world){
+        this.world = world;
+    }
+
 
     @Given("^a new gamified application and its credentials$")
     public void aNewGamifiedApplication() throws Throwable {
@@ -46,13 +56,10 @@ public class Authentication {
     @When("^I POST the credentials to the /auth endpoint$")
     public void iPOSTTheCredentialsToTheAuthEndpoint() throws Throwable {
       try{
-            /*ApiResponse response = api.loginApplicationWithHttpInfo(credentials);
-            token = new Token();
-            token.setToken(response.getData().toString());*/
 
-          ApiResponse<Token> response = api.loginApplicationWithHttpInfo(credentials);
-          token = response.getData();
-            statusCode = response.getStatusCode();
+          ApiResponse<Token> response = api.loginApplicationWithHttpInfo(world.getCredentials());
+          world.setToken(response.getData());
+          world.setStatusCode(response.getStatusCode());
 
         }catch(ApiException e){
             statusCode = e.getCode();
@@ -62,22 +69,24 @@ public class Authentication {
     }
 
 
-    @And("^I POST the same credentials again to the /auth endpoint$")
-    public void iPOSTTheSameCredentialsAgainToTheAuthEndpoint() throws Throwable {
+    @Given("^I have an pointscale payload$")
+    public void iHaveAnPointscalePayload() throws Throwable {
+        pointScale = new PointScale();
+        pointScale.setName("Assiduité");
+    }
+
+    @When("^I POST a pointscale for that application to the /pointScales endpoint with the recieved token$")
+    public void iPOSTAPointscaleForThatApplicationToThePointScalesEndpointWithTheRecievedToken() throws Throwable {
+
+
+
         try{
-            ApiResponse response = api.loginApplicationWithHttpInfo(credentials);
-            tokenBis = new Token();
-            tokenBis.setToken(response.getData().toString());
-            statusCode = response.getStatusCode();
+            ApiResponse response = api.addPointScaleWithHttpInfo(pointScale,world.getToken().getToken());
+            world.setStatusCode(response.getStatusCode());
 
         }catch(ApiException e){
-            statusCode = e.getCode();
+            world.setStatusCode(e.getCode());
 
         }
-    }
-
-    @Then("^I recieve the same token twice$")
-    public void iRecieveTheSameTokenTwice() throws Throwable {
-        assertEquals(token,tokenBis);
     }
 }

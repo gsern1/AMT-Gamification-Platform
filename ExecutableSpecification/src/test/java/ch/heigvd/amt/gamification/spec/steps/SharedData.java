@@ -3,6 +3,7 @@ package ch.heigvd.amt.gamification.spec.steps;
 import ch.heigvd.amt.gamification.ExtendedAPI;
 import ch.heigvd.gamification.ApiResponse;
 import ch.heigvd.gamification.api.dto.Application;
+import ch.heigvd.gamification.api.dto.Credentials;
 import ch.heigvd.gamification.api.dto.Token;
 
 /**
@@ -14,6 +15,7 @@ public class SharedData {
     private Application application;
     private ExtendedAPI api;
     private Token token;
+    private Credentials credentials;
     private ApiResponse response;
     private long badgeNbr;
 
@@ -75,5 +77,13 @@ public class SharedData {
 
     public void setBadgeNbr(long badgeNbr) {
         this.badgeNbr = badgeNbr;
+    }
+
+    public Credentials getCredentials() {
+        return credentials;
+    }
+
+    public void setCredentials(Credentials credentials) {
+        this.credentials = credentials;
     }
 }

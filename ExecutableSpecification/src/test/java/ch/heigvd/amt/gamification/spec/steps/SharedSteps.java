@@ -5,6 +5,8 @@ import ch.heigvd.gamification.ApiResponse;
 import ch.heigvd.gamification.api.DefaultApi;
 import ch.heigvd.gamification.api.dto.Application;
 import ch.heigvd.gamification.api.dto.Badge;
+import ch.heigvd.gamification.api.dto.Credentials;
+import ch.heigvd.gamification.api.dto.Token;
 import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
@@ -19,6 +21,10 @@ import static org.junit.Assert.assertEquals;
 public class SharedSteps {
 
     private SharedData world;
+    private Token token;
+
+    private final DefaultApi api = new DefaultApi();
+
 
     public SharedSteps(SharedData world){
         this.world = world;
@@ -66,6 +72,32 @@ public class SharedSteps {
         catch (ApiException e){
             world.setStatusCode(e.getCode());
         }
+    }
+
+    @Given("^a token for a new gamified application and its credentials$")
+    public void aTokenForANewGamifiedApplicationAndItsCredentials() throws Throwable {
+       world.setApplication(new Application());
+
+        String randomAppName = "random-app-1-" + System.currentTimeMillis();
+        world.getApplication().setName(randomAppName);
+
+        String password = "56789";
+        world.getApplication().setPassword(password);
+
+        Credentials credentials =new Credentials();
+        credentials.setName(randomAppName);
+        credentials.setPassword(password);
+        world.setCredentials(credentials);
+
+
+        api.addApplicationWithHttpInfo(world.getApplication());
+
+        ApiResponse<Token> response = api.loginApplicationWithHttpInfo(world.getCredentials());
+        token = response.getData();
+        assertEquals(200,response.getStatusCode());
+
+        world.setToken(token);
+
     }
 }
 
