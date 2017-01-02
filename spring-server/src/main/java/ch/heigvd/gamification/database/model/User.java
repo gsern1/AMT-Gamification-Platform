@@ -13,7 +13,7 @@ public class User {
     private long id;
 
     @Column(unique=true)
-    private String name;
+    private String username;
 
     @ManyToOne
     private Application application;
@@ -26,12 +26,12 @@ public class User {
     }
 
     public User(String name, Application application) {
-        this.name = name;
+        this.username = name;
         this.application = application;
     }
 
     public User(String name, Application application, Set<Badge> badges) {
-        this.name = name;
+        this.username = name;
         this.application = application;
         this.badges = badges;
     }
@@ -44,12 +44,12 @@ public class User {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public Application getApplication() {

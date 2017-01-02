@@ -13,7 +13,7 @@ import java.util.List;
  */
 public interface UserPointScaleRepository extends CrudRepository<UserPointScale, Integer> {
     List<UserPointScale> findByUser(User user);
-    @Query(value = "select p.name as pointscale_name, sum(up.points) as points from user_pointscale up " +
+    @Query(value = "select p.id as pointscale_id, p.name as pointscale_name, sum(up.points) as points from user_pointscale up " +
             "inner join point_scale p " +
             "on p.id = up.pointscale_id " +
             "where p.id = ?1 " +

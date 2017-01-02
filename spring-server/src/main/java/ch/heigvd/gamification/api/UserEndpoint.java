@@ -1,27 +1,20 @@
 package ch.heigvd.gamification.api;
 
-import ch.heigvd.gamification.api.dto.Badge;
-import ch.heigvd.gamification.api.dto.PointScale;
-import ch.heigvd.gamification.api.dto.User;
-import ch.heigvd.gamification.api.dto.UserPointScale;
+import ch.heigvd.gamification.api.dto.*;
 import ch.heigvd.gamification.database.dao.ApplicationRepository;
-import ch.heigvd.gamification.database.dao.BadgeRepository;
 import ch.heigvd.gamification.database.dao.UserPointScaleRepository;
 import ch.heigvd.gamification.database.dao.UserRepository;
 import ch.heigvd.gamification.database.model.Application;
 import ch.heigvd.gamification.utils.JWTutils;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,8 +37,8 @@ public class UserEndpoint implements UsersApi {
     // TODO : Utiliser les validators pour valider les données genre login
 
     @Override
-    public ResponseEntity<List<Badge>> findUserBadges(@ApiParam(value = "ID of user", required = true) @PathVariable("userId") Long userId, @ApiParam(value = "token to be passed as a header", required = true) @RequestHeader(value = "token", required = true) String token) {
-        List<Badge> badges = new ArrayList<>();
+    public ResponseEntity<List<BadgeWithLocation>> findUserBadges(@ApiParam(value = "ID of user", required = true) @PathVariable("userId") Long userId, @ApiParam(value = "token to be passed as a header", required = true) @RequestHeader(value = "token", required = true) String token) {
+        List<BadgeWithLocation> badges = new ArrayList<>();
         String name = JWTutils.getAppNameInToken(token);
         if(name == null)
             return new ResponseEntity<>(new ArrayList<>(), HttpStatus.BAD_REQUEST);
@@ -54,8 +47,9 @@ public class UserEndpoint implements UsersApi {
         ch.heigvd.gamification.database.model.User user = userRepository.findByIdAndApplication(userId, application);
 
         for(ch.heigvd.gamification.database.model.Badge badge : user.getBadges()){
-            Badge badgeDto = new Badge();
+            BadgeWithLocation badgeDto = new BadgeWithLocation();
             badgeDto.setName(badge.getName());
+            badgeDto.setLocation("/badges/" + badge.getId());
             badges.add(badgeDto);
         }
         return ResponseEntity.ok(badges);
@@ -73,8 +67,9 @@ public class UserEndpoint implements UsersApi {
         List<UserPointScale> userPointScalesDto = new ArrayList<>();
         for(Object[] userPointScale : userPointScales){
             UserPointScale userPointScaleDto = new UserPointScale();
-            userPointScaleDto.setName((String)userPointScale[0]);
-            userPointScaleDto.setPoints(((BigDecimal)userPointScale[1]).longValue());
+            userPointScaleDto.setName((String)userPointScale[1]);
+            userPointScaleDto.setPoints(((BigDecimal)userPointScale[2]).longValue());
+            userPointScaleDto.setLocation("/pointScales/" + ((BigDecimal)userPointScale[0]).longValue());
             userPointScalesDto.add(userPointScaleDto);
         }
         return ResponseEntity.ok(userPointScalesDto);
@@ -89,7 +84,7 @@ public class UserEndpoint implements UsersApi {
         Application application = applicationRepository.findByName(name);
         for(ch.heigvd.gamification.database.model.User user : userRepository.findByApplication(application)){
             User userDto = new User();
-            userDto.setName(user.getName());
+            userDto.setUsername(user.getUsername());
             userDto.setId(user.getId());
             users.add(userDto);
         }

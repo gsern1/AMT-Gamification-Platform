@@ -13,5 +13,5 @@ import java.util.List;
 public interface UserRepository extends CrudRepository<User, Long> {
     List<User> findByApplication(Application application);
     User findByIdAndApplication(long id, Application application);
-    User findByName(String name);
+    User findByUsername(String username);
 }
