@@ -21,6 +21,8 @@ public class EventProcessor {
     @Async
     @Transactional
     public void processEvent(User user, PointScale pointScale, long points) {
+
+        // TODO : Mettre la logique des events ici
         UserPointScale userPointScale = new UserPointScale(user, pointScale, points);
         userPointScaleRepository.save(userPointScale);
     }
