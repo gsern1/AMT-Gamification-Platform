@@ -47,9 +47,9 @@ public class AuthenticationSteps {
         String password = "56789";
         application.setPassword(password);
 
-        credentials = new Credentials();
-        credentials.setName(randomAppName);
-        credentials.setPassword(password);
+        world.setCredentials(new Credentials());
+        world.getCredentials().setName(randomAppName);
+        world.getCredentials().setPassword(password);
 
     }
 
@@ -62,7 +62,7 @@ public class AuthenticationSteps {
           world.setStatusCode(response.getStatusCode());
 
         }catch(ApiException e){
-            statusCode = e.getCode();
+            world.setStatusCode(e.getCode());
 
         }
 
@@ -79,7 +79,6 @@ public class AuthenticationSteps {
     public void iPOSTAPointscaleForThatApplicationToThePointScalesEndpointWithTheRecievedToken() throws Throwable {
 
 
-
         try{
             ApiResponse response = api.addPointScaleWithHttpInfo(pointScale,world.getToken().getToken());
             world.setStatusCode(response.getStatusCode());
@@ -89,4 +88,25 @@ public class AuthenticationSteps {
 
         }
     }
+
+    @Given("^some credentials with a wrong application name$")
+    public void some_credentials_with_a_wrong_application_name() throws Throwable {
+        world.getCredentials().setName("wrong-app-name");
+    }
+
+    @Given("^some credentials with an empty application name$")
+    public void some_credentials_with_an_empty_application_name() throws Throwable {
+        world.getCredentials().setName("");
+    }
+
+    @Given("^some credentials with a wrong password$")
+    public void some_credentials_with_a_wrong_password() throws Throwable {
+        world.getCredentials().setPassword("wrong-password");
+    }
+
+    @Given("^some credentials with an empty password$")
+    public void some_credentials_with_an_empty_password() throws Throwable {
+        world.getCredentials().setPassword("");
+    }
+
 }

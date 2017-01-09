@@ -405,13 +405,14 @@ paths:
             $ref: '#/definitions/credentials'
       responses:
         '200':
-          description: application response
+          description: succesful authentication
           schema:
             $ref: '#/definitions/token'
-        default:
-          description: unexpected error
-          schema:
-            $ref: '#/definitions/errorModel'
+        '400':
+          description: the application was not found
+        '401':
+          description: invalid password
+
   /users:
     get:
       summary: Returns every users

@@ -25,16 +25,17 @@ public class AuthEndpoint implements AuthApi{
     @Override
     public ResponseEntity<Token> loginApplication(@ApiParam(value = "application object to add to the store", required = true) @RequestBody Credentials credentials) {
 
-        ch.heigvd.gamification.database.model.Application application = applicationRepository.findByName(credentials.getName());
-
-        if(application == null)
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-
-        if(credentials == null || credentials.getName() == null || credentials.getPassword() == null){
+        if(credentials == null || credentials.getName() == null){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        if(!application.getPassword().equals(credentials.getPassword()))
+        ch.heigvd.gamification.database.model.Application application = applicationRepository.findByName(credentials.getName());
+
+        if(application == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        if(!application.getPassword().equals(credentials.getPassword()) || credentials.getPassword() == null)
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
         Token token = new Token();

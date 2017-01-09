@@ -64,18 +64,16 @@ paths:
       responses:
         '201':
           description: badge response
-          headers: {
-            location: {
+          headers:
+            location:
                 description: location of the newly created badge,
                 type: string
-              }
-          }
         default:
           description: unexpected error
           schema:
             $ref: '#/definitions/errorModel'
-  
-  /badges/{badgeId}:   
+
+  /badges/{badgeId}:
     get:
       summary: Returns a single badge
       description: |
@@ -214,13 +212,17 @@ paths:
       responses:
         '201':
           description: pointScale response
+          headers:
+            location:
+              description: Location of the pointScale
+              type: string
         default:
           description: unexpected error
           schema:
             $ref: '#/definitions/errorModel'
-  
-   
-  /pointScales/{pointScaleId}: 
+
+
+  /pointScales/{pointScaleId}:
     get:
       summary: Returns a single pointScale
       description: |
@@ -403,13 +405,14 @@ paths:
             $ref: '#/definitions/credentials'
       responses:
         '200':
-          description: application response
+          description: succesful authentication
           schema:
             $ref: '#/definitions/token'
-        default:
-          description: unexpected error
-          schema:
-            $ref: '#/definitions/errorModel'
+        '400':
+          description: the application was not found
+        '401':
+          description: invalid password
+
   /users:
     get:
       summary: Returns every users
@@ -486,7 +489,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/badge'
+              $ref: '#/definitions/badgeWithLocation'
         default:
           description: unexpected error
           schema:
@@ -522,8 +525,305 @@ paths:
           description: unexpected error
           schema:
             $ref: '#/definitions/errorModel'
-  
-      
+  /badgeRules:
+    get:
+      summary: Returns every badge rules
+      description: |
+        Returns every badge rules
+      operationId: findBadgeRules
+      produces:
+        - application/json
+      parameters:
+        - name: token
+          in: header
+          description: token to be passed as a header
+          required: true
+          type: string
+      responses:
+        '200':
+          description: badgeRules response
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/badgeRuleWithLocation'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/errorModel'
+    post:
+      summary: Creates a new badgeRule
+      description: |
+        Creates a new badgeRule
+      operationId: addBadgeRule
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: badgeRule
+          in: body
+          description: badgeRule object to add to the store
+          required: true
+          schema:
+            $ref: '#/definitions/badgeRule'
+        - name: token
+          in: header
+          description: token to be passed as a header
+          required: true
+          type: string
+      responses:
+        '201':
+          description: badgeRule response
+          headers:
+            location:
+              description: Location of the badgeRule
+              type: string
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/errorModel'
+
+
+  /badgeRules/{badgeRuleId}:
+    get:
+      summary: Returns a single badgeRule
+      description: |
+        Returns a single badgeRule
+      operationId: findBadgeRule
+      produces:
+        - application/json
+      parameters:
+        - name: badgeRuleId
+          in: path
+          description: ID of badgeRule to fetch
+          required: true
+          type: integer
+          format: int64
+        - name: token
+          in: header
+          description: token to be passed as a header
+          required: true
+          type: string
+      responses:
+        '200':
+          description: badgeRule response
+          schema:
+            $ref: '#/definitions/badgeRule'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/errorModel'
+    put:
+      summary: Update an existing badgeRule
+      description: |
+        Update an existing badgeRule
+      operationId: UpdateBadgeRule
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: badgeRule
+          in: body
+          description: badgeRule object to add to the store
+          required: true
+          schema:
+            $ref: '#/definitions/badgeRule'
+        - name: badgeRuleId
+          in: path
+          description: Id of the badgeRule that needs to be updated
+          required: true
+          type: integer
+          format: int64
+        - name: token
+          in: header
+          description: token to be passed as a header
+          required: true
+          type: string
+      responses:
+        '200':
+          description: badgeRule response
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/errorModel'
+    delete:
+      summary: Delete an existing badgeRule
+      description: |
+        Delete an existing badgeRule
+      operationId: DeleteBadgeRule
+      produces:
+        - application/json
+      parameters:
+        - name: badgeRuleId
+          in: path
+          description: Id of the badgeRule that needs to be deleted
+          required: true
+          type: integer
+          format: int64
+        - name: token
+          in: header
+          description: token to be passed as a header
+          required: true
+          type: string
+      responses:
+        '204':
+          description: badgeRule deleted successfully
+        '404':
+          description: badgeRule not found
+        '400':
+          description: Invalid Id supplied
+
+  /pointScaleRules:
+    get:
+      summary: Returns every pointScale rules
+      description: |
+        Returns every pointScale rules
+      operationId: findPointScaleRules
+      produces:
+        - application/json
+      parameters:
+        - name: token
+          in: header
+          description: token to be passed as a header
+          required: true
+          type: string
+      responses:
+        '200':
+          description: pointScaleRules response
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/pointScaleRuleWithLocation'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/errorModel'
+    post:
+      summary: Creates a new pointScaleRule
+      description: |
+        Creates a new pointScaleRule
+      operationId: addPointScaleRule
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: pointScaleRule
+          in: body
+          description: pointScaleRule object to add to the store
+          required: true
+          schema:
+            $ref: '#/definitions/pointScaleRule'
+        - name: token
+          in: header
+          description: token to be passed as a header
+          required: true
+          type: string
+      responses:
+        '201':
+          description: pointScaleRule response
+          headers:
+            location:
+              description: Location of the pointScaleRule
+              type: string
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/errorModel'
+
+
+  /pointScaleRules/{pointScaleRuleId}:
+    get:
+      summary: Returns a single pointScaleRule
+      description: |
+        Returns a single pointScaleRule
+      operationId: findPointScaleRule
+      produces:
+        - application/json
+      parameters:
+        - name: pointScaleRuleId
+          in: path
+          description: ID of pointScaleRule to fetch
+          required: true
+          type: integer
+          format: int64
+        - name: token
+          in: header
+          description: token to be passed as a header
+          required: true
+          type: string
+      responses:
+        '200':
+          description: pointScaleRule response
+          schema:
+            $ref: '#/definitions/pointScaleRule'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/errorModel'
+    put:
+      summary: Update an existing pointScaleRule
+      description: |
+        Update an existing pointScaleRule
+      operationId: UpdatePointScaleRule
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: pointScaleRule
+          in: body
+          description: pointScaleRule object to add to the store
+          required: true
+          schema:
+            $ref: '#/definitions/pointScaleRule'
+        - name: pointScaleRuleId
+          in: path
+          description: Id of the pointScaleRule that needs to be updated
+          required: true
+          type: integer
+          format: int64
+        - name: token
+          in: header
+          description: token to be passed as a header
+          required: true
+          type: string
+      responses:
+        '200':
+          description: pointScaleRule response
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/errorModel'
+    delete:
+      summary: Delete an existing pointScaleRule
+      description: |
+        Delete an existing pointScaleRule
+      operationId: DeletePointScaleRule
+      produces:
+        - application/json
+      parameters:
+        - name: pointScaleRuleId
+          in: path
+          description: Id of the pointScaleRule that needs to be deleted
+          required: true
+          type: integer
+          format: int64
+        - name: token
+          in: header
+          description: token to be passed as a header
+          required: true
+          type: string
+      responses:
+        '204':
+          description: pointScaleRule deleted successfully
+        '404':
+          description: pointScaleRule not found
+        '400':
+          description: Invalid Id supplied
+
+
 definitions:
   badge:
     type: object
@@ -533,7 +833,17 @@ definitions:
       name:
         type: string
 
-        
+  badgeWithLocation:
+    type: object
+    required:
+      - name
+      - location
+    properties:
+      name:
+        type: string
+      location:
+        type: string
+
   pointScale:
     type: object
     required:
@@ -541,18 +851,6 @@ definitions:
     properties:
       name:
         type: string
-
-  badgeWithLocation:
-      type: object
-      required:
-        - name
-        - location
-      properties:
-        name:
-          type: string
-        location:
-          type: string
-
 
   pointScaleWithLocation:
     type: object
@@ -570,40 +868,116 @@ definitions:
       required:
         - name
         - points
+        - location
       properties:
         name:
           type: string
         points:
           type: integer
           format: int64
-        
+        location:
+          type: string
+
   user:
     type: object
     required:
       - id
-      - name
+      - username
     properties:
       id:
         type: integer
         format: int64
-      name:
+      username:
         type: string
-    
+
   event:
     type: object
     required:
+      - type
       - username
-      - pointScale
-      - increase
     properties:
       username:
         type: string
-      pointScale:
-        type: integer
-        format: int64
-      increase:
-        type: integer
-        format: int64
+      type:
+        type: string
+
+  badgeRule:
+      type: object
+      required:
+        - type
+        - badge
+        - pointScale
+        - threshold
+      properties:
+        type:
+          type: string
+        badge:
+          type: integer
+          format: int64
+        pointScale:
+          type: integer
+          format: int64
+        threshold:
+          type: integer
+          format: int64
+
+  badgeRuleWithLocation:
+      type: object
+      required:
+        - type
+        - badge
+        - pointScale
+        - threshold
+        - location
+      properties:
+        type:
+          type: string
+        badge:
+          type: integer
+          format: int64
+        pointScale:
+          type: integer
+          format: int64
+        threshold:
+          type: integer
+          format: int64
+        location:
+          type: string
+
+  pointScaleRule:
+      type: object
+      required:
+        - type
+        - pointScale
+        - increment
+      properties:
+        type:
+          type: string
+        pointScale:
+          type: integer
+          format: int64
+        increment:
+          type: integer
+          format: int64
+
+  pointScaleRuleWithLocation:
+      type: object
+      required:
+        - location
+        - type
+        - pointScale
+        - increment
+      properties:
+        location:
+          type: string
+        type:
+          type: string
+        pointScale:
+          type: integer
+          format: int64
+        increment:
+          type: integer
+          format: int64
 
   application:
     type: object
