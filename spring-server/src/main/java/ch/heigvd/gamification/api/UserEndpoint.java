@@ -40,9 +40,15 @@ public class UserEndpoint implements UsersApi {
     public ResponseEntity<List<BadgeWithLocation>> findUserBadges(@ApiParam(value = "ID of user", required = true) @PathVariable("userId") Long userId, @ApiParam(value = "token to be passed as a header", required = true) @RequestHeader(value = "token", required = true) String token) {
         List<BadgeWithLocation> badges = new ArrayList<>();
         String name = JWTutils.getAppNameInToken(token);
-        if(name == null)
-            return new ResponseEntity<>(new ArrayList<>(), HttpStatus.BAD_REQUEST);
+        if(name == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
         Application application = applicationRepository.findByName(name);
+
+        if(application == null){
+            return  new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
 
         ch.heigvd.gamification.database.model.User user = userRepository.findByIdAndApplication(userId, application);
 
@@ -59,9 +65,15 @@ public class UserEndpoint implements UsersApi {
     public ResponseEntity<List<UserPointScale>> findUserPointScales(@ApiParam(value = "ID of user", required = true) @PathVariable("userId") Long userId, @ApiParam(value = "token to be passed as a header", required = true) @RequestHeader(value = "token", required = true) String token) {
         List<PointScale> pointscales = new ArrayList<>();
         String name = JWTutils.getAppNameInToken(token);
-        if(name == null)
-            return new ResponseEntity<>(new ArrayList<>(), HttpStatus.BAD_REQUEST);
+        if(name == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
         Application application = applicationRepository.findByName(name);
+
+        if(application == null){
+            return  new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
 
         List<Object[]> userPointScales = userPointScaleRepository.findSumPointScalePerUser(userId);
         List<UserPointScale> userPointScalesDto = new ArrayList<>();
@@ -79,9 +91,15 @@ public class UserEndpoint implements UsersApi {
     public ResponseEntity<List<User>> findUsers(@ApiParam(value = "token to be passed as a header", required = true) @RequestHeader(value = "token", required = true) String token) {
         List<User> users = new ArrayList<>();
         String name = JWTutils.getAppNameInToken(token);
-        if(name == null)
-            return new ResponseEntity<>(new ArrayList<>(), HttpStatus.BAD_REQUEST);
+        if(name == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
         Application application = applicationRepository.findByName(name);
+
+        if(application == null){
+            return  new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
         for(ch.heigvd.gamification.database.model.User user : userRepository.findByApplication(application)){
             User userDto = new User();
             userDto.setUsername(user.getUsername());

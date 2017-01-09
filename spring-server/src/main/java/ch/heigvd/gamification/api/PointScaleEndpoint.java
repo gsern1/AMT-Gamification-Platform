@@ -38,9 +38,16 @@ public class PointScaleEndpoint implements PointScalesApi {
     @Override
     public ResponseEntity<Void> addPointScale(@ApiParam(value = "pointScale object to add to the store", required = true) @RequestBody PointScale pointScale, @ApiParam(value = "token to be passed as a header", required = true) @RequestHeader(value = "token", required = true) String token) {
         String name = JWTutils.getAppNameInToken(token);
-        if(name == null)
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        if(name == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
         Application application = applicationRepository.findByName(name);
+
+        if(application == null){
+            return  new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
 
         ch.heigvd.gamification.database.model.PointScale newPointScale = new ch.heigvd.gamification.database.model.PointScale();
         newPointScale.setName(pointScale.getName());
@@ -60,14 +67,28 @@ public class PointScaleEndpoint implements PointScalesApi {
     @Override
     public ResponseEntity<Void> deletePointScale(@ApiParam(value = "Id of the pointScale that needs to be deleted", required = true) @PathVariable("pointScaleId") Long pointScaleId, @ApiParam(value = "token to be passed as a header", required = true) @RequestHeader(value = "token", required = true) String token) {
         String name = JWTutils.getAppNameInToken(token);
-        if(name == null)
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+
+        if(name == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
         Application application = applicationRepository.findByName(name);
+
+        if(application == null){
+            return  new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
         try {
-            pointScaleRepository.delete(pointScaleRepository.findByIdAndApplication(pointScaleId, application));
+            ch.heigvd.gamification.database.model.PointScale pointScale = pointScaleRepository.findByIdAndApplication(pointScaleId, application);
+
+            if(pointScale == null){
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+
+            pointScaleRepository.delete(pointScale);
         } catch(IllegalArgumentException e){
             System.out.println(e.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
         }
         return ResponseEntity.status(HttpStatus.OK).build();
     }
@@ -75,10 +96,22 @@ public class PointScaleEndpoint implements PointScalesApi {
     @Override
     public ResponseEntity<PointScale> findPointScale(@ApiParam(value = "ID of pointScale to fetch", required = true) @PathVariable("pointScaleId") Long pointScaleId, @ApiParam(value = "token to be passed as a header", required = true) @RequestHeader(value = "token", required = true) String token) {
         String name = JWTutils.getAppNameInToken(token);
-        if(name == null)
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        if(name == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
         Application application = applicationRepository.findByName(name);
+
+        if(application == null){
+            return  new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
         ch.heigvd.gamification.database.model.PointScale pointScale = pointScaleRepository.findByIdAndApplication(pointScaleId, application);
+        if(pointScale == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
         PointScale pointScaleDto = new PointScale();
         pointScaleDto.setName(pointScale.getName());
         return new ResponseEntity<>(pointScaleDto, HttpStatus.OK);
@@ -88,9 +121,17 @@ public class PointScaleEndpoint implements PointScalesApi {
     public ResponseEntity<List<PointScaleWithLocation>> findPointScales(@ApiParam(value = "token to be passed as a header", required = true) @RequestHeader(value = "token", required = true) String token) {
         List<PointScaleWithLocation> pointScales = new ArrayList<>();
         String name = JWTutils.getAppNameInToken(token);
-        if(name == null)
-            return new ResponseEntity<>(new ArrayList<>(), HttpStatus.BAD_REQUEST);
+
+        if(name == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
         Application application = applicationRepository.findByName(name);
+
+        if(application == null){
+            return  new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
         for(ch.heigvd.gamification.database.model.PointScale pointScale : pointScaleRepository.findByApplication(application)){
             PointScaleWithLocation pointScaleDto = new PointScaleWithLocation();
             pointScaleDto.setName(pointScale.getName());
@@ -103,10 +144,23 @@ public class PointScaleEndpoint implements PointScalesApi {
     @Override
     public ResponseEntity<Void> updatePointScale(@ApiParam(value = "pointScale object to add to the store", required = true) @RequestBody PointScale pointScale, @ApiParam(value = "Id of the pointScale that needs to be updated", required = true) @PathVariable("pointScaleId") Long pointScaleId, @ApiParam(value = "token to be passed as a header", required = true) @RequestHeader(value = "token", required = true) String token) {
         String name = JWTutils.getAppNameInToken(token);
-        if(name == null)
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        if(name == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
         Application application = applicationRepository.findByName(name);
+
+        if(application == null){
+            return  new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
         ch.heigvd.gamification.database.model.PointScale updatePointScale = pointScaleRepository.findByIdAndApplication(pointScaleId, application);
+
+        if(updatePointScale == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
         updatePointScale.setName(pointScale.getName());
         pointScaleRepository.save(updatePointScale);
         return new ResponseEntity<>(HttpStatus.OK);

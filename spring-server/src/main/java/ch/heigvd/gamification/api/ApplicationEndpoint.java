@@ -42,21 +42,25 @@ public class ApplicationEndpoint implements ApplicationApi {
         } catch (DataIntegrityViolationException e){
             System.out.println(e.getMessage());
             System.out.println(e.getClass());
-            return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
     }
 
     @Override
     public ResponseEntity<Void> deleteApplication(@ApiParam(value = "token to be passed as a header", required = true) @RequestHeader(value = "token", required = true) String token) {
         String name = JWTutils.getAppNameInToken(token);
-        if(name == null)
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        try {
-            applicationRepository.delete(applicationRepository.findByName(name));
-        } catch(IllegalArgumentException e){
-            System.out.println(e.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        if(name == null) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
+
+        ch.heigvd.gamification.database.model.Application application = applicationRepository.findByName(name);
+
+        if(application == null){
+            return  new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        applicationRepository.delete(application);
+
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
