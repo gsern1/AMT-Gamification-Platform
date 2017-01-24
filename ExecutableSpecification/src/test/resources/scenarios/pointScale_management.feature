@@ -4,9 +4,9 @@ Feature: pointScale registration
     Given a token for a new gamified application and its credentials
 
 
-  Scenario: Submit a pointscale using the recieved token
-    Given I have an pointscale payload
-    When I POST a pointscale for that application to the /pointScales endpoint with the recieved token
+  Scenario: Submit a pointSccale using the recieved token
+    Given I have a pointScale payload
+    When I POST it to the /pointScales endpoint
     Then I receive a 201 status code
 
 
