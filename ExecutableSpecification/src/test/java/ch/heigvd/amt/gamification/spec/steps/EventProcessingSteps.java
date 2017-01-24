@@ -51,7 +51,7 @@ public class EventProcessingSteps {
         for(int i = 0; i < number ;++i){
             Event userEvent = new Event();
             userEvent.setUsername(users[i].getUsername());
-            userEvent.setType(SharedData.BADGES_RULE_NAME1);
+            userEvent.setType(world.getBadgeRuleName());
             responses = new ApiResponse[number];
             responses[i] = api.addEventWithHttpInfo(userEvent, world.getToken().getToken());
         }
@@ -71,7 +71,7 @@ public class EventProcessingSteps {
             new Thread(() -> {
                 Event userEvent = new Event();
                 userEvent.setUsername(users[ii].getUsername());
-                userEvent.setType(SharedData.BADGES_RULE_NAME1);
+                userEvent.setType(world.getBadgeRuleName());
                 responses = new ApiResponse[number];
                 try {
                     responses[ii] = api.addEventWithHttpInfo(userEvent, world.getToken().getToken());

@@ -44,7 +44,9 @@ public class BadgeRuleManagementSteps {
     @Given("^a badgeRule payload concerning the previously posted badge and pointScale$")
     public void a_badgeRule_payload_concerning_the_previously_posted_badge_and_pointScale() throws Throwable {
         badgeRule = new BadgeRule();
-        badgeRule.setType(SharedData.BADGES_RULE_NAME1);
+        String ruleName = SharedData.BADGES_RULE_NAME1+System.currentTimeMillis();
+        badgeRule.setType(ruleName);
+        world.setBadgeRuleName(ruleName);
         badgeRule.setBadge(world.getBadgeNbr());
         badgeRule.setPointScale(world.getPointScaleNbr());
         badgeRule.setThreshold(1l);

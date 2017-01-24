@@ -16,6 +16,9 @@ public class SharedData {
     public static final String POINTSCALE_RULE_NAME1 = "abc";
     public static final String BADGES_RULE_NAME1 = "Te";
 
+    private String pointScaleRuleName;
+    private String badgeRuleName;
+
     private int statusCode;
     private int applicationCounter = 0;
     private Application application;
@@ -131,5 +134,21 @@ public class SharedData {
 
     public void setPointScaleRuleNbr(long pointScaleRuleNbr) {
         this.pointScaleRuleNbr = pointScaleRuleNbr;
+    }
+
+    public String getBadgeRuleName() {
+        return badgeRuleName;
+    }
+
+    public void setBadgeRuleName(String badgeRuleName) {
+        this.badgeRuleName = badgeRuleName;
+    }
+
+    public String getPointScaleRuleName() {
+        return pointScaleRuleName;
+    }
+
+    public void setPointScaleRuleName(String pointScaleRuleName) {
+        this.pointScaleRuleName = pointScaleRuleName;
     }
 }
