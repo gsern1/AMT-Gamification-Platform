@@ -33,22 +33,33 @@
 
 <body role="document">
 
-	<div class="container theme-showcase" role="main">
-		<h1 class="text-center" style="color: red; text-decoration: underline;">
-			CAT CLICKER<br/>
-		</h1>
-		<div class="text-center"><p>Enter your username :</p><input id="username"/></div>
+	<div class="container" role="main">
+		<div class="jumbotron text-center">
+			<h1 >
+				Cat Clicker
+			</h1>
+			<p>
+				Welcome on cat clicker. You can click on cats to obtains badges and pointscales
+			</p>
+		</div>
+		<div class="form-group form-inline text-center">
+		  <label for="username">Enter your username:</label>
+		  <input type="text" class="form-control" id="username">
+		</div>
 		<h1 class="text-center">
 			! CLICK ON SOME CATS !
 		</h1>
 		<p class="text-center">
-			<a id="cat1" href="#"><img src="image/cat1.jpg" width="200px" alt="Cat1"/></a>
-			<a id="cat2" href="#"><img src="image/cat2.jpg" width="200px" alt="Cat2"/></a><br/>
-			<span id="cat1cpt" style="margin-right: 100px; font-weight: bold;">0</span>
-			<span id="cat2cpt" style="margin-left: 100px; font-weight: bold;">0</span>
+			<img id="cat1" src="image/cat1.jpg" width="200px" alt="Cat1"/>
+			<img id="cat2" src="image/cat2.jpg" width="200px" alt="Cat2"/><br/>
+			<span id="cat1cpt">0</span>
+			<span id="cat2cpt">0</span>
 			<br/><br/>
 		</p>
 		<hr/>
+		<p class="text-center">
+			<button id="refresh" class="btn">Refresh</button>
+		</p>
 		<h2 class="text-center">
 			Leaderboard
 		</h2>
@@ -122,8 +133,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-	
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 	
     <!-- custom JavaScript for this app -->
     <script src="js/script.js"></script>

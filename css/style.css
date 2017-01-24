@@ -1,0 +1,41 @@
+.jumbotron.text-center > h1 {
+    color: red;
+}
+
+#username {
+}
+
+img:hover{
+	cursor: pointer;
+}
+
+#cat1cpt {
+    margin-right: 100px;
+    font-weight: bold;
+}
+
+#cat2cpt {
+    margin-left: 100px;
+    font-weight: bold;
+}
+
+#refresh {
+}
+
+.container {
+}
+
+.jumbotron {
+	width: 100%;
+}
+
+.container {
+	min-width: 100%;
+	padding: 0;
+}
+
+.text-center {
+}
+
+.table {
+}
