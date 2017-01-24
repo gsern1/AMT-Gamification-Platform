@@ -15,7 +15,6 @@ public class SpecificationTest {
 
     public SpecificationTest() {
     }
-
   /**
    * Test of main method, of class Specification.
    */
