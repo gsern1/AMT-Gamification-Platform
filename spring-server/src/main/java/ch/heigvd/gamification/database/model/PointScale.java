@@ -16,9 +16,6 @@ public class PointScale {
     @ManyToOne
     private Application application;
 
-    @ManyToOne
-    private PointScaleRule pointScaleRule;
-
     public PointScale() {
     }
 
