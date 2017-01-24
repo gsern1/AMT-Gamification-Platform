@@ -43,7 +43,7 @@ public class PointScaleRuleManagementSteps {
     @Given("^a pointScaleRule payload concerning the previously posted poinScale$")
     public void a_pointScaleRule_payload_concerning_the_previously_posted_poinScale() throws Throwable {
         pointScaleRule = new PointScaleRule();
-        pointScaleRule.setType("5 issues résolues ");
+        pointScaleRule.setType(SharedData.POINTSCALE_RULE_NAME1);
         pointScaleRule.setPointScale(world.getPointScaleNbr());
         pointScaleRule.setIncrement(5l);
     }

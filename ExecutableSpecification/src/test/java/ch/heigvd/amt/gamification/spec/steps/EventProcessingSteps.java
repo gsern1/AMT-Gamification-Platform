@@ -18,8 +18,7 @@ public class EventProcessingSteps {
 
     @Given("^a user U(\\d+) of the gamified application A(\\d+)$")
     public void a_user_U_of_the_gamified_application_A(int arg1, int arg2) throws Throwable {
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+        System.out.println("a");
     }
 
     @When("^the application A(\\d+) POSTs (\\d+) payload for events associated to user U(\\d+) on the /events endpoint$")

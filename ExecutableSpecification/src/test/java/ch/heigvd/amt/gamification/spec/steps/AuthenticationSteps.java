@@ -75,19 +75,6 @@ public class AuthenticationSteps {
         pointScale.setName("Assiduité");
     }
 
-    @When("^I POST a pointscale for that application to the /pointScales endpoint with the recieved token$")
-    public void iPOSTAPointscaleForThatApplicationToThePointScalesEndpointWithTheRecievedToken() throws Throwable {
-
-
-        try{
-            ApiResponse response = api.addPointScaleWithHttpInfo(pointScale,world.getToken().getToken());
-            world.setStatusCode(response.getStatusCode());
-
-        }catch(ApiException e){
-            world.setStatusCode(e.getCode());
-
-        }
-    }
 
     @Given("^some credentials with a wrong application name$")
     public void some_credentials_with_a_wrong_application_name() throws Throwable {
