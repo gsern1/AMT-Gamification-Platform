@@ -20,6 +20,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashSet;
+import java.util.TreeSet;
+
 /**
  * Created by lux on 30.11.16.
  */
@@ -57,7 +60,7 @@ public class EventEndpoint implements EventsApi {
         User user = userRepository.findByUsername(event.getUsername());
         if(user == null)
         {
-            user = new User(event.getUsername(), app);
+            user = new User(event.getUsername(), app, new HashSet<>());
             userRepository.save(user);
         }
 
