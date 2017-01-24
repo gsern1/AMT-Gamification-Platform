@@ -20,6 +20,9 @@ public class PointScale {
     @OneToMany
     private Set<PointScaleRule> pointScaleRule;
 
+    @Version
+    private Integer version;
+
     public PointScale() {
     }
 
@@ -58,5 +61,13 @@ public class PointScale {
 
     public void setPointScaleRule(Set<PointScaleRule> pointScaleRule) {
         this.pointScaleRule = pointScaleRule;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 }

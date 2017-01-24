@@ -21,6 +21,13 @@ Feature: badgeRule registration
     When I POST it to the /badgeRule endpoint
     Then I receive a 403 status code
 
+  Scenario: Submit a badgeRule with a null payload
+    Given a badgeRule payload with a null type
+    When I POST it to the /badgeRule endpoint
+    Then I receive a 422 status code
+
+
+
 
 
 

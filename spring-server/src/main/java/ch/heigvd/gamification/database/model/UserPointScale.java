@@ -23,6 +23,9 @@ public class UserPointScale {
 
     private long points;
 
+    @Version
+    private Integer version;
+
     public UserPointScale() {
     }
 
@@ -62,5 +65,13 @@ public class UserPointScale {
 
     public void setPoints(long points) {
         this.points = points;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 }

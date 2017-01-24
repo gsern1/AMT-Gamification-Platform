@@ -40,8 +40,8 @@ public class PointScaleRuleManagementSteps {
 
 
 
-    @Given("^a pointScaleRule payload concerning the previously posted poinScale$")
-    public void a_pointScaleRule_payload_concerning_the_previously_posted_poinScale() throws Throwable {
+    @Given("^a pointScaleRule payload concerning the previously posted pointScale$")
+    public void a_pointScaleRule_payload_concerning_the_previously_posted_pointScale() throws Throwable {
         pointScaleRule = new PointScaleRule();
         pointScaleRule.setType(SharedData.POINTSCALE_RULE_NAME1);
         pointScaleRule.setPointScale(world.getPointScaleNbr());
@@ -60,8 +60,6 @@ public class PointScaleRuleManagementSteps {
             world.setStatusCode(e.getCode());
         }
     }
-
-
 
 
 

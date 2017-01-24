@@ -64,6 +64,15 @@ public class BadgeRuleManagementSteps {
         }
     }
 
+    @Given("^a badgeRule payload with a null type$")
+    public void a_badgeRule_payload_with_a_null_type() throws Throwable {
+        badgeRule = new BadgeRule();
+        badgeRule.setType(null);
+        badgeRule.setBadge(world.getBadgeNbr());
+        badgeRule.setPointScale(world.getPointScaleNbr());
+        badgeRule.setThreshold(1l);
+    }
+
 
 
 

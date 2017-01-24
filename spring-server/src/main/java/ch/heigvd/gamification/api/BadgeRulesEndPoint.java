@@ -66,7 +66,7 @@ public class BadgeRulesEndPoint implements BadgeRulesApi {
 
         Badge badge = badgeRepository.findOne(badgeRule.getBadge());
 
-        if(badge == null){
+        if(badge == null || badgeRule.getType() == null){
             return  new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
         }
 

@@ -42,6 +42,12 @@ public class PointScaleManagementSteps {
         pointScale.setName("pointScale-" + System.currentTimeMillis());
     }
 
+    @Given("^I have a null pointScale payload$")
+    public void i_have_a_null_pointScale_payload() throws Throwable {
+        pointScale = new PointScale();
+        pointScale.setName(null);
+    }
+
     @When("^I POST it to the /pointScales endpoint$")
     public void i_POST_it_to_the_pointScales_endpoint() throws Throwable {
         try {

@@ -151,6 +151,8 @@ public class BadgeManagementSteps {
     @Given("^I have null badge payload$")
     public void iHaveNullBadgePayload() throws Throwable {
         badge = new Badge();
+        badge.setName(null);
+        world.setBadge(badge);
     }
 
     @And("^I GET on smth$")

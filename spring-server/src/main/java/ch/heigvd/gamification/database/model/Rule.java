@@ -22,6 +22,9 @@ public class Rule {
         this.type = type;
     }
 
+    @Version
+    private Integer version;
+
     public Rule() {
     }
 
@@ -47,5 +50,13 @@ public class Rule {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 }

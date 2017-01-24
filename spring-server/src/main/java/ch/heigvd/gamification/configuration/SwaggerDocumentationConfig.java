@@ -3,6 +3,7 @@ package ch.heigvd.gamification.configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
@@ -13,6 +14,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringCodegen", date = "2016-11-29T21:16:10.066Z")
 
 @Configuration
+@EnableTransactionManagement
 public class SwaggerDocumentationConfig {
 
     ApiInfo apiInfo() {

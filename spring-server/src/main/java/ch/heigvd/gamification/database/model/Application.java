@@ -16,6 +16,8 @@ public class Application {
     private String name;
     private String password;
 
+    @Version
+    private Integer version;
 
 
     public Application(){
@@ -49,5 +51,13 @@ public class Application {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 }
