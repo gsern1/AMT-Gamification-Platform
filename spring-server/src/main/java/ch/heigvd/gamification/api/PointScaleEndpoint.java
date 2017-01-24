@@ -49,6 +49,9 @@ public class PointScaleEndpoint implements PointScalesApi {
             return  new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
+        if(pointScale.getName() == null){
+            return  new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+        }
         ch.heigvd.gamification.database.model.PointScale newPointScale = new ch.heigvd.gamification.database.model.PointScale();
         newPointScale.setName(pointScale.getName());
         newPointScale.setApplication(application);
