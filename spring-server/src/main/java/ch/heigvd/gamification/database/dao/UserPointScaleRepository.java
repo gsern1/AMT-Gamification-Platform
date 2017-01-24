@@ -1,6 +1,5 @@
 package ch.heigvd.gamification.database.dao;
 
-import ch.heigvd.gamification.database.model.Application;
 import ch.heigvd.gamification.database.model.User;
 import ch.heigvd.gamification.database.model.UserPointScale;
 import org.springframework.data.jpa.repository.Query;

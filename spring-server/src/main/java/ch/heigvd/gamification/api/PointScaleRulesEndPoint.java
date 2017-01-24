@@ -2,7 +2,12 @@ package ch.heigvd.gamification.api;
 
 import ch.heigvd.gamification.api.dto.PointScaleRule;
 import ch.heigvd.gamification.api.dto.PointScaleRuleWithLocation;
+import ch.heigvd.gamification.database.dao.ApplicationRepository;
+import ch.heigvd.gamification.database.dao.PointScaleRuleRepository;
+import ch.heigvd.gamification.database.model.Application;
+import ch.heigvd.gamification.utils.JWTutils;
 import io.swagger.annotations.ApiParam;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -14,16 +19,30 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringCodegen", date = "2017-01-02T03:29:05.014+01:00")
-
 @RestController
 public class PointScaleRulesEndPoint implements PointScaleRulesApi {
+
+    @Autowired
+    private ApplicationRepository applicationRepository;
+
+    @Autowired
+    private PointScaleRuleRepository pointScaleRuleRepository;
 
     public ResponseEntity<Void> addPointScaleRule(
             @ApiParam(value = "pointScaleRule object to add to the store" ,required=true ) @RequestBody PointScaleRule pointScaleRule,
             @ApiParam(value = "token to be passed as a header" ,required=true ) @RequestHeader(value="token", required=true) String token
     ) {
-        // do some magic!
+        String name = JWTutils.getAppNameInToken(token);
+        if(name == null)
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+
+        Application app = applicationRepository.findByName(name);
+        if(null == app)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
+
+
+
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 

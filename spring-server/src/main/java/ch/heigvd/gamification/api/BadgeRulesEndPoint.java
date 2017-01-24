@@ -2,7 +2,11 @@ package ch.heigvd.gamification.api;
 
 import ch.heigvd.gamification.api.dto.BadgeRule;
 import ch.heigvd.gamification.api.dto.BadgeRuleWithLocation;
+import ch.heigvd.gamification.database.dao.ApplicationRepository;
+import ch.heigvd.gamification.database.model.Application;
+import ch.heigvd.gamification.utils.JWTutils;
 import io.swagger.annotations.ApiParam;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -13,17 +17,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringCodegen", date = "2017-01-02T03:29:05.014+01:00")
-
 @RestController
 public class BadgeRulesEndPoint implements BadgeRulesApi {
+
+    @Autowired
+    ApplicationRepository applicationRepository;
 
     public ResponseEntity<Void> addBadgeRule(
             @ApiParam(value = "badgeRule object to add to the store" ,required=true ) @RequestBody BadgeRule badgeRule,
             @ApiParam(value = "token to be passed as a header" ,required=true ) @RequestHeader(value="token", required=true) String token
     ) {
-        // do some magic!
+
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 

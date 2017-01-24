@@ -6,60 +6,28 @@ import javax.persistence.*;
  * Created by antoi on 11.12.2016.
  */
 @Entity
-public class PointScaleRule {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+public class PointScaleRule extends Rule{
 
-    private String type;
-
-    @ManyToOne
-    private Application application;
-
-    @ManyToOne
-    private Application pointscale;
+    @OneToMany
+    private PointScale pointscale;
 
     private long increment;
 
     public PointScaleRule() {
+        super();
     }
 
-    public PointScaleRule(String type, Application application, Application pointscale, long increment) {
-        this.type = type;
-        this.application = application;
+    public PointScaleRule(Application application, String type, PointScale pointscale, long increment) {
+        super(application, type);
         this.pointscale = pointscale;
         this.increment = increment;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public Application getApplication() {
-        return application;
-    }
-
-    public void setApplication(Application application) {
-        this.application = application;
-    }
-
-    public Application getPointscale() {
+    public PointScale getPointscale() {
         return pointscale;
     }
 
-    public void setPointscale(Application pointscale) {
+    public void setPointscale(PointScale pointscale) {
         this.pointscale = pointscale;
     }
 

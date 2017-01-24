@@ -3,28 +3,26 @@ package ch.heigvd.gamification.database.model;
 import javax.persistence.*;
 
 /**
- * Created by antoi on 11.12.2016.
+ * Created by lux on 24.01.17.
  */
 @Entity
-public class PointScale {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+public class Rule {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-
-    private String name;
 
     @ManyToOne
     private Application application;
 
-    @ManyToOne
-    private PointScaleRule pointScaleRule;
+    private String type;
 
-    public PointScale() {
+    public Rule(Application application, String type) {
+        this.application = application;
+        this.type = type;
     }
 
-    public PointScale(String name, Application application) {
-        this.name = name;
-        this.application = application;
+    public Rule() {
     }
 
     public long getId() {
@@ -35,19 +33,19 @@ public class PointScale {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public Application getApplication() {
         return application;
     }
 
     public void setApplication(Application application) {
         this.application = application;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

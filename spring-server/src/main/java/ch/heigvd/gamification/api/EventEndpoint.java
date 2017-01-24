@@ -44,27 +44,22 @@ public class EventEndpoint implements EventsApi {
 
         // TODO : Fix pour gérer avec les types les badge rules et les pointscales rules
 
-        /*
         String name = JWTutils.getAppNameInToken(token);
         if(name == null)
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 
         Application app = applicationRepository.findByName(name);
         if(null == app)
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 
-        PointScale pointScale = pointScaleRepository.findOne(event.getPointScale());
-        if(pointScale == null)
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-
-        User user = userRepository.findByName(event.getUsername());
+        User user = userRepository.findByUsername(event.getUsername());
         if(user == null)
         {
             user = new User(event.getUsername(), app);
             userRepository.save(user);
         }
 
-        eventProcessor.processEvent(user, pointScale, event.getIncrease());*/
+        eventProcessor.processEvent(user, event);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }
