@@ -3,6 +3,8 @@ package ch.heigvd.gamification.database.dao;
 import ch.heigvd.gamification.database.model.Application;
 import ch.heigvd.gamification.database.model.PointScale;
 import ch.heigvd.gamification.database.model.User;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
@@ -14,4 +16,11 @@ public interface UserRepository extends CrudRepository<User, Long> {
     List<User> findByApplication(Application application);
     User findByIdAndApplication(long id, Application application);
     User findByUsername(String username);
+
+    @Query(value = "select u.id as id, u.username as username, count(b.id) as numberOfBadges from user u " +
+            "inner join badge b " +
+            "inner join application a " +
+            "where a.id = ?1 " +
+            "group by u.id", nativeQuery = true)
+    List<Object[]> findByNumberOfBadges(int application);
 }
