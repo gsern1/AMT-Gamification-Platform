@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class AuthAspect {
 
-    @Before("execution(* com.gkatzioura.spring.ao (java.lang.String)) && args(sampleName)")
+    //@Before("execution(* com.gkatzioura.spring.ao (java.lang.String)) && args(sampleName)")
     public void beforeSampleCreation(String sampleName) {
 
         System.out.println("A request was issued for a sample name: "+sampleName);

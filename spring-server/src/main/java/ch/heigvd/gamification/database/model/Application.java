@@ -16,6 +16,8 @@ public class Application {
     private String name;
     private String password;
 
+
+
     public Application(){
 
     }
