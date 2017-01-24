@@ -18,7 +18,7 @@ Scenario: register a badge with a bad payload
 Scenario: register a badge with null
   Given I have null badge payload
   When I POST it to the /badges endpoint
-  Then I receive a 422 status code
+  Then I receive a 400 status code
 
 Scenario: register a badge without permission
   Given I have a badge payload
@@ -74,14 +74,14 @@ Scenario: modify badge with an empty payload
   When I POST it to the /badges endpoint
   And I have null badge payload
   And I PUT in to the /badge/id endpoint
-  Then I receive a 400 status code
+  Then I receive a 404 status code
   And The badge is unchanged
 
 Scenario: modify badge with a bad payload
   Given I have a badge payload
   When I POST it to the /badges endpoint
   And I perform a "PUT" on "/badges/12" endpoint with a wrong payload that return "null"
-  Then I receive a 404 status code
+  Then I receive a 400 status code
 
 #Test about DELETE on /badges/id
 # =====================================================================
