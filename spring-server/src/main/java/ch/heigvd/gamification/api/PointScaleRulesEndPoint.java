@@ -11,6 +11,7 @@ import ch.heigvd.gamification.utils.JWTutils;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -61,8 +62,9 @@ public class PointScaleRulesEndPoint implements PointScaleRulesApi {
                         pointScaleRule.getIncrement());
 
         pointScaleRuleRepository.save(pointScaleRuleDB);
-
-        return new ResponseEntity<Void>(HttpStatus.OK);
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set("location", "/pointScaleRules/" + pointScaleRuleDB.getId());
+        return ResponseEntity.status(HttpStatus.CREATED).headers(responseHeaders).build();
     }
 
     public ResponseEntity<Void> deletePointScaleRule(
@@ -86,6 +88,7 @@ public class PointScaleRulesEndPoint implements PointScaleRulesApi {
 
         try{
             pointScaleRuleRepository.delete(pointScaleRuleId);
+
         } catch (DataIntegrityViolationException e){
             System.out.println(e.getMessage());
             System.out.println(e.getClass());
@@ -99,7 +102,13 @@ public class PointScaleRulesEndPoint implements PointScaleRulesApi {
             @ApiParam(value = "token to be passed as a header" ,required=true ) @RequestHeader(value="token", required=true) String token
     ) {
 
+        String name = JWTutils.getAppNameInToken(token);
+        if(name == null)
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 
+        Application app = applicationRepository.findByName(name);
+        if(null == app)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         return new ResponseEntity<PointScaleRule>(HttpStatus.OK);
     }
