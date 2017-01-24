@@ -5,10 +5,17 @@
  */
 package ch.heigvd.amt.gamification.spec.steps;
 
+import ch.heigvd.gamification.ApiException;
+import ch.heigvd.gamification.ApiResponse;
+import ch.heigvd.gamification.api.DefaultApi;
+import ch.heigvd.gamification.api.dto.Event;
+import ch.heigvd.gamification.api.dto.User;
 import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  *
@@ -16,34 +23,62 @@ import cucumber.api.java.en.When;
  */
 public class EventProcessingSteps {
 
-    @Given("^a user U(\\d+) of the gamified application A(\\d+)$")
-    public void a_user_U_of_the_gamified_application_A(int arg1, int arg2) throws Throwable {
-        System.out.println("a");
+
+    private final DefaultApi api = new DefaultApi();
+
+    private SharedData world;
+
+    public EventProcessingSteps(SharedData world){
+        this.world = world;
     }
 
-    @When("^the application A(\\d+) POSTs (\\d+) payload for events associated to user U(\\d+) on the /events endpoint$")
-    public void the_application_A_POSTs_payload_for_events_associated_to_user_U_on_the_events_endpoint(int arg1, int arg2, int arg3) throws Throwable {
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+    private User[] users = null;
+
+    private ApiResponse[] responses;
+
+    @Given("^I have a list of (\\d+) new user$")
+    public void iHaveAListOfNewUser(int number) throws Throwable {
+        users = new User[number];
+        for(int i = 0; i < number ;++i){
+            users[i] = new User();
+            users[i].setUsername("User-" + System.currentTimeMillis());
+        }
+
     }
 
-    @When("^the application A(\\d+) GETs user U(\\d+) from the /users/ endpoint$")
-    public void the_application_A_GETs_user_U_from_the_users_endpoint(int arg1, int arg2) throws Throwable {
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+    @When("^(\\d+) user POST an BadgeTyped event$")
+    public void userPOSTAnBadgeTypedEvent(int number) throws Throwable {
+        for(int i = 0; i < number ;++i){
+            Event userEvent = new Event();
+            userEvent.setUsername(users[i].getUsername());
+            userEvent.setType(SharedData.BADGES_RULE_NAME1);
+            responses = new ApiResponse[number];
+            responses[i] = api.addEventWithHttpInfo(userEvent, world.getToken().getToken());
+        }
     }
 
-
-    @Then("^the payload in the response has a property numberOfEvents with a value of (\\d+)$")
-    public void the_payload_in_the_response_has_a_property_numberOfEvents_with_a_value_of(int arg1) throws Throwable {
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+    @Then("^Each user should have a badge$")
+    public void eachUserShouldHaveABadge() throws Throwable {
+        for(ApiResponse r : responses ){
+            assertEquals(r.getStatusCode(),200);
+        }
     }
 
-    @When("^the application A(\\d+) POSTs (\\d+) payloads for events associated to user U(\\d+) on the /events endpoint$")
-    public void the_application_A_POSTs_payloads_for_events_associated_to_user_U_on_the_events_endpoint(int arg1, int arg2, int arg3) throws Throwable {
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+    @When("^(\\d+) user POST an BadgeTyped event simultaneously$")
+    public void userPOSTAnBadgeTypedEventSimultaneously(int number) throws Throwable {
+        for(int i = 0; i < number ;++i){
+            final int ii = i;
+            new Thread(() -> {
+                Event userEvent = new Event();
+                userEvent.setUsername(users[ii].getUsername());
+                userEvent.setType(SharedData.BADGES_RULE_NAME1);
+                responses = new ApiResponse[number];
+                try {
+                    responses[ii] = api.addEventWithHttpInfo(userEvent, world.getToken().getToken());
+                } catch (ApiException e) {
+                    e.printStackTrace();
+                }
+            }).start();
+        }
     }
-
 }

@@ -1,22 +1,22 @@
 Feature: Event processing
 
-Background
+Background:
   Given a token for a new gamified application and its credentials
   And I have a badge payload
   And I POST it to the /badges endpoint
   And I have a pointScale payload
-  And I POST a pointscale for that application to the /pointScales endpoint with the recieved token
+  And I POST it to the /pointScales endpoint
   And a badgeRule payload concerning the previously posted badge and pointScale
   And I POST it to the /badgeRule endpoint
   And a pointScaleRule payload concerning the previously posted poinScale
   And I POST it to the /pointScaleRule endpoint
 
-Scenario: send the first event for a user of the gamified application
+Scenario: some users POST an event and obtain a badge
+  Given I have a list of 15 new user
+  When 15 user POST an BadgeTyped event
+  Then Each user should have a badge
 
-
-Scenario: send the first 2 events for a user of the gamified application
-  Given a user U1 of the gamified application A1
-  When the application A1 POSTs 2 payloads for events associated to user U1 on the /events endpoint
-  And the application A1 GETs user U1 from the /users/ endpoint
-  Then I receive a 200 status code
-  And the payload in the response has a property numberOfEvents with a value of 2
+Scenario: some users POST an event and obtain a badge simultaneously
+  Given I have a list of 15 new user
+  When 15 user POST an BadgeTyped event simultaneously
+  Then Each user should have a badge
