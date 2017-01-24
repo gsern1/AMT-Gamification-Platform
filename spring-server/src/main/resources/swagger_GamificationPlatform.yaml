@@ -870,13 +870,9 @@ definitions:
   userWithNumberOfBadges:
       type: object
       required:
-        - id
         - username
         - numberOfBadges
       properties:
-        id:
-          type: integer
-          format: int64
         username:
           type: string
         numberOfBadges:

@@ -17,7 +17,7 @@ public interface UserRepository extends CrudRepository<User, Long> {
     User findByIdAndApplication(long id, Application application);
     User findByUsername(String username);
 
-    @Query(value = "select u.id as id, u.username as username, count(b.id) as numberOfBadges from user u " +
+    @Query(value = "select u.username as username, count(b.id) as numberOfBadges from user u " +
             "inner join badge b " +
             "inner join application a " +
             "where a.id = ?1 " +

@@ -46,9 +46,8 @@ public class LeaderboardEndpoint implements LeaderboardApi {
         }
         for(Object[] user : userRepository.findByNumberOfBadges(application.getId())){
             UserWithNumberOfBadges userDto = new UserWithNumberOfBadges();
-            userDto.setUsername((String)user[1]);
-            userDto.setId(((Long)user[0]));
-            userDto.setNumberOfBadges((long)user[2]);
+            userDto.setUsername((String)user[0]);
+            userDto.setNumberOfBadges(((BigInteger)user[1]).longValue());
             users.add(userDto);
         }
         return ResponseEntity.ok(users);
