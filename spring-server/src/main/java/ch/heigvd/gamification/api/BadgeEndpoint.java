@@ -77,15 +77,16 @@ public class BadgeEndpoint implements BadgesApi {
         Application application = applicationRepository.findByName(name);
 
         if(application == null){
-            return  new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
-        //TODO PASSE EN LONG DANS LA BDD OU PASSER EN INT (a discuter)
-        long tmp = badgeId;
+        //TODO PASSE EN LONG DANS LA BDD OU PASSER EN INT (a discuter) C'est fait - ioannis
+        ch.heigvd.gamification.database.model.Badge badge = badgeRepository.findOne(badgeId);
+        if(badge == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
         try{
-            // TODO : NOT FOUND S'IL EXISTE PAS
-            // TODO : DELETE BY APPLICATION NAME !
-            badgeRepository.delete((int)tmp);
+            badgeRepository.delete(badge);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (EmptyResultDataAccessException e){
             System.out.println(e.getMessage());
@@ -108,12 +109,14 @@ public class BadgeEndpoint implements BadgesApi {
             return  new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
-        long tmp = badgeId;
+        ch.heigvd.gamification.database.model.Badge badgeDB = badgeRepository.findOne(badgeId);
+        if(badgeDB == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        if(application.getId() != badgeDB.getApplication().getId())
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+
         try{
-            // TODO : FIND BY APPLICATION NAME !
-            ch.heigvd.gamification.database.model.Badge badgeDB = badgeRepository.findOne((int)tmp);
-            if(badgeDB == null)
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             Badge badge = new Badge();
             badge.setName(badgeDB.getName());
             return new ResponseEntity<>(badge, HttpStatus.OK);
@@ -166,10 +169,14 @@ public class BadgeEndpoint implements BadgesApi {
             return  new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
-        long tmp = badgeId;
+        ch.heigvd.gamification.database.model.Badge badgeDB = badgeRepository.findOne(badgeId);
+        if (badgeDB == null || badge.getName() == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        if(application.getId() != badgeDB.getApplication().getId()) //TODO désormais on peux supprimer le dage uniquement si on en est le proprio
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+
         try {
-            // TODO : UPDATE BY APPLICATION NAME !
-            ch.heigvd.gamification.database.model.Badge badgeDB = badgeRepository.findOne((int) tmp);
             if (badgeDB == null || badge.getName() == null)
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             badgeDB.setName(badge.getName());

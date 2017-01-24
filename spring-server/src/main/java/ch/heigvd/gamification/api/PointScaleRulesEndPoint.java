@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -79,29 +80,26 @@ public class PointScaleRulesEndPoint implements PointScaleRulesApi {
         if(null == app)
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 
-        PointScale pointScale = pointScaleRepository.findOne(pointScaleRuleId);
-        if(pointScale == null)
+        ch.heigvd.gamification.database.model.PointScaleRule pointScaleRuleDB = pointScaleRuleRepository.findOne(pointScaleRuleId);
+        if(pointScaleRuleDB == null)
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 
-        if(pointScale.getApplication().getId() != app.getId())
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        if(pointScaleRuleDB.getApplication().getId() != app.getId())
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 
         try{
-            pointScaleRuleRepository.delete(pointScaleRuleId);
+            pointScaleRuleRepository.delete(pointScaleRuleDB);
 
         } catch (DataIntegrityViolationException e){
             System.out.println(e.getMessage());
             System.out.println(e.getClass());
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
         }
-        return new ResponseEntity<Void>(HttpStatus.OK);
+        return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
     }
 
-    public ResponseEntity<PointScaleRule> findPointScaleRule(
-            @ApiParam(value = "ID of pointScaleRule to fetch",required=true ) @PathVariable("pointScaleRuleId") Long pointScaleRuleId,
-            @ApiParam(value = "token to be passed as a header" ,required=true ) @RequestHeader(value="token", required=true) String token
-    ) {
-
+    @Override
+    public ResponseEntity<PointScaleRule> findPointScaleRule(@ApiParam(value = "ID of pointScaleRule to fetch", required = true) @PathVariable("pointScaleRuleId") Long pointScaleRuleId, @ApiParam(value = "token to be passed as a header", required = true) @RequestHeader(value = "token", required = true) String token) {
         String name = JWTutils.getAppNameInToken(token);
         if(name == null)
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
@@ -110,14 +108,45 @@ public class PointScaleRulesEndPoint implements PointScaleRulesApi {
         if(null == app)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-        return new ResponseEntity<PointScaleRule>(HttpStatus.OK);
+        ch.heigvd.gamification.database.model.PointScaleRule pointScaleRule = pointScaleRuleRepository.findOne(pointScaleRuleId);
+        if(pointScaleRule == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        if(app.getId() != pointScaleRule.getApplication().getId())
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+
+        PointScaleRule ps = new PointScaleRule();
+        ps.setType(pointScaleRule.getType());
+        ps.setPointScale(pointScaleRule.getPointscale().getId());
+        ps.setIncrement(pointScaleRule.getIncrement());
+
+        return new ResponseEntity<PointScaleRule>(ps, HttpStatus.OK);
     }
+
 
     public ResponseEntity<List<PointScaleRuleWithLocation>> findPointScaleRules(
             @ApiParam(value = "token to be passed as a header" ,required=true ) @RequestHeader(value="token", required=true) String token
     ) {
-        // do some magic!
-        return new ResponseEntity<List<PointScaleRuleWithLocation>>(HttpStatus.OK);
+        String name = JWTutils.getAppNameInToken(token);
+        if(name == null)
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+
+        Application app = applicationRepository.findByName(name);
+        if(null == app)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        List<PointScaleRuleWithLocation> pointScaleRulesDTO = new LinkedList<>();
+        for(ch.heigvd.gamification.database.model.PointScaleRule ps :  pointScaleRuleRepository.findByApplication(app))
+        {
+            PointScaleRuleWithLocation tmp = new PointScaleRuleWithLocation();
+            tmp.setIncrement(ps.getIncrement());
+            tmp.setPointScale(ps.getPointscale().getId());
+            tmp.setType(ps.getType());
+            tmp.setLocation("/pointScaleRules/"+ps.getId());
+            pointScaleRulesDTO.add(tmp);
+        }
+
+        return new ResponseEntity<List<PointScaleRuleWithLocation>>(pointScaleRulesDTO, HttpStatus.OK);
     }
 
     public ResponseEntity<Void> updatePointScaleRule(
@@ -125,7 +154,31 @@ public class PointScaleRulesEndPoint implements PointScaleRulesApi {
             @ApiParam(value = "Id of the pointScaleRule that needs to be updated",required=true ) @PathVariable("pointScaleRuleId") Long pointScaleRuleId,
             @ApiParam(value = "token to be passed as a header" ,required=true ) @RequestHeader(value="token", required=true) String token
     ) {
-        // do some magic!
+
+        String name = JWTutils.getAppNameInToken(token);
+        if(name == null)
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+
+        Application app = applicationRepository.findByName(name);
+        if(null == app)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
+        ch.heigvd.gamification.database.model.PointScaleRule pointScaleRuleDB = pointScaleRuleRepository.findOne(pointScaleRuleId);
+        if(pointScaleRuleDB == null)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
+        if(pointScaleRuleDB.getApplication().getId() != app.getId())
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+
+        PointScale pointScale = pointScaleRepository.findOne(pointScaleRule.getPointScale());
+        if(pointScale==null)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
+        pointScaleRuleDB.setType(pointScaleRule.getType());
+        pointScaleRuleDB.setIncrement(pointScaleRule.getIncrement());
+        pointScaleRuleDB.setPointscale(pointScale);
+        pointScaleRuleRepository.save(pointScaleRuleDB);
+
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 

@@ -64,7 +64,7 @@ public class BadgeRulesEndPoint implements BadgeRulesApi {
             pointScale = pointScaleRepository.findByIdAndApplication(badgeRule.getPointScale(), application);
         }
 
-        Badge badge = badgeRepository.findOne((int)(long)badgeRule.getBadge());
+        Badge badge = badgeRepository.findOne(badgeRule.getBadge());
 
         if(badge == null){
             return  new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
@@ -104,11 +104,15 @@ public class BadgeRulesEndPoint implements BadgeRulesApi {
             return  new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
-        long tmp = badgeRuleId;
+        ch.heigvd.gamification.database.model.BadgeRule badgeRule = badgeRuleRepository.findOne(badgeRuleId);
+        if(badgeRule == null)
+            return  new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        if(badgeRule.getApplication().getId() != application.getId())
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+
         try{
-            // TODO : NOT FOUND S'IL EXISTE PAS
-            // TODO : DELETE BY APPLICATION NAME !
-            badgeRuleRepository.delete((int)tmp);
+            badgeRuleRepository.delete(badgeRule);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (EmptyResultDataAccessException e){
             System.out.println(e.getMessage());
@@ -132,11 +136,9 @@ public class BadgeRulesEndPoint implements BadgeRulesApi {
         if(application == null){
             return  new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-
-        long tmp = badgeRuleId;
         try{
             // TODO : FIND BY APPLICATION NAME !
-            ch.heigvd.gamification.database.model.BadgeRule badgeRuleModel = badgeRuleRepository.findOne((int)tmp);
+            ch.heigvd.gamification.database.model.BadgeRule badgeRuleModel = badgeRuleRepository.findOne(badgeRuleId);
             if(badgeRuleModel == null)
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             BadgeRule badgeRule = new BadgeRule();
@@ -209,7 +211,7 @@ public class BadgeRulesEndPoint implements BadgeRulesApi {
         PointScale pointScale = pointScaleRepository.findByIdAndApplication(badgeRule.getPointScale(), application);
 
         // TODO Transform to long
-        Badge badge = badgeRepository.findOne((int)(long)badgeRule.getBadge());
+        Badge badge = badgeRepository.findOne(badgeRule.getBadge());
 
         if(badge == null){
             return  new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
@@ -218,7 +220,7 @@ public class BadgeRulesEndPoint implements BadgeRulesApi {
         long tmp = badgeRuleId;
         try {
             // TODO : UPDATE BY APPLICATION NAME !
-            ch.heigvd.gamification.database.model.BadgeRule badgeRuleModel = badgeRuleRepository.findOne((int) tmp);
+            ch.heigvd.gamification.database.model.BadgeRule badgeRuleModel = badgeRuleRepository.findOne(tmp);
             if (badgeRuleModel == null)
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 

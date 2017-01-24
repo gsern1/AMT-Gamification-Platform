@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by lux on 10.12.16.
  */
-public interface BadgeRepository extends CrudRepository<Badge, Integer> {
+public interface BadgeRepository extends CrudRepository<Badge, Long> {
     List<Badge> findAll();
     List<Badge> findByApplication(Application application);
 }

@@ -127,7 +127,6 @@ public class PointScaleEndpoint implements PointScalesApi {
         }
 
         Application application = applicationRepository.findByName(name);
-
         if(application == null){
             return  new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
@@ -156,7 +155,6 @@ public class PointScaleEndpoint implements PointScalesApi {
         }
 
         ch.heigvd.gamification.database.model.PointScale updatePointScale = pointScaleRepository.findByIdAndApplication(pointScaleId, application);
-
         if(updatePointScale == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
