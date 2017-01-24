@@ -70,7 +70,7 @@ public class EventEndpoint implements EventsApi {
                 eventProcessor.processEvent(user, event);
                 done = true;
             } catch (ObjectOptimisticLockingFailureException e) {
-                System.out.println("FAILED TO UPDATE... LET'S GO AGAIN");
+                System.out.println("FAILED TO UPDATE (concurrency)... LET'S GO AGAIN");
             }
         }
         return ResponseEntity.status(HttpStatus.CREATED).build();
