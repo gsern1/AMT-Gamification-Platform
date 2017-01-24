@@ -1,9 +1,13 @@
 package ch.heigvd.gamification.api;
 
 import ch.heigvd.gamification.api.dto.*;
+import ch.heigvd.gamification.api.dto.PointScale;
+import ch.heigvd.gamification.api.dto.User;
+import ch.heigvd.gamification.api.dto.UserPointScale;
 import ch.heigvd.gamification.database.dao.ApplicationRepository;
 import ch.heigvd.gamification.database.dao.UserPointScaleRepository;
 import ch.heigvd.gamification.database.dao.UserRepository;
+import ch.heigvd.gamification.database.model.*;
 import ch.heigvd.gamification.database.model.Application;
 import ch.heigvd.gamification.utils.JWTutils;
 import io.swagger.annotations.ApiParam;
@@ -36,8 +40,9 @@ public class UserEndpoint implements UsersApi {
     // TODO : Javadoc, leaderboardendpoint
     // TODO : Utiliser les validators pour valider les données genre login
 
+
     @Override
-    public ResponseEntity<List<BadgeWithLocation>> findUserBadges(@ApiParam(value = "ID of user", required = true) @PathVariable("userId") Long userId, @ApiParam(value = "token to be passed as a header", required = true) @RequestHeader(value = "token", required = true) String token) {
+    public ResponseEntity<List<BadgeWithLocation>> findUserBadges(@ApiParam(value = "name of the user", required = true) @PathVariable("userName") String userName, @ApiParam(value = "token to be passed as a header", required = true) @RequestHeader(value = "token", required = true) String token) {
         List<BadgeWithLocation> badges = new ArrayList<>();
         String name = JWTutils.getAppNameInToken(token);
         if(name == null) {
@@ -50,7 +55,9 @@ public class UserEndpoint implements UsersApi {
             return  new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
-        ch.heigvd.gamification.database.model.User user = userRepository.findByIdAndApplication(userId, application);
+        ch.heigvd.gamification.database.model.User user = userRepository.findByUsernameAndApplication(userName, application);
+        if(user == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         for(ch.heigvd.gamification.database.model.Badge badge : user.getBadges()){
             BadgeWithLocation badgeDto = new BadgeWithLocation();
@@ -62,7 +69,7 @@ public class UserEndpoint implements UsersApi {
     }
 
     @Override
-    public ResponseEntity<List<UserPointScale>> findUserPointScales(@ApiParam(value = "ID of user", required = true) @PathVariable("userId") Long userId, @ApiParam(value = "token to be passed as a header", required = true) @RequestHeader(value = "token", required = true) String token) {
+    public ResponseEntity<List<UserPointScale>> findUserPointScales(@ApiParam(value = "name of the user", required = true) @PathVariable("userName") String userName, @ApiParam(value = "token to be passed as a header", required = true) @RequestHeader(value = "token", required = true) String token) {
         List<PointScale> pointscales = new ArrayList<>();
         String name = JWTutils.getAppNameInToken(token);
         if(name == null) {
@@ -72,10 +79,14 @@ public class UserEndpoint implements UsersApi {
         Application application = applicationRepository.findByName(name);
 
         if(application == null){
-            return  new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
-        List<Object[]> userPointScales = userPointScaleRepository.findSumPointScalePerUser(userId);
+        ch.heigvd.gamification.database.model.User user = userRepository.findByUsername(userName);
+        if(user == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        List<Object[]> userPointScales = userPointScaleRepository.findSumPointScalePerUser(user.getId());
         List<UserPointScale> userPointScalesDto = new ArrayList<>();
         for(Object[] userPointScale : userPointScales){
             UserPointScale userPointScaleDto = new UserPointScale();
