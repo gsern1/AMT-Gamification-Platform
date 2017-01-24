@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 /**
  * Created by lux on 24.01.17.
  */
-@Aspect
+/*@Aspect
 @Component
 public class AuthAspect {
 
@@ -17,3 +17,4 @@ public class AuthAspect {
         System.out.println("A request was issued for a sample name: "+sampleName);
     }
 }
+*/

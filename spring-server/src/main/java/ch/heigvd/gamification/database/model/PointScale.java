@@ -1,6 +1,7 @@
 package ch.heigvd.gamification.database.model;
 
 import javax.persistence.*;
+import java.util.Set;
 
 /**
  * Created by antoi on 11.12.2016.
@@ -16,8 +17,8 @@ public class PointScale {
     @ManyToOne
     private Application application;
 
-    @ManyToOne
-    private PointScaleRule pointScaleRule;
+    @OneToMany
+    private Set<PointScaleRule> pointScaleRule;
 
     public PointScale() {
     }
@@ -49,5 +50,13 @@ public class PointScale {
 
     public void setApplication(Application application) {
         this.application = application;
+    }
+
+    public Set<PointScaleRule> getPointScaleRule() {
+        return pointScaleRule;
+    }
+
+    public void setPointScaleRule(Set<PointScaleRule> pointScaleRule) {
+        this.pointScaleRule = pointScaleRule;
     }
 }

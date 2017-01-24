@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Entity
 public class PointScaleRule extends Rule{
 
-    @OneToMany
+    @ManyToOne
     private PointScale pointscale;
 
     private long increment;
