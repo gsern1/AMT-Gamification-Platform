@@ -8,7 +8,7 @@ Background:
   And I POST it to the /pointScales endpoint
   And a badgeRule payload concerning the previously posted badge and pointScale
   And I POST it to the /badgeRule endpoint
-  And a pointScaleRule payload concerning the previously posted poinScale
+  And a pointScaleRule payload concerning the previously posted pointScale
   And I POST it to the /pointScaleRule endpoint
 
 Scenario: some users POST an event and obtain a badge
