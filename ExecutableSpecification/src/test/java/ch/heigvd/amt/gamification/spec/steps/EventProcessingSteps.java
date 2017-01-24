@@ -16,34 +16,22 @@ import cucumber.api.java.en.When;
  */
 public class EventProcessingSteps {
 
-    @Given("^a user U(\\d+) of the gamified application A(\\d+)$")
-    public void a_user_U_of_the_gamified_application_A(int arg1, int arg2) throws Throwable {
-        System.out.println("a");
-    }
-
-    @When("^the application A(\\d+) POSTs (\\d+) payload for events associated to user U(\\d+) on the /events endpoint$")
-    public void the_application_A_POSTs_payload_for_events_associated_to_user_U_on_the_events_endpoint(int arg1, int arg2, int arg3) throws Throwable {
+    @Given("^I have the number of badges obtained$")
+    public void iHaveTheNumberOfBadgesObtained() throws Throwable {
         // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+
     }
 
-    @When("^the application A(\\d+) GETs user U(\\d+) from the /users/ endpoint$")
-    public void the_application_A_GETs_user_U_from_the_users_endpoint(int arg1, int arg2) throws Throwable {
+
+    @Given("^(\\d+) user POST an BadgeTyped event$")
+    public void userPOSTAnBadgeTypedEvent(int arg0) throws Throwable {
         // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+
     }
 
-
-    @Then("^the payload in the response has a property numberOfEvents with a value of (\\d+)$")
-    public void the_payload_in_the_response_has_a_property_numberOfEvents_with_a_value_of(int arg1) throws Throwable {
+    @Then("^There should be (\\d+) more badges$")
+    public void thereShouldBeMoreBadges(int arg0) throws Throwable {
         // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
-    }
 
-    @When("^the application A(\\d+) POSTs (\\d+) payloads for events associated to user U(\\d+) on the /events endpoint$")
-    public void the_application_A_POSTs_payloads_for_events_associated_to_user_U_on_the_events_endpoint(int arg1, int arg2, int arg3) throws Throwable {
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
     }
-
 }

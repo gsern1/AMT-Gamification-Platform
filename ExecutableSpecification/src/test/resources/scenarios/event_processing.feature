@@ -1,6 +1,6 @@
 Feature: Event processing
 
-Background
+Background:
   Given a token for a new gamified application and its credentials
   And I have a badge payload
   And I POST it to the /badges endpoint
@@ -11,12 +11,8 @@ Background
   And a pointScaleRule payload concerning the previously posted poinScale
   And I POST it to the /pointScaleRule endpoint
 
-Scenario: send the first event for a user of the gamified application
+Scenario: some userd POST an event and obtain a badge
+  Given I have the number of badges obtained
+  Given 15 user POST an BadgeTyped event
+  Then There should be 15 more badges
 
-
-Scenario: send the first 2 events for a user of the gamified application
-  Given a user U1 of the gamified application A1
-  When the application A1 POSTs 2 payloads for events associated to user U1 on the /events endpoint
-  And the application A1 GETs user U1 from the /users/ endpoint
-  Then I receive a 200 status code
-  And the payload in the response has a property numberOfEvents with a value of 2
