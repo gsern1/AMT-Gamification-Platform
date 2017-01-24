@@ -42,7 +42,7 @@ public class BadgeRuleManagementSteps {
     @Given("^a badgeRule payload concerning the previously posted badge and poinScale$")
     public void a_badgeRule_payload_concerning_the_previously_posted_badge_and_poinScale() throws Throwable {
         badgeRule = new BadgeRule();
-        badgeRule.setType("1ère connexion");
+        badgeRule.setType(SharedData.BADGES_RULE_NAME1);
         badgeRule.setBadge(world.getBadgeNbr());
         badgeRule.setPointScale(world.getPointScaleNbr());
         badgeRule.setThreshold(1l);

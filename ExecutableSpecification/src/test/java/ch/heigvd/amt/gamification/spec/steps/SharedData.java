@@ -12,6 +12,10 @@ import ch.heigvd.gamification.api.dto.Token;
  * Created by guillaume on 18.12.16.
  */
 public class SharedData {
+
+    public static final String POINTSCALE_RULE_NAME1 = "abc";
+    public static final String BADGES_RULE_NAME1 = "Te";
+
     private int statusCode;
     private int applicationCounter = 0;
     private Application application;
