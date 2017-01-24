@@ -18,7 +18,7 @@ Scenario: register a badge with a bad payload
 Scenario: register a badge with null
   Given I have null badge payload
   When I POST it to the /badges endpoint
-  Then I receive a 400 status code
+  Then I receive a 422 status code
 
 Scenario: register a badge without permission
   Given I have a badge payload

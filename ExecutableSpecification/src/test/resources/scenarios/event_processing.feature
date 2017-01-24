@@ -1,7 +1,13 @@
 Feature: Event processing
 
 Background
-    Given a token for a new gamified application A1
+  Given a token for a new gamified application and its credentials
+  And I have a badge payload
+  And I POST it to the /badges endpoint
+  And I have a poinScale payload
+  And I POST a pointscale for that application to the /pointScales endpoint with the recieved token
+  And a badgeRule payload concerning the previously posted badge and poinScale
+  And I POST it to the /badgeRule endpoint
 
 Scenario: send the first event for a user of the gamified application
   Given a user U1 of the gamified application A1
