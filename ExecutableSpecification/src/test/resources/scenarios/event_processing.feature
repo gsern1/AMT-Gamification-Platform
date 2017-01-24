@@ -20,3 +20,8 @@ Scenario: some users POST an event and obtain a badge simultaneously
   Given I have a list of 15 new user
   When 15 user POST an BadgeTyped event simultaneously
   Then Each user should have a badge
+
+Scenario: some users POST an event for a pointscale
+  Given I have a list of 15 new user
+  When 15 user POST an PointScaleTyped event
+  Then Each user should have a pointscale score

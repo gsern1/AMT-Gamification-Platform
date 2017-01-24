@@ -81,4 +81,16 @@ public class EventProcessingSteps {
             }).start();
         }
     }
+
+    @When("^(\\d+) user POST an PointScaleTyped event$")
+    public void userPOSTAnPointScaleTypedEvent(int arg0) throws Throwable {
+        // Write code here that turns the phrase above into concrete actions
+        throw new PendingException();
+    }
+
+    @Then("^Each user should have a pointscale score$")
+    public void eachUserShouldHaveAPointscaleScore() throws Throwable {
+        // Write code here that turns the phrase above into concrete actions
+        throw new PendingException();
+    }
 }
