@@ -22,6 +22,9 @@ public class Badge {
     @JoinTable(name = "user_badge", joinColumns = @JoinColumn(name = "badge_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
     private Set<User> users;
 
+    @Version
+    private Integer version;
+
     public Badge() {
     }
 
@@ -61,5 +64,13 @@ public class Badge {
 
     public void setUsers(Set<User> users) {
         this.users = users;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 }

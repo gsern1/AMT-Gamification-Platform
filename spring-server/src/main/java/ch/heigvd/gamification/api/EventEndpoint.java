@@ -10,10 +10,12 @@ import ch.heigvd.gamification.database.model.User;
 import ch.heigvd.gamification.services.EventProcessor;
 import ch.heigvd.gamification.utils.JWTutils;
 import io.swagger.annotations.ApiParam;
+import org.hibernate.StaleObjectStateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
@@ -59,7 +61,15 @@ public class EventEndpoint implements EventsApi {
             userRepository.save(user);
         }
 
-        eventProcessor.processEvent(user, event);
+        boolean done = false;
+        while (!done) {
+            try {
+                eventProcessor.processEvent(user, event);
+                done = true;
+            } catch (ObjectOptimisticLockingFailureException e) {
+                System.out.println("FAILED TO UPDATE... LET'S GO AGAIN");
+            }
+        }
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }
