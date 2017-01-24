@@ -48,7 +48,7 @@ public class BadgeEndpoint implements BadgesApi {
             return  new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
-        if(badge.getName() == null)
+        if(badge.getName() == null || badge.getName().isEmpty())
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
 
         ch.heigvd.gamification.database.model.Badge newBadge = new ch.heigvd.gamification.database.model.Badge();
