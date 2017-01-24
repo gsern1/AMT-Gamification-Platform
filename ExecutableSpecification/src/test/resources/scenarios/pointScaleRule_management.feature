@@ -2,9 +2,8 @@ Feature: pointScaleRule registration
 
   Background:
     Given a token for a new gamified application and its credentials
-    And I have a poinScale payload
-    And I POST a pointscale for that application to the /pointScales endpoint with the recieved token
-
+    And I have a pointScale payload
+    When I POST it to the /pointScales endpoint
 
 
   Scenario: Submit a pointScaleRule rule using the recieved token

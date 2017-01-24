@@ -36,16 +36,16 @@ public class PointScaleManagementSteps {
         this.world = world;
     }
 
-    @Given("^I have a poinScale payload$")
-    public void i_have_a_poinScale_payload() throws Throwable {
+    @Given("^I have a pointScale payload$")
+    public void i_have_a_pointScale_payload() throws Throwable {
         pointScale = new PointScale();
         pointScale.setName("pointScale-" + System.currentTimeMillis());
     }
 
-    @Given("^I POST it to the \\(point$")
-    public void i_POST_it_to_the_point() throws Throwable {
+    @When("^I POST it to the /pointScales endpoint$")
+    public void i_POST_it_to_the_pointScales_endpoint() throws Throwable {
         try {
-            response = api.addPointScaleWithHttpInfo(pointScale,token.getToken());
+            response = api.addPointScaleWithHttpInfo(pointScale,world.getToken().getToken());
             world.setStatusCode(response.getStatusCode());
             pointScaleNbr = Integer.valueOf((String)response.getHeaders().get("location").toString().replaceAll("[^\\d]",""));
             world.setPointScaleNbr(pointScaleNbr);
@@ -53,7 +53,6 @@ public class PointScaleManagementSteps {
         }catch (ApiException e){
             world.setStatusCode(e.getCode());
         }
-
     }
 
 

@@ -74,6 +74,13 @@ public class SharedSteps {
         }
     }
 
+    @Given("^I have a wrong token$")
+    public void i_have_a_wrong_token() throws Throwable {
+
+        world.getToken().setToken("wrongForgedToken");
+
+    }
+
     @Given("^a token for a new gamified application and its credentials$")
     public void aTokenForANewGamifiedApplicationAndItsCredentials() throws Throwable {
        world.setApplication(new Application());
