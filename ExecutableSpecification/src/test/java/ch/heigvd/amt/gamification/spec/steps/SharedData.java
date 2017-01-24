@@ -23,6 +23,7 @@ public class SharedData {
     private Badge badge;
     private long badgeNbr;
     private long badgeRuleNbr;
+    private long pointScaleRuleNbr;
 
     private long pointScaleNbr;
 
@@ -118,5 +119,13 @@ public class SharedData {
 
     public void setBadge(Badge badge) {
         this.badge = badge;
+    }
+
+    public long getPointScaleRuleNbr() {
+        return pointScaleRuleNbr;
+    }
+
+    public void setPointScaleRuleNbr(long pointScaleRuleNbr) {
+        this.pointScaleRuleNbr = pointScaleRuleNbr;
     }
 }
