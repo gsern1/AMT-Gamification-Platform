@@ -12,4 +12,5 @@ import java.util.List;
 public interface PointScaleRuleRepository extends CrudRepository<PointScaleRule, Long> {
     PointScaleRule findByType(String type);
     List<PointScaleRule> findByApplication(Application application);
+
 }
