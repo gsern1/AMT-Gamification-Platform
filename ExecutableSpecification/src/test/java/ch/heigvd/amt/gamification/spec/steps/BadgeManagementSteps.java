@@ -73,13 +73,13 @@ public class BadgeManagementSteps {
     public void iHaveABadgePayload() throws Throwable {
         badge = new Badge();
         badge.setName("badge-" + System.currentTimeMillis());
-
+        world.setBadge(badge);
     }
 
     @When("^I POST it to the /badges endpoint$")
     public void i_POST_it_to_the_badges_endpoint() throws Throwable {
         try {
-            response = api.addBadgeWithHttpInfo(badge,token.getToken());
+            response = api.addBadgeWithHttpInfo(world.getBadge(),world.getToken().getToken());
             world.setStatusCode(response.getStatusCode());
             badgeNbr = Integer.valueOf((String)response.getHeaders().get("location").toString().replaceAll("[^\\d]",""));
             world.setBadgeNbr(badgeNbr);

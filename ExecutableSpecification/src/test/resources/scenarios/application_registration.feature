@@ -14,5 +14,5 @@ Feature: Application registration
     Given I have an application payload
     When I POST it to the /application endpoint
     And I POST it to the /application endpoint
-    Then I receive a 422 status code
+    Then I receive a 409 status code
 

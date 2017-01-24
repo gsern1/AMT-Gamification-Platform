@@ -31,15 +31,13 @@ paths:
           type: string
       responses:
         '200':
-          description: badges response
+          description: Badges returned
           schema:
             type: array
             items:
               $ref: '#/definitions/badgeWithLocation'
-        default:
-          description: unexpected error
-          schema:
-            $ref: '#/definitions/errorModel'
+        '403':
+          description: Invalid token
     post:
       summary: Creates a new badge
       description: |
@@ -63,15 +61,15 @@ paths:
           type: string
       responses:
         '201':
-          description: badge response
+          description: Badge created
           headers:
             location:
                 description: location of the newly created badge,
                 type: string
-        default:
-          description: unexpected error
-          schema:
-            $ref: '#/definitions/errorModel'
+        '403':
+          description: Invalid token
+        '422':
+          description: Invalid payload
 
   /badges/{badgeId}:
     get:
@@ -95,13 +93,15 @@ paths:
           type: string
       responses:
         '200':
-          description: badge response
+          description: Badge found
           schema:
             $ref: '#/definitions/badge'
-        default:
-          description: unexpected error
-          schema:
-            $ref: '#/definitions/errorModel'
+        '403':
+          description: Invalid token
+        '404':
+          description: Badge not found
+        '422':
+          description: Invalid payload
     put:
       summary: Update an existing badge
       description: |
@@ -131,11 +131,13 @@ paths:
           type: string
       responses:
         '200':
-          description: badge response
-        default:
-          description: unexpected error
-          schema:
-            $ref: '#/definitions/errorModel'
+          description: Badge updated
+        '403':
+          description: Invalid token
+        '404':
+          description: Badge not found
+        '422':
+          description: Invalid payload
     delete:
       summary: Delete an existing badge
       description: |
@@ -156,12 +158,14 @@ paths:
           required: true
           type: string
       responses:
-        '204':
-          description: badge deleted successfully
+        '200':
+          description: Badge deleted successfully
         '404':
           description: Badge not found
-        '400':
-          description: Invalid Id supplied
+        '403':
+          description: Invalid token
+        '422':
+          description: Invalid payload
 
   /pointScales:
     get:
@@ -179,15 +183,13 @@ paths:
           type: string
       responses:
         '200':
-          description: pointScales response
+          description: pointScales list
           schema:
             type: array
             items:
               $ref: '#/definitions/pointScaleWithLocation'
-        default:
-          description: unexpected error
-          schema:
-            $ref: '#/definitions/errorModel'
+        '403':
+          description: Invalid token
     post:
       summary: Creates a new pointScale
       description: |
@@ -211,15 +213,15 @@ paths:
           type: string
       responses:
         '201':
-          description: pointScale response
+          description: pointScale created
           headers:
             location:
               description: Location of the pointScale
               type: string
-        default:
-          description: unexpected error
-          schema:
-            $ref: '#/definitions/errorModel'
+        '403':
+          description: Invalid token
+        '422':
+          description: Invalid payload
 
 
   /pointScales/{pointScaleId}:
@@ -244,13 +246,13 @@ paths:
           type: string
       responses:
         '200':
-          description: pointScale response
+          description: pointScale retrieved
           schema:
             $ref: '#/definitions/pointScale'
-        default:
-          description: unexpected error
-          schema:
-            $ref: '#/definitions/errorModel'
+        '403':
+          description: Invalid token
+        '404':
+          description: PointScale doesn't exist
     put:
       summary: Update an existing pointScale
       description: |
@@ -280,11 +282,11 @@ paths:
           type: string
       responses:
         '200':
-          description: pointScale response
-        default:
-          description: unexpected error
-          schema:
-            $ref: '#/definitions/errorModel'
+          description: pointScale updated
+        '403':
+          description: Invalid token
+        '404':
+          description: Not found
     delete:
       summary: Delete an existing pointScale
       description: |
@@ -305,12 +307,14 @@ paths:
           required: true
           type: string
       responses:
-        '204':
+        '200':
           description: pointScale deleted successfully
+        '403':
+          description: Invalid token
         '404':
           description: pointScale not found
-        '400':
-          description: Invalid Id supplied
+        '422':
+          description: Invalid id supplied
   /events:
     post:
       summary: Post events on the platform
@@ -336,10 +340,8 @@ paths:
       responses:
         '201':
           description: event response
-        default:
-          description: unexpected error
-          schema:
-            $ref: '#/definitions/errorModel'
+        '403':
+          description: Invalid token
   /application:
     post:
       summary: Post new application on the platform
@@ -362,10 +364,12 @@ paths:
           description: application response
           schema:
             $ref: '#/definitions/token'
-        default:
-          description: unexpected error
-          schema:
-            $ref: '#/definitions/errorModel'
+        '400':
+          description: Invalid payload
+        '403':
+          description: Invalid token
+        '409':
+          description: Conflict
     delete:
       summary: Delete an existing application
       description: |
@@ -381,11 +385,9 @@ paths:
           type: string
       responses:
         '204':
-          description: application deleted successfully
-        '404':
-          description: application not found
-        '400':
-          description: Invalid Id supplied
+          description: Application deleted successfully
+        '403':
+          description: Invalid token
   /auth:
     post:
       summary: Returns an application token
@@ -405,13 +407,13 @@ paths:
             $ref: '#/definitions/credentials'
       responses:
         '200':
-          description: succesful authentication
+          description: Succesful authentication
           schema:
             $ref: '#/definitions/token'
         '400':
-          description: the application was not found
+          description: Application not found
         '401':
-          description: invalid password
+          description: Invalid password
 
   /users:
     get:
@@ -434,10 +436,8 @@ paths:
             type: array
             items:
               $ref: '#/definitions/user'
-        default:
-          description: unexpected error
-          schema:
-            $ref: '#/definitions/errorModel'
+        '403':
+          description: Invalid token
   /leaderboard:
     get:
       summary: Returns the leaderboard
@@ -458,11 +458,9 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/user'
-        default:
-          description: unexpected error
-          schema:
-            $ref: '#/definitions/errorModel'
+              $ref: '#/definitions/userWithNumberOfBadges'
+        '403':
+          description: Invalid token
   /users/{userId}/badges:
     get:
       summary: Returns a user's badges
@@ -490,10 +488,8 @@ paths:
             type: array
             items:
               $ref: '#/definitions/badgeWithLocation'
-        default:
-          description: unexpected error
-          schema:
-            $ref: '#/definitions/errorModel'
+        '403':
+          description: Invalid token
   /users/{userId}/pointScales:
     get:
       summary: Returns a user's pointScales
@@ -521,10 +517,8 @@ paths:
             type: array
             items:
               $ref: '#/definitions/userPointScale'
-        default:
-          description: unexpected error
-          schema:
-            $ref: '#/definitions/errorModel'
+        '403':
+          description: Invalid token
   /badgeRules:
     get:
       summary: Returns every badge rules
@@ -546,10 +540,8 @@ paths:
             type: array
             items:
               $ref: '#/definitions/badgeRuleWithLocation'
-        default:
-          description: unexpected error
-          schema:
-            $ref: '#/definitions/errorModel'
+        '403':
+          description: Invalid token
     post:
       summary: Creates a new badgeRule
       description: |
@@ -578,11 +570,8 @@ paths:
             location:
               description: Location of the badgeRule
               type: string
-        default:
-          description: unexpected error
-          schema:
-            $ref: '#/definitions/errorModel'
-
+        '403':
+          description: Invalid token
 
   /badgeRules/{badgeRuleId}:
     get:
@@ -609,10 +598,8 @@ paths:
           description: badgeRule response
           schema:
             $ref: '#/definitions/badgeRule'
-        default:
-          description: unexpected error
-          schema:
-            $ref: '#/definitions/errorModel'
+        '403':
+          description: Invalid token
     put:
       summary: Update an existing badgeRule
       description: |
@@ -643,10 +630,8 @@ paths:
       responses:
         '200':
           description: badgeRule response
-        default:
-          description: unexpected error
-          schema:
-            $ref: '#/definitions/errorModel'
+        '403':
+          description: Invalid token'
     delete:
       summary: Delete an existing badgeRule
       description: |
@@ -695,10 +680,8 @@ paths:
             type: array
             items:
               $ref: '#/definitions/pointScaleRuleWithLocation'
-        default:
-          description: unexpected error
-          schema:
-            $ref: '#/definitions/errorModel'
+        '403':
+          description: Invalid token
     post:
       summary: Creates a new pointScaleRule
       description: |
@@ -727,10 +710,8 @@ paths:
             location:
               description: Location of the pointScaleRule
               type: string
-        default:
-          description: unexpected error
-          schema:
-            $ref: '#/definitions/errorModel'
+        '403':
+          description: Invalid token
 
 
   /pointScaleRules/{pointScaleRuleId}:
@@ -758,10 +739,8 @@ paths:
           description: pointScaleRule response
           schema:
             $ref: '#/definitions/pointScaleRule'
-        default:
-          description: unexpected error
-          schema:
-            $ref: '#/definitions/errorModel'
+        '403':
+          description: Invalid token
     put:
       summary: Update an existing pointScaleRule
       description: |
@@ -792,10 +771,8 @@ paths:
       responses:
         '200':
           description: pointScaleRule response
-        default:
-          description: unexpected error
-          schema:
-            $ref: '#/definitions/errorModel'
+        '403':
+          description: Invalid token
     delete:
       summary: Delete an existing pointScaleRule
       description: |
@@ -889,6 +866,18 @@ definitions:
         format: int64
       username:
         type: string
+
+  userWithNumberOfBadges:
+      type: object
+      required:
+        - username
+        - numberOfBadges
+      properties:
+        username:
+          type: string
+        numberOfBadges:
+          type: integer
+          format: int64
 
   event:
     type: object
@@ -1008,15 +997,3 @@ definitions:
       properties:
         token:
           type: string
-
-  errorModel:
-    type: object
-    required:
-      - code
-      - message
-    properties:
-      code:
-        type: integer
-        format: int32
-      message:
-        type: string

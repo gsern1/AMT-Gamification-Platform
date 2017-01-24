@@ -81,7 +81,7 @@ Scenario: modify badge with a bad payload
   Given I have a badge payload
   When I POST it to the /badges endpoint
   And I perform a "PUT" on "/badges/12" endpoint with a wrong payload that return "null"
-  Then I receive a 400 status code
+  Then I receive a 404 status code
 
 #Test about DELETE on /badges/id
 # =====================================================================
