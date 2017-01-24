@@ -15,6 +15,7 @@ import java.util.List;
 public interface UserRepository extends CrudRepository<User, Long> {
     List<User> findByApplication(Application application);
     User findByIdAndApplication(long id, Application application);
+    User findByUsernameAndApplication(String username, Application application);
     User findByUsername(String username);
 
     @Query(value = "select u.username as username, count(b.id) as numberOfBadges from user u " +

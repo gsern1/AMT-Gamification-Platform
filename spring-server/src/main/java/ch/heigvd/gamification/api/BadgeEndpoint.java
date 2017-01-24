@@ -38,6 +38,8 @@ public class BadgeEndpoint implements BadgesApi {
     public ResponseEntity<Void> addBadge(@ApiParam(value = "Badge object to add to the store", required = true) @RequestBody Badge badge, @ApiParam(value = "token to be passed as a header", required = true) @RequestHeader(value = "token", required = true) String token) {
         String name = JWTutils.getAppNameInToken(token);
 
+        System.out.println("HELLO FROM ADD BADGES");
+
         if(name == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
@@ -48,8 +50,8 @@ public class BadgeEndpoint implements BadgesApi {
             return  new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
-        if(badge.getName() == null || badge.getName().isEmpty())
-            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
+        if(badge.getName() == null || badge.getName().equals(""))
+            return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
 
         ch.heigvd.gamification.database.model.Badge newBadge = new ch.heigvd.gamification.database.model.Badge();
         newBadge.setName(badge.getName());

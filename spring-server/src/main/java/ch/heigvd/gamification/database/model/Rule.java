@@ -15,6 +15,7 @@ public class Rule {
     @ManyToOne
     private Application application;
 
+    @Column(unique = true)
     private String type;
 
     public Rule(Application application, String type) {
