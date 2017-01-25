@@ -68,6 +68,6 @@ public class EventEndpoint implements EventsApi {
                 System.out.println("FAILED TO UPDATE (concurrency)... LET'S GO AGAIN");
             }
         }
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

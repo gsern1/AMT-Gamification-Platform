@@ -80,7 +80,11 @@ public class BadgeRulesEndPoint implements BadgeRulesApi {
             newBadgeRule.setType(badgeRule.getType());
             newBadgeRule.setPointscale(pointScale);
             newBadgeRule.setBadge(badge);
-            badgeRuleRepository.save(newBadgeRule);
+            try {
+                badgeRuleRepository.save(newBadgeRule);
+            } catch (DataIntegrityViolationException e){
+                return ResponseEntity.status(HttpStatus.CONFLICT).build();
+            }
             HttpHeaders responseHeaders = new HttpHeaders();
             responseHeaders.set("location", "/badgeRules/" + newBadgeRule.getId());
             return new ResponseEntity<>(responseHeaders,HttpStatus.CREATED);
@@ -229,7 +233,12 @@ public class BadgeRulesEndPoint implements BadgeRulesApi {
             badgeRuleModel.setType(badgeRule.getType());
             badgeRuleModel.setPointscale(pointScale);
             badgeRuleModel.setBadge(badge);
-            badgeRuleRepository.save(badgeRuleModel);
+
+            try {
+                badgeRuleRepository.save(badgeRuleModel);
+            } catch (DataIntegrityViolationException e){
+                return ResponseEntity.status(HttpStatus.CONFLICT).build();
+            }
             return new ResponseEntity<>(HttpStatus.OK);
         }
         catch (EmptyResultDataAccessException e)
