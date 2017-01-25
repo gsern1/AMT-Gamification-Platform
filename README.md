@@ -26,6 +26,7 @@ To run the project, you must install the following prerequisite:
 
 -MySQL: 10.1.20-MariaDB
 
+And create an empty MySQL Schema named gamification.
 
 To allow access to the database, you must have a root@localhost user on your MySQL instance set with no password or fill in your personnal password in the /spring-server/src/main/resources/application.properties file.
 
@@ -47,9 +48,6 @@ The **Executable_Specification** folder located at the root of our repository co
 ### Sample front-end application
 
 The **gh_pages** branch contains a basic Clicker application that we used to test the Gamification process of our platform.
-
-
-## Known issues
 
 
 
