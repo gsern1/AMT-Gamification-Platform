@@ -33,23 +33,33 @@ public class LeaderboardEndpoint implements LeaderboardApi {
 
     @Override
     public ResponseEntity<List<UserWithNumberOfBadges>> leaderboard(@ApiParam(value = "token to be passed as a header", required = true) @RequestHeader(value = "token", required = true) String token) {
-        List<UserWithNumberOfBadges> users = new ArrayList<>();
         String name = JWTutils.getAppNameInToken(token);
         if(name == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
         Application application = applicationRepository.findByName(name);
-
         if(application == null){
             return  new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        for(Object[] user : userRepository.findByNumberOfBadges(application.getId())){
+
+        List<UserWithNumberOfBadges> users = new ArrayList<>();
+        /*for(Object[] user : userRepository.findByNumberOfBadges(application.getId())){
             UserWithNumberOfBadges userDto = new UserWithNumberOfBadges();
             userDto.setUsername((String)user[0]);
             userDto.setNumberOfBadges(((BigInteger)user[1]).longValue());
             users.add(userDto);
+        }*/
+        for(ch.heigvd.gamification.database.model.User u : userRepository.findAll())
+        {
+            UserWithNumberOfBadges tmp = new UserWithNumberOfBadges();
+            tmp.setUsername(u.getUsername());
+            tmp.setNumberOfBadges((long)u.getBadges().size());
+            users.add(tmp);
         }
+
+        users.stream().sorted((u1, u2) -> Long.compare(u2.getNumberOfBadges(), u1.getNumberOfBadges()));
+
         return ResponseEntity.ok(users);
     }
 }
