@@ -2,9 +2,6 @@ package ch.heigvd.gamification.database.model;
 
 import javax.persistence.*;
 
-/**
- * Created by lux on 10.12.16.
- */
 @Entity
 public class Application {
 

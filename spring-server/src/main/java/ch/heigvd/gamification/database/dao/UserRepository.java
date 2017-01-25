@@ -9,9 +9,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-/**
- * Created by lux on 10.12.16.
- */
 public interface UserRepository extends CrudRepository<User, Long> {
     List<User> findByApplication(Application application);
     User findByIdAndApplication(long id, Application application);

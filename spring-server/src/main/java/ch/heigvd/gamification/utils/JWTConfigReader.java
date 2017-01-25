@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 /**
- * Created by antoi on 25.01.2017.
+ * JWT Configuration reader
  */
 public class JWTConfigReader
 {

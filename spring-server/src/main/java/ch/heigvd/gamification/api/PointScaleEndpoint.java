@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by lux on 30.11.16.
+ * PointScales endoint. Implements CRUD actions for this endpoint.
  */
 @RestController
 public class PointScaleEndpoint implements PointScalesApi {
@@ -35,6 +35,16 @@ public class PointScaleEndpoint implements PointScalesApi {
     @Autowired
     ApplicationRepository applicationRepository;
 
+    /**
+     * Add a pointScale to your application.
+     *
+     * @param pointScale: the pointScale to be added.
+     * @param token: the token.
+     * @return
+     *      403 if your token is invalid.
+     *      422 if the pointScale name is null or empty
+     *      201 otherwise
+     */
     @Override
     public ResponseEntity<Void> addPointScale(@ApiParam(value = "pointScale object to add to the store", required = true) @RequestBody PointScale pointScale, @ApiParam(value = "token to be passed as a header", required = true) @RequestHeader(value = "token", required = true) String token) {
         String name = JWTutils.getAppNameInToken(token);
@@ -67,6 +77,18 @@ public class PointScaleEndpoint implements PointScalesApi {
         }
     }
 
+    /**
+     * Delete this pointScale
+     *
+     * @param pointScaleId: the id of the pointScale to be deleted.
+     * @param token: the token
+     *
+     * @return
+     *      403 if your token is invalid.
+     *      404 if the system has not found this pointScale.
+     *      422 if the database fails to delete it.
+     *      204 otherwise
+     */
     @Override
     public ResponseEntity<Void> deletePointScale(@ApiParam(value = "Id of the pointScale that needs to be deleted", required = true) @PathVariable("pointScaleId") Long pointScaleId, @ApiParam(value = "token to be passed as a header", required = true) @RequestHeader(value = "token", required = true) String token) {
         String name = JWTutils.getAppNameInToken(token);
@@ -96,6 +118,18 @@ public class PointScaleEndpoint implements PointScalesApi {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    /**
+     * find a pointScale with the given pointScale id.
+     *
+     * @param pointScaleId: the id of the pointScale to be retrieved
+     * @param token: the token
+     * @return
+     *      403 if your token is invalid.
+     *      404 if the system has not found this pointScale.
+     *      401 if you don't own this pointScale.
+     *      422 if the database fails to read it.
+     *      200 otherwise
+     */
     @Override
     public ResponseEntity<PointScale> findPointScale(@ApiParam(value = "ID of pointScale to fetch", required = true) @PathVariable("pointScaleId") Long pointScaleId, @ApiParam(value = "token to be passed as a header", required = true) @RequestHeader(value = "token", required = true) String token) {
         String name = JWTutils.getAppNameInToken(token);
@@ -120,6 +154,14 @@ public class PointScaleEndpoint implements PointScalesApi {
         return new ResponseEntity<>(pointScaleDto, HttpStatus.OK);
     }
 
+    /**
+     * Get a list of the pointScales of this application.
+     *
+     * @param token: the token
+     * @return
+     *      403 if your token is invalid.
+     *      200 otherwise
+     */
     @Override
     public ResponseEntity<List<PointScaleWithLocation>> findPointScales(@ApiParam(value = "token to be passed as a header", required = true) @RequestHeader(value = "token", required = true) String token) {
         List<PointScaleWithLocation> pointScales = new ArrayList<>();
@@ -143,6 +185,19 @@ public class PointScaleEndpoint implements PointScalesApi {
         return ResponseEntity.ok(pointScales);
     }
 
+    /**
+     * Updates this pointScale.
+     *
+     * @param pointScale: the new pointScale
+     * @param pointScaleId: the pointScale to be updated
+     * @param token: the token
+     * @return
+     *      403 if your token is invalid.
+     *      404 if the system has not found this pointScale.
+     *      401 if you don't own this pointScale.
+     *      422 if the database fails to update it.
+     *      200 otherwise
+     */
     @Override
     public ResponseEntity<Void> updatePointScale(@ApiParam(value = "pointScale object to add to the store", required = true) @RequestBody PointScale pointScale, @ApiParam(value = "Id of the pointScale that needs to be updated", required = true) @PathVariable("pointScaleId") Long pointScaleId, @ApiParam(value = "token to be passed as a header", required = true) @RequestHeader(value = "token", required = true) String token) {
         String name = JWTutils.getAppNameInToken(token);

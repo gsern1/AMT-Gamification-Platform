@@ -107,6 +107,18 @@ public class BadgeRulesEndPoint implements BadgeRulesApi {
         }
     }
 
+    /**
+     * Delete this badge
+     *
+     * @param badgeRuleId: the id of the badge to be deleted.
+     * @param token: the token
+     *
+     * @return
+     *      403 if your token is invalid.
+     *      404 if the system has not found this badge.
+     *      422 if the database fails to delete it.
+     *      204 otherwise
+     */
     public ResponseEntity<Void> deleteBadgeRule(
             @ApiParam(value = "Id of the badgeRule that needs to be deleted",required=true ) @PathVariable("badgeRuleId") Long badgeRuleId,
             @ApiParam(value = "token to be passed as a header" ,required=true ) @RequestHeader(value="token", required=true) String token
@@ -140,6 +152,18 @@ public class BadgeRulesEndPoint implements BadgeRulesApi {
         }
     }
 
+    /**
+     * find a badgeRule with the given badgeRule id.
+     *
+     * @param badgeRuleId: the id of the badge to be retrived
+     * @param token: the token
+     * @return
+     *      403 if your token is invalid.
+     *      404 if the system has not found this badgeRule.
+     *      401 if you don't own this badgeRule.
+     *      422 if the database fails to read it.
+     *      200 otherwise
+     */
     public ResponseEntity<BadgeRule> findBadgeRule(
             @ApiParam(value = "ID of badgeRule to fetch",required=true ) @PathVariable("badgeRuleId") Long badgeRuleId,
             @ApiParam(value = "token to be passed as a header" ,required=true ) @RequestHeader(value="token", required=true) String token
@@ -176,6 +200,14 @@ public class BadgeRulesEndPoint implements BadgeRulesApi {
         }
     }
 
+    /**
+     * Get a list of the badgeRules of this application.
+     *
+     * @param token: the token
+     * @return
+     *      403 if your token is invalid.
+     *      200 otherwise
+     */
     public ResponseEntity<List<BadgeRuleWithLocation>> findBadgeRules(
             @ApiParam(value = "token to be passed as a header" ,required=true ) @RequestHeader(value="token", required=true) String token
     ) {
@@ -211,6 +243,19 @@ public class BadgeRulesEndPoint implements BadgeRulesApi {
         return new ResponseEntity<>(toReturn, HttpStatus.OK);
     }
 
+    /**
+     * Updates this badgeRule.
+     *
+     * @param badgeRule: the new badge
+     * @param badgeRuleId: the badge to be updated
+     * @param token: the toke
+     * @return
+     *      403 if your token is invalid.
+     *      404 if the system has not found this badgeRule.
+     *      401 if you don't own this badgeRule.
+     *      422 if the database fails to update it.
+     *      200 otherwise
+     */
     public ResponseEntity<Void> updateBadgeRule(
             @ApiParam(value = "badgeRule object to add to the store" ,required=true ) @RequestBody BadgeRule badgeRule,
             @ApiParam(value = "Id of the badgeRule that needs to be updated",required=true ) @PathVariable("badgeRuleId") Long badgeRuleId,

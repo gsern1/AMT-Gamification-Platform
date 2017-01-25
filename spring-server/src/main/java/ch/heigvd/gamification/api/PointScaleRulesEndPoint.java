@@ -24,7 +24,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.LinkedList;
 import java.util.List;
 
-
+/**
+ * PointScaleRules endoint. Implements CRUD actions for this endpoint.
+ */
 @RestController
 public class PointScaleRulesEndPoint implements PointScaleRulesApi {
 
@@ -37,6 +39,16 @@ public class PointScaleRulesEndPoint implements PointScaleRulesApi {
     @Autowired
     private PointScaleRepository pointScaleRepository;
 
+    /**
+     * Add a pointScaleRule to your application.
+     *
+     * @param pointScaleRule: the pointScaleRule to be added.
+     * @param token: the token.
+     * @return
+     *      403 if your token is invalid.
+     *      422 if the pointScaleRule name is null or empty
+     *      201 otherwise
+     */
     public ResponseEntity<Void> addPointScaleRule(
             @ApiParam(value = "pointScaleRule object to add to the store" ,required=true ) @RequestBody PointScaleRule pointScaleRule,
             @ApiParam(value = "token to be passed as a header" ,required=true ) @RequestHeader(value="token", required=true) String token
@@ -74,6 +86,18 @@ public class PointScaleRulesEndPoint implements PointScaleRulesApi {
         return ResponseEntity.status(HttpStatus.CREATED).headers(responseHeaders).build();
     }
 
+    /**
+     * Delete this pointScaleRule
+     *
+     * @param pointScaleRuleId: the id of the pointScaleRule to be deleted.
+     * @param token: the token
+     *
+     * @return
+     *      403 if your token is invalid.
+     *      404 if the system has not found this pointScaleRule.
+     *      422 if the database fails to delete it.
+     *      204 otherwise
+     */
     public ResponseEntity<Void> deletePointScaleRule(
             @ApiParam(value = "Id of the pointScaleRule that needs to be deleted",required=true ) @PathVariable("pointScaleRuleId") Long pointScaleRuleId,
             @ApiParam(value = "token to be passed as a header" ,required=true ) @RequestHeader(value="token", required=true) String token
@@ -104,6 +128,18 @@ public class PointScaleRulesEndPoint implements PointScaleRulesApi {
         return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
     }
 
+    /**
+     * find a pointScaleRule with the given pointScaleRule id.
+     *
+     * @param pointScaleRuleId: the id of the pointScaleRule to be retrieved
+     * @param token: the token
+     * @return
+     *      403 if your token is invalid.
+     *      404 if the system has not found this pointScaleRule.
+     *      401 if you don't own this pointScaleRule.
+     *      422 if the database fails to read it.
+     *      200 otherwise
+     */
     @Override
     public ResponseEntity<PointScaleRule> findPointScaleRule(@ApiParam(value = "ID of pointScaleRule to fetch", required = true) @PathVariable("pointScaleRuleId") Long pointScaleRuleId, @ApiParam(value = "token to be passed as a header", required = true) @RequestHeader(value = "token", required = true) String token) {
         String name = JWTutils.getAppNameInToken(token);
@@ -129,7 +165,14 @@ public class PointScaleRulesEndPoint implements PointScaleRulesApi {
         return new ResponseEntity<PointScaleRule>(ps, HttpStatus.OK);
     }
 
-
+    /**
+     * Get a list of the pointScaleRules of this application.
+     *
+     * @param token: the token
+     * @return
+     *      403 if your token is invalid.
+     *      200 otherwise
+     */
     public ResponseEntity<List<PointScaleRuleWithLocation>> findPointScaleRules(
             @ApiParam(value = "token to be passed as a header" ,required=true ) @RequestHeader(value="token", required=true) String token
     ) {
@@ -155,6 +198,19 @@ public class PointScaleRulesEndPoint implements PointScaleRulesApi {
         return new ResponseEntity<List<PointScaleRuleWithLocation>>(pointScaleRulesDTO, HttpStatus.OK);
     }
 
+    /**
+     * Updates this pointScaleRule.
+     *
+     * @param pointScaleRule: the new pointScaleRule
+     * @param pointScaleRuleId: the pointScaleRule to be updated
+     * @param token: the token
+     * @return
+     *      403 if your token is invalid.
+     *      404 if the system has not found this pointScaleRule.
+     *      401 if you don't own this pointScaleRule.
+     *      422 if the database fails to update it.
+     *      200 otherwise
+     */
     public ResponseEntity<Void> updatePointScaleRule(
             @ApiParam(value = "pointScaleRule object to add to the store" ,required=true ) @RequestBody PointScaleRule pointScaleRule,
             @ApiParam(value = "Id of the pointScaleRule that needs to be updated",required=true ) @PathVariable("pointScaleRuleId") Long pointScaleRuleId,

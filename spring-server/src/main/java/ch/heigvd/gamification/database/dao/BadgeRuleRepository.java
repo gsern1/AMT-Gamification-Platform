@@ -8,9 +8,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-/**
- * Created by lux on 10.12.16.
- */
 public interface BadgeRuleRepository extends CrudRepository<BadgeRule, Long> {
     List<BadgeRule> findAll();
     List<BadgeRule> findByApplication(Application application);

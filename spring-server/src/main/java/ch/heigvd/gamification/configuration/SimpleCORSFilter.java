@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Created by lux on 16.01.17.
+ * Add CORS to the REST API
  */
 @Component
 public class SimpleCORSFilter implements Filter {
@@ -21,6 +21,15 @@ public class SimpleCORSFilter implements Filter {
         log.info("SimpleCORSFilter init");
     }
 
+    /**
+     * Configures CORS
+     *
+     * @param req
+     * @param res
+     * @param chain
+     * @throws IOException
+     * @throws ServletException
+     */
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
 

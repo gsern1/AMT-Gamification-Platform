@@ -23,7 +23,7 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * Created by lux on 30.11.16.
+ * Leaderboard endoint. Returns the users ordered by number of badges.
  */
 @RestController
 public class LeaderboardEndpoint implements LeaderboardApi {
@@ -33,6 +33,14 @@ public class LeaderboardEndpoint implements LeaderboardApi {
     @Autowired
     ApplicationRepository applicationRepository;
 
+    /**
+     * Handle leaderboard get request.
+     *
+     * @param token
+     * @return
+     *      403 if the application doesn't exist
+     *      200 otherwise, with the list of users ordered by number of badges
+     */
     @Override
     public ResponseEntity<List<UserWithNumberOfBadges>> leaderboard(@ApiParam(value = "token to be passed as a header", required = true) @RequestHeader(value = "token", required = true) String token) {
         String name = JWTutils.getAppNameInToken(token);

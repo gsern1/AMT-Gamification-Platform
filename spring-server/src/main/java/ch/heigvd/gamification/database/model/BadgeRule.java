@@ -1,11 +1,7 @@
 package ch.heigvd.gamification.database.model;
 
 import javax.persistence.*;
-import java.awt.*;
 
-/**
- * Created by antoi on 11.12.2016.
- */
 @Entity
 public class BadgeRule extends Rule {
 

@@ -2,9 +2,6 @@ package ch.heigvd.gamification.database.model;
 
 import javax.persistence.*;
 
-/**
- * Created by antoi on 11.12.2016.
- */
 @Entity
 public class PointScaleRule extends Rule{
 

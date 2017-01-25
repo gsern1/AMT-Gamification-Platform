@@ -115,7 +115,7 @@ public class BadgeEndpoint implements BadgesApi {
     /**
      * find a badge with the given badge id.
      *
-     * @param badgeId: the id of the badge to be retrived
+     * @param badgeId: the id of the badge to be retrieved
      * @param token: the token
      * @return
      *      403 if your token is invalid.

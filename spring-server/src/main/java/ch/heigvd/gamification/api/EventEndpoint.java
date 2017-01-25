@@ -25,7 +25,7 @@ import java.util.HashSet;
 import java.util.TreeSet;
 
 /**
- * Created by lux on 30.11.16.
+ * Event endoint. Handle new events POST requests.
  */
 @RestController
 public class EventEndpoint implements EventsApi {
@@ -42,6 +42,22 @@ public class EventEndpoint implements EventsApi {
     @Autowired
     UserRepository userRepository;
 
+    /**
+     * Handle new event post request.
+     * There is an optimistic lock on rules which is reruned automatically if it fails.
+     * The specified user is created if it doesn't exist.
+     * A Conflict 409 status code if there is a conflict with the creation of the user and the gamified app must
+     * rerun the request.
+     *
+     * @param event
+     * @param token
+     * @return
+     *      409 if your the user already exists
+     *      404 if the system has not found the application.
+     *      403 if the application doesn't exist
+     *      400 if the type specified in the event doesn't exist
+     *      200 otherwise
+     */
     @Override
     public ResponseEntity<Void> addEvent(@ApiParam(value = "event object to add to the platform", required = true) @RequestBody Event event, @ApiParam(value = "token to be passed as a header", required = true) @RequestHeader(value = "token", required = true) String token) {
 
@@ -60,7 +76,7 @@ public class EventEndpoint implements EventsApi {
             try {
                 userRepository.save(user);
             }
-            catch(Exception e) // TODO TROUVER LA BONNE EXCEPTION
+            catch(Exception e)
             {
                 return new ResponseEntity<Void>(HttpStatus.CONFLICT);
             }

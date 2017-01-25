@@ -2,9 +2,6 @@ package ch.heigvd.gamification.database.model;
 
 import javax.persistence.*;
 
-/**
- * Created by lux on 24.01.17.
- */
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Rule {

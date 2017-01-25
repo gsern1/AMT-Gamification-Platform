@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by lux on 30.11.16.
+ * User endoint. Handle users GET request.
  */
 @RestController
 public class UserEndpoint implements UsersApi {
@@ -37,11 +37,16 @@ public class UserEndpoint implements UsersApi {
     @Autowired
     UserPointScaleRepository userPointScaleRepository;
 
-    // TODO : Retourner et utiliser l'id précisé dans l'event pour identifier le user ?
-    // TODO : Javadoc, leaderboardendpoint
-    // TODO : Utiliser les validators pour valider les données genre login
-
-
+    /**
+     * Returns the list of badges of the user with the specified username
+     *
+     * @param userName
+     * @param token
+     * @return
+     *      403 if your token is invalid.
+     *      404 if the user doesn't exist
+     *      200 otherwise
+     */
     @Override
     public ResponseEntity<List<BadgeWithLocation>> findUserBadges(@ApiParam(value = "name of the user", required = true) @PathVariable("userName") String userName, @ApiParam(value = "token to be passed as a header", required = true) @RequestHeader(value = "token", required = true) String token) {
         List<BadgeWithLocation> badges = new ArrayList<>();
@@ -69,6 +74,16 @@ public class UserEndpoint implements UsersApi {
         return ResponseEntity.ok(badges);
     }
 
+    /**
+     * Returns the list of pointScales of the user with the specified username
+     *
+     * @param userName
+     * @param token
+     * @return
+     *      403 if your token is invalid.
+     *      404 if the user doesn't exist
+     *      200 otherwise
+     */
     @Override
     public ResponseEntity<List<UserPointScale>> findUserPointScales(@ApiParam(value = "name of the user", required = true) @PathVariable("userName") String userName, @ApiParam(value = "token to be passed as a header", required = true) @RequestHeader(value = "token", required = true) String token) {
         List<PointScale> pointscales = new ArrayList<>();
@@ -98,6 +113,14 @@ public class UserEndpoint implements UsersApi {
         return ResponseEntity.ok(userPointScalesDto);
     }
 
+    /**
+     * Returns the list of users
+     *
+     * @param token
+     * @return
+     *      403 if your token is invalid.
+     *      200 otherwise
+     */
     @Override
     public ResponseEntity<List<User>> findUsers(@ApiParam(value = "token to be passed as a header", required = true) @RequestHeader(value = "token", required = true) String token) {
         List<User> users = new ArrayList<>();

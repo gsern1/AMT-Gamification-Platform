@@ -3,9 +3,6 @@ package ch.heigvd.gamification.database.model;
 import javax.persistence.*;
 import java.io.Serializable;
 
-/**
- * Created by antoi on 12.12.2016.
- */
 @Entity
 @Table(name = "user_pointscale")
 public class UserPointScale {

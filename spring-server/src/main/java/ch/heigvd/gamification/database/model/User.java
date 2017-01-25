@@ -3,9 +3,6 @@ package ch.heigvd.gamification.database.model;
 import javax.persistence.*;
 import java.util.Set;
 
-/**
- * Created by antoi on 11.12.2016.
- */
 @Entity
 public class User {
     @Id
