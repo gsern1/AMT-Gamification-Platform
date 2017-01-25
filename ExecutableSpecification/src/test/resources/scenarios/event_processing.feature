@@ -44,3 +44,8 @@ Scenario: an application post pointscale wining event but the user don't reach t
   Given I have a list of 1 new user
   When a user POST 2 times an event for a pointscale
   Then The user shouldn't have a badge
+
+Scenario: a user POST simultaneously 1000 event on a PointScale
+  Given I have a list of 1 new user
+  When a user POST 4 x 250 times an event for a pointscale simultaneously
+  Then the user should have 1000 times the increment of the pointscale

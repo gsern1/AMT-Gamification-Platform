@@ -15,6 +15,8 @@ import ch.heigvd.gamification.api.dto.Token;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
 
+import static ch.heigvd.amt.gamification.spec.steps.SharedData.INCREMENT;
+
 /**
  *
  * @author guillaume
@@ -47,7 +49,7 @@ public class PointScaleRuleManagementSteps {
         pointScaleRule.setType(ruleName);
         world.setPointScaleRuleName(ruleName);
         pointScaleRule.setPointScale(world.getPointScaleNbr());
-        pointScaleRule.setIncrement(5l);
+        pointScaleRule.setIncrement(INCREMENT);
     }
 
     @When("^I POST it to the /pointScaleRule endpoint$")
