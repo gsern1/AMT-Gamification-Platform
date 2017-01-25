@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -58,7 +60,17 @@ public class LeaderboardEndpoint implements LeaderboardApi {
             users.add(tmp);
         }
 
-        users.stream().sorted((u1, u2) -> Long.compare(u2.getNumberOfBadges(), u1.getNumberOfBadges()));
+        Comparator<UserWithNumberOfBadges> usersComparator = (o1, o2) ->
+        {
+            if(o1.getNumberOfBadges() == o2.getNumberOfBadges())
+                return 0;
+            else if(o1.getNumberOfBadges() < o2.getNumberOfBadges())
+                return -1;
+            else
+                return 1;
+        };
+
+        Collections.sort(users, usersComparator.reversed());
 
         return ResponseEntity.ok(users);
     }

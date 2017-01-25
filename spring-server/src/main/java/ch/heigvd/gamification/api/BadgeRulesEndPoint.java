@@ -46,18 +46,27 @@ public class BadgeRulesEndPoint implements BadgeRulesApi {
     @Autowired
     PointScaleRepository pointScaleRepository;
 
+    /**
+     * Add a badge rule to this endpoint.
+     *
+     * @param badgeRule: the badge rule
+     * @param token: the token
+     * @return
+     *      403 if your token is invalid.
+     *      422 if the badgeRule type name is null or empty
+     *      201 otherwise
+     */
     public ResponseEntity<Void> addBadgeRule(
             @ApiParam(value = "badgeRule object to add to the store" ,required=true ) @RequestBody BadgeRule badgeRule,
             @ApiParam(value = "token to be passed as a header" ,required=true ) @RequestHeader(value="token", required=true) String token
     ) {
-        String name = JWTutils.getAppNameInToken(token);
 
+        String name = JWTutils.getAppNameInToken(token);
         if(name == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
         Application application = applicationRepository.findByName(name);
-
         if(application == null){
             return  new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
@@ -68,7 +77,6 @@ public class BadgeRulesEndPoint implements BadgeRulesApi {
         }
 
         Badge badge = badgeRepository.findOne(badgeRule.getBadge());
-
         if(badge == null || badgeRule.getType() == null){
             return  new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
         }

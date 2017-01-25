@@ -90,7 +90,7 @@ public class UserEndpoint implements UsersApi {
         List<UserPointScale> userPointScalesDto = new ArrayList<>();
         for(ch.heigvd.gamification.database.model.UserPointScale ups : userPointScales){
             UserPointScale userPointScaleDto = new UserPointScale();
-            userPointScaleDto.setName((ups.getUser().getUsername()));
+            userPointScaleDto.setName((ups.getPointScale().getName()));
             userPointScaleDto.setPoints(ups.getPoints());
             userPointScaleDto.setLocation("/pointScales/" + ups.getId());
             userPointScalesDto.add(userPointScaleDto);
