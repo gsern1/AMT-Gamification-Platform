@@ -34,8 +34,14 @@ Feature: badgeRule registration
     When I POST it to the /badgeRule endpoint
     Then I receive a 422 status code
 
-    
+  Scenario: I want to get all bagesrules
+    When I GET on /badgesRules
+    Then I receive a 200 status code
 
+  Scenario: I have a bad token and i want to get all badgerules
+    Given I have a wrong token
+    When I GET on /badgesRules
+    Then I receive a 403 status code
 
 
 

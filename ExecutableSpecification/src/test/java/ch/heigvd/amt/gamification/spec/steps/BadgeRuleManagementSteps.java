@@ -90,6 +90,16 @@ public class BadgeRuleManagementSteps {
         badgeRule.setPointScale(world.getPointScaleNbr());
         badgeRule.setThreshold(1l);
     }
+
+    @When("^I GET on /badgesRules$")
+    public void iGETOnBadgesRules() throws Throwable {
+
+        try {
+            world.setStatusCode(api.findBadgeRulesWithHttpInfo(world.getToken().getToken()).getStatusCode());
+        }catch(ApiException e){
+            world.setStatusCode(e.getCode());
+        }
+    }
 }
 
 
