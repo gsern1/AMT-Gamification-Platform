@@ -8,10 +8,16 @@ import com.auth0.jwt.exceptions.JWTDecodeException;
 import java.io.UnsupportedEncodingException;
 
 /**
- * Created by lux on 12.12.16.
+ * Utility class for Json web token.
  */
 public class JWTutils {
 
+    /**
+     * Creates a token with the name of a user and a secret.
+     *
+     * @param name: the username
+     * @return the token
+     */
     public static String createToken(String name)
     {
         String token;
@@ -29,6 +35,12 @@ public class JWTutils {
         return token;
     }
 
+    /**
+     * Decript a token. Returns its value.
+     *
+     * @param token: the token to be decoded
+     * @return: the token value
+     */
     public static String getAppNameInToken(String token)
     {
         String name = null;

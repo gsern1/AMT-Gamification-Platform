@@ -15,13 +15,23 @@ import org.springframework.web.bind.annotation.RestController;
 import org.w3c.dom.html.HTMLTableCaptionElement;
 
 /**
- * Created by lux on 07.12.16.
+ * Application endoint. Implements CRUD actions for this endpoint.
  */
 @RestController
 public class ApplicationEndpoint implements ApplicationApi {
     @Autowired
     private ApplicationRepository applicationRepository;
 
+    /**
+     * Adds an application.
+     *
+     * @param application: the application to be added.
+     *
+     * @return
+     *      400 if the application name or password are null or empty.
+     *      409 if the application name is already taken (application name is unique).
+     *      201 otherwise
+     */
     @Override
     public ResponseEntity<Token> addApplication(@ApiParam(value = "application object to add to the platform", required = true) @RequestBody Application application) {
         // TODO : USE VALIDATORS ?
@@ -46,15 +56,23 @@ public class ApplicationEndpoint implements ApplicationApi {
         }
     }
 
+    /**
+     * Delete an application. You must be the owner of this application to delete it.
+     *
+     * @param token: the token.
+     *
+     * @return
+     *      403 if your token is invalid.
+     *      409 if the application name is already taken (application name is unique).
+     *      204 otherwise
+     */
     @Override
     public ResponseEntity<Void> deleteApplication(@ApiParam(value = "token to be passed as a header", required = true) @RequestHeader(value = "token", required = true) String token) {
         String name = JWTutils.getAppNameInToken(token);
         if(name == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-
         ch.heigvd.gamification.database.model.Application application = applicationRepository.findByName(name);
-
         if(application == null){
             return  new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }

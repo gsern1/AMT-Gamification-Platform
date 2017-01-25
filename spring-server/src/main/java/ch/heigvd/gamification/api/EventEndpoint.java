@@ -43,11 +43,6 @@ public class EventEndpoint implements EventsApi {
 
     @Override
     public ResponseEntity<Void> addEvent(@ApiParam(value = "event object to add to the platform", required = true) @RequestBody Event event, @ApiParam(value = "token to be passed as a header", required = true) @RequestHeader(value = "token", required = true) String token) {
-        // TODO : GESTION de la transaction ? On utilise pas le service processor ?
-
-        // TODO : Mettre tout ça dans le service event processor
-
-        // TODO : Fix pour gérer avec les types les badge rules et les pointscales rules
 
         String name = JWTutils.getAppNameInToken(token);
         if(name == null)
@@ -70,7 +65,7 @@ public class EventEndpoint implements EventsApi {
                 eventProcessor.processEvent(user, event);
                 done = true;
             } catch (ObjectOptimisticLockingFailureException e) {
-                System.out.println("FAILED TO UPDATE... LET'S GO AGAIN");
+                System.out.println("FAILED TO UPDATE (concurrency)... LET'S GO AGAIN");
             }
         }
         return ResponseEntity.status(HttpStatus.CREATED).build();
