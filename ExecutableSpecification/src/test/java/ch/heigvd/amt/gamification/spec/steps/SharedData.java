@@ -15,6 +15,7 @@ public class SharedData {
 
     public static final String POINTSCALE_RULE_NAME1 = "abc";
     public static final String BADGES_RULE_NAME1 = "Te";
+    public static final long INCREMENT = 5;
 
     private String pointScaleRuleName;
     private String badgeRuleName;

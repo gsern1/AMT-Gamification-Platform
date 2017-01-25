@@ -19,6 +19,7 @@ import cucumber.api.java.en.When;
 
 import java.util.List;
 
+import static ch.heigvd.amt.gamification.spec.steps.SharedData.INCREMENT;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -108,7 +109,6 @@ public class EventProcessingSteps {
 
     @Then("^Each user should have a pointscale score$")
     public void eachUserShouldHaveAPointscaleScore() throws Throwable {
-        System.out.println(users.length);
         for(User u : users){
             List<UserPointScale> list = api.findUserPointScales(u.getUsername(),world.getToken().getToken());
             for(UserPointScale ps : list){
@@ -160,5 +160,35 @@ public class EventProcessingSteps {
             List<BadgeWithLocation> list = api.findUserBadges(u.getUsername(),world.getToken().getToken());
             assertTrue(list.isEmpty());
         }
+    }
+
+
+    @Then("^the user should have (\\d+) times the increment of the pointscale$")
+    public void theUserShouldHaveTimesTheIncrementOfThePointscale(int number) throws Throwable {
+        List<UserPointScale> list = api.findUserPointScales(users[0].getUsername(),world.getToken().getToken());
+        assertEquals(list.get(0).getPoints().longValue(),number*INCREMENT);
+    }
+
+    @When("^a user POST (\\d+) x (\\d+) times an event for a pointscale simultaneously$")
+    public void aUserPOSTXTimesAnEventForAPointscaleSimultaneously(int number, int number2) throws Throwable {
+        for(int i = 0; i < number ;++i){
+            new Thread(() -> {
+                Event userEvent = new Event();
+                userEvent.setUsername(users[0].getUsername());
+                userEvent.setType(world.getPointScaleRuleName());
+                for(int j = 0; j < number2 ; ++j){
+                    try {
+                        api.addEvent(userEvent,world.getToken().getToken());
+                    } catch (ApiException e) {
+                        try {
+                            api.addEvent(userEvent,world.getToken().getToken());
+                        } catch (ApiException e1) {
+                            e1.printStackTrace();
+                        }
+                    }
+                }
+            }).start();
+        }
+        Thread.sleep(number*number2*22);
     }
 }

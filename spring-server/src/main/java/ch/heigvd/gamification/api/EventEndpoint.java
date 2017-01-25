@@ -9,6 +9,7 @@ import ch.heigvd.gamification.database.model.PointScale;
 import ch.heigvd.gamification.database.model.User;
 import ch.heigvd.gamification.services.EventProcessor;
 import ch.heigvd.gamification.utils.JWTutils;
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import io.swagger.annotations.ApiParam;
 import org.hibernate.StaleObjectStateException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +57,13 @@ public class EventEndpoint implements EventsApi {
         if(user == null)
         {
             user = new User(event.getUsername(), app, new HashSet<>());
-            userRepository.save(user);
+            try {
+                userRepository.save(user);
+            }
+            catch(Exception e) // TODO TROUVER LA BONNE EXCEPTION
+            {
+                return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+            }
         }
 
         boolean done = false;
