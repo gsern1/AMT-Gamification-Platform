@@ -99,7 +99,7 @@ public class EventProcessingSteps {
     @Then("^Each user should have a pointscale score$")
     public void eachUserShouldHaveAPointscaleScore() throws Throwable {
         for(User u : users){
-            api.
+
         }
     }
 
