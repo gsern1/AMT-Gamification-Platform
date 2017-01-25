@@ -78,7 +78,6 @@ public class UserEndpoint implements UsersApi {
         }
 
         Application application = applicationRepository.findByName(name);
-
         if(application == null){
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
@@ -87,13 +86,13 @@ public class UserEndpoint implements UsersApi {
         if(user == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-        List<Object[]> userPointScales = userPointScaleRepository.findSumPointScalePerUser(user.getId());
+        List<ch.heigvd.gamification.database.model.UserPointScale> userPointScales = userPointScaleRepository.findByUser(user);
         List<UserPointScale> userPointScalesDto = new ArrayList<>();
-        for(Object[] userPointScale : userPointScales){
+        for(ch.heigvd.gamification.database.model.UserPointScale ups : userPointScales){
             UserPointScale userPointScaleDto = new UserPointScale();
-            userPointScaleDto.setName((String)userPointScale[1]);
-            userPointScaleDto.setPoints(((BigDecimal)userPointScale[2]).longValue());
-            userPointScaleDto.setLocation("/pointScales/" + ((BigInteger)userPointScale[0]).longValue());
+            userPointScaleDto.setName((ups.getUser().getUsername()));
+            userPointScaleDto.setPoints(ups.getPoints());
+            userPointScaleDto.setLocation("/pointScales/" + ups.getId());
             userPointScalesDto.add(userPointScaleDto);
         }
         return ResponseEntity.ok(userPointScalesDto);

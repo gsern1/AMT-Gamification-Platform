@@ -51,8 +51,13 @@ public class EventProcessor {
         {
             List<UserPointScale> userPointScales = userPointScaleRepository.findByUser(user);
 
+            //check if this user dosent have have this point scale
+            List<UserPointScale> up = userPointScaleRepository.findByUserAndPointScale(user, pointScaleRule.getPointscale());
+            System.out.println(up.size());
+            System.out.println(user.getId() + " // " + pointScaleRule.getPointscale().getId());
+
             //if the user dosen't exists
-            if (userPointScales.isEmpty()) {
+            if (userPointScales.isEmpty() || up.isEmpty()) {
                 //create the relation between the user and the pointscale
                 UserPointScale tmp = userPointScaleRepository.save(new UserPointScale(user, pointScaleRule.getPointscale(), pointScaleRule.getIncrement()));
                 userPointScales.add(tmp);
