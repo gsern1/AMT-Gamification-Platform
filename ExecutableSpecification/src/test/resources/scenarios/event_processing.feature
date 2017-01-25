@@ -14,9 +14,33 @@ Background:
 Scenario: some users POST an event and obtain a badge
   Given I have a list of 15 new user
   When 15 user POST an BadgeTyped event
-  Then Each user should have a badge
+  Then Each response should return 201
+  And Each user should have a badge
 
 Scenario: some users POST an event and obtain a badge simultaneously
   Given I have a list of 15 new user
   When 15 user POST an BadgeTyped event simultaneously
+  Then Each response should return 201
+  And Each user should have a badge
+
+Scenario: some users POST an event for a pointscale
+  Given I have a list of 15 new user
+  When 15 user POST an PointScaleTyped event
+  Then Each response should return 201
+  And Each user should have a pointscale score
+
+Scenario: some users POST an event for a pointscale simultaneously
+  Given I have a list of 15 new user
+  When 15 user POST an PointScaleTyped event simultaneously
+  Then Each response should return 201
+  And Each user should have a pointscale score
+
+Scenario: an application post pointscale wining event while user don't have a badge
+  Given I have a list of 1 new user
+  When a user POST 3 times an event for a pointscale
   Then Each user should have a badge
+
+Scenario: an application post pointscale wining event but the user don't reach the treshold
+  Given I have a list of 1 new user
+  When a user POST 2 times an event for a pointscale
+  Then The user shouldn't have a badge

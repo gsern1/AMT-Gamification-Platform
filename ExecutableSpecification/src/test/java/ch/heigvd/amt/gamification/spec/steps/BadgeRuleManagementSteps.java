@@ -49,7 +49,7 @@ public class BadgeRuleManagementSteps {
         world.setBadgeRuleName(ruleName);
         badgeRule.setBadge(world.getBadgeNbr());
         badgeRule.setPointScale(world.getPointScaleNbr());
-        badgeRule.setThreshold(1l);
+        badgeRule.setThreshold(11l);
     }
 
 

@@ -89,7 +89,7 @@ Scenario: delete a badge
   Given I have a badge payload
   When I POST it to the /badges endpoint
   And I perform a "DELETE" on "/badges" endpoint with id that return "null"
-  Then I receive a 200 status code
+  Then I receive a 204 status code
 
 
 Scenario: delete a badge with a wrong token
