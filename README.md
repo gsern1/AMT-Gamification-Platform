@@ -21,8 +21,11 @@ The **/documentation** folder at the root of our repository contains a pdf versi
 To run the project, you must install the following prerequisite:
 
 -Maven version 3.3.9 
+
 -Java version 1.8 
+
 -MySQL: 10.1.20-MariaDB
+
 
 To allow access to the database, you must have a root@localhost user on your MySQL instance set with no password or fill in your personnal password in the /spring-server/src/main/resources/application.properties file.
 
@@ -39,10 +42,14 @@ mvn compile spring-boot:run
 
 ### Cucumber JVM
 
-The **Ecxecutable_Specification** folder located at the root of our repository contains an automated test project develloped with the CucumberJVM framework allowing us to test each endpoint of our API
+The **Executable_Specification** folder located at the root of our repository contains an automated test project develloped with the CucumberJVM framework allowing us to test each endpoint of our API.
 
+### Sample front-end application
+
+The **gh_pages** branch contains a basic Clicker application that we used to test the Gamification process of our platform.
 
 
 ## Known issues
+
 
 
