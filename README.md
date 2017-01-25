@@ -14,6 +14,8 @@ The **/spring-server** folder contains the source code of our platform
 
 The **/documentation** folder at the root of our repository contains a pdf version of the api documentation generated with the swagger editor. 
 
+When you run the server, an interactive version of the documentation is generated and served on the **/api** route. To do this we used the bottum-up approach to swagger proposed by Spring Fox.
+
 ## Deployment
 
 ### Pre-requisite
