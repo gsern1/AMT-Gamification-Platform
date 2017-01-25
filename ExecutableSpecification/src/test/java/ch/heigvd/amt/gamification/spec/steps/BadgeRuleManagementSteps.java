@@ -10,6 +10,7 @@ import ch.heigvd.gamification.ApiException;
 import ch.heigvd.gamification.ApiResponse;
 import ch.heigvd.gamification.api.DefaultApi;
 import ch.heigvd.gamification.api.dto.*;
+import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
@@ -76,10 +77,19 @@ public class BadgeRuleManagementSteps {
     }
 
 
+    @Given("^a bad badgerule payload$")
+    public void aBadBadgerulePayload() throws Throwable {
+        badgeRule = new BadgeRule();
+    }
 
-
-
-
+    @Given("^a badgeRule payload with a null badge$")
+    public void aBadgeRulePayloadWithANullBadge() throws Throwable {
+        badgeRule = new BadgeRule();
+        badgeRule.setType(SharedData.BADGES_RULE_NAME1);
+        badgeRule.setBadge(2379179l);
+        badgeRule.setPointScale(world.getPointScaleNbr());
+        badgeRule.setThreshold(1l);
+    }
 }
 
 

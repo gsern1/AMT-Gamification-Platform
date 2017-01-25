@@ -62,6 +62,10 @@ public class BadgeRulesEndPoint implements BadgeRulesApi {
             return  new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
+        if(badgeRule == null || badgeRule.getType() == null){
+            return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
         PointScale pointScale = null;
         if(badgeRule.getPointScale() != null) {
             pointScale = pointScaleRepository.findByIdAndApplication(badgeRule.getPointScale(), application);

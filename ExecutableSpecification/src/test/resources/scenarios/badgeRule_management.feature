@@ -8,14 +8,17 @@ Feature: badgeRule registration
     When I POST it to the /pointScales endpoint
 
 
-
   Scenario: Submit a badgeRule using the recieved token
     Given a badgeRule payload concerning the previously posted badge and pointScale
     When I POST it to the /badgeRule endpoint
     Then I receive a 201 status code
 
+  Scenario: Submit a bad badgeRule payload
+    Given a bad badgerule payload
+    When I POST it to the /badgeRule endpoint
+    Then I receive a 400 status code
 
-  Scenario: Submit a badgeRule with a wrond token
+  Scenario: Submit a badgeRule with a wrong token
     Given a badgeRule payload concerning the previously posted badge and pointScale
     And I have a wrong token
     When I POST it to the /badgeRule endpoint
@@ -24,9 +27,14 @@ Feature: badgeRule registration
   Scenario: Submit a badgeRule with a null payload
     Given a badgeRule payload with a null type
     When I POST it to the /badgeRule endpoint
+    Then I receive a 400 status code
+
+  Scenario: Submit a badgeRule with a null badge
+    Given a badgeRule payload with a null badge
+    When I POST it to the /badgeRule endpoint
     Then I receive a 422 status code
 
-
+    
 
 
 

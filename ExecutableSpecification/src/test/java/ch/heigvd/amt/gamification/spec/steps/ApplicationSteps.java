@@ -4,6 +4,7 @@ import ch.heigvd.gamification.ApiException;
 import ch.heigvd.gamification.ApiResponse;
 import ch.heigvd.gamification.api.DefaultApi;
 import ch.heigvd.gamification.api.dto.Application;
+import ch.heigvd.gamification.api.dto.Credentials;
 import ch.heigvd.gamification.api.dto.Token;
 import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
@@ -62,5 +63,36 @@ public class ApplicationSteps {
             world.setStatusCode(e.getCode());
 
         }
+    }
+
+    @Given("^I have an application payload with no name$")
+    public void iHaveAnApplicationPayloadWithNoName() throws Throwable {
+        application = new Application();
+        String randomAppName = "";
+        application.setName(randomAppName);
+        application.setPassword("12345");
+    }
+
+    @Given("^a bad token for a new gamified application$")
+    public void aBadTokenForANewGamifiedApplication() throws Throwable {
+        Application application = new Application();
+
+        String randomAppName = "random-app-1-" + System.currentTimeMillis();
+        application.setName(randomAppName);
+
+        String password = "56789";
+        application.setPassword(password);
+
+        Credentials credentials = new Credentials();
+        credentials.setName(randomAppName);
+        credentials.setPassword(password);
+
+        api.addApplicationWithHttpInfo(application);
+
+        ApiResponse<Token> response = api.loginApplicationWithHttpInfo(credentials);
+        Token token = response.getData();
+        token.setToken("This is a really bad token");
+        world.setToken(token);
+
     }
 }
