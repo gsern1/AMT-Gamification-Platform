@@ -49,7 +49,11 @@ The **Executable_Specification** folder located at the root of our repository co
 
 ### Sample front-end application
 
-The **gh_pages** branch contains a basic Clicker application that we used to test the Gamification process of our platform.
+The **gh_pages** branch contains a basic Clicker application that we used to test a sample Gamification process using our platform. 
+If you want to try it out, you must first start the REST API and clone the gh-pages branch.
+Then you must insert data in the database. There is a list of Postman requests in the `AMT-Présentation.postman_collection.json` file at the root of the gh-pages branch.
+Finally you must configure the token in the `js/script.js` file. On the second line, you must edit the token variable to match your application's token which is received when you login or register.
+Then you can open the `index.html` file. 
 
 
 
