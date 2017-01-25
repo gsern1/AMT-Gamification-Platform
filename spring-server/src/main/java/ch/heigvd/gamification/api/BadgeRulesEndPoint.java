@@ -28,6 +28,9 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * BadgeRule endoint. Implements CRUD actions for this endpoint.
+ */
 @RestController
 public class BadgeRulesEndPoint implements BadgeRulesApi {
 
@@ -210,9 +213,7 @@ public class BadgeRulesEndPoint implements BadgeRulesApi {
 
         PointScale pointScale = pointScaleRepository.findByIdAndApplication(badgeRule.getPointScale(), application);
 
-        // TODO Transform to long
         Badge badge = badgeRepository.findOne(badgeRule.getBadge());
-
         if(badge == null){
             return  new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
         }

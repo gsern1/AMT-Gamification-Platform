@@ -5,10 +5,8 @@ import ch.heigvd.gamification.api.dto.BadgeWithLocation;
 import ch.heigvd.gamification.database.dao.ApplicationRepository;
 import ch.heigvd.gamification.database.dao.BadgeRepository;
 import ch.heigvd.gamification.database.model.Application;
-import ch.heigvd.gamification.utils.JSONParser;
 import ch.heigvd.gamification.utils.JWTutils;
 import io.swagger.annotations.ApiParam;
-import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -25,7 +23,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Created by lux on 30.11.16.
+ * Badges endoint. Implements CRUD actions for this endpoint.
  */
 @RestController
 public class BadgeEndpoint implements BadgesApi {
@@ -34,18 +32,25 @@ public class BadgeEndpoint implements BadgesApi {
     @Autowired
     ApplicationRepository applicationRepository;
 
+    /**
+     * Add a badge to your application.
+     *
+     * @param badge: the badge to be added.
+     * @param token: the token.
+     * @return
+     *      403 if your token is invalid.
+     *      422 if the badge name is null or empty
+     *      201 otherwise
+     */
     @Override
     public ResponseEntity<Void> addBadge(@ApiParam(value = "Badge object to add to the store", required = true) @RequestBody Badge badge, @ApiParam(value = "token to be passed as a header", required = true) @RequestHeader(value = "token", required = true) String token) {
+
         String name = JWTutils.getAppNameInToken(token);
-
-        System.out.println("HELLO FROM ADD BADGES");
-
         if(name == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
         Application application = applicationRepository.findByName(name);
-
         if(application == null){
             return  new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
@@ -68,28 +73,38 @@ public class BadgeEndpoint implements BadgesApi {
         }
     }
 
+    /**
+     * Delete this badge
+     *
+     * @param badgeId: the id of the badge to be deleted.
+     * @param token: the token
+     *
+     * @return
+     *      403 if your token is invalid.
+     *      404 if the system has not found this badge.
+     *      422 if the database fails to delete it.
+     *      204 otherwise
+     */
     @Override
     public ResponseEntity<Void> deleteBadge(@ApiParam(value = "Id of the badge that needs to be deleted", required = true) @PathVariable("badgeId") Long badgeId, @ApiParam(value = "token to be passed as a header", required = true) @RequestHeader(value = "token", required = true) String token) {
-        String name = JWTutils.getAppNameInToken(token);
 
+        String name = JWTutils.getAppNameInToken(token);
         if(name == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
         Application application = applicationRepository.findByName(name);
-
         if(application == null){
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
-        //TODO PASSE EN LONG DANS LA BDD OU PASSER EN INT (a discuter) C'est fait - ioannis
         ch.heigvd.gamification.database.model.Badge badge = badgeRepository.findOne(badgeId);
         if(badge == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         try{
             badgeRepository.delete(badge);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (EmptyResultDataAccessException e){
             System.out.println(e.getMessage());
             System.out.println(e.getClass());
@@ -97,16 +112,27 @@ public class BadgeEndpoint implements BadgesApi {
         }
     }
 
+    /**
+     * find a badge with the given badge id.
+     *
+     * @param badgeId: the id of the badge to be retrived
+     * @param token: the token
+     * @return
+     *      403 if your token is invalid.
+     *      404 if the system has not found this badge.
+     *      401 if you don't own this badge.
+     *      422 if the database fails to read it.
+     *      200 otherwise
+     */
     @Override
     public ResponseEntity<Badge> findBadge(@ApiParam(value = "ID of badge to fetch", required = true) @PathVariable("badgeId") Long badgeId, @ApiParam(value = "token to be passed as a header", required = true) @RequestHeader(value = "token", required = true) String token) {
-        String name = JWTutils.getAppNameInToken(token);
 
+        String name = JWTutils.getAppNameInToken(token);
         if(name == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
         Application application = applicationRepository.findByName(name);
-
         if(application == null){
             return  new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
@@ -129,16 +155,23 @@ public class BadgeEndpoint implements BadgesApi {
         }
     }
 
+    /**
+     * Get a list of the badges of this application.
+     *
+     * @param token: the token
+     * @return
+     *      403 if your token is invalid.
+     *      200 otherwise
+     */
     @Override
     public ResponseEntity<List<BadgeWithLocation>> findBadges(@ApiParam(value = "token to be passed as a header", required = true) @RequestHeader(value = "token", required = true) String token) {
-        String name = JWTutils.getAppNameInToken(token);
 
+        String name = JWTutils.getAppNameInToken(token);
         if(name == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 
         Application application = applicationRepository.findByName(name);
-
         if(application == null){
             return  new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
@@ -157,6 +190,19 @@ public class BadgeEndpoint implements BadgesApi {
         return new ResponseEntity<>(toReturn, HttpStatus.OK);
     }
 
+    /**
+     * Updates this badge.
+     *
+     * @param badge: the new badge
+     * @param badgeId: the badge to be updated
+     * @param token: the toke
+     * @return
+     *      403 if your token is invalid.
+     *      404 if the system has not found this badge.
+     *      401 if you don't own this badge.
+     *      422 if the database fails to update it.
+     *      200 otherwise
+     */
     @Override
     public ResponseEntity<Void> updateBadge(@ApiParam(value = "Badge object to add to the store", required = true) @RequestBody Badge badge, @ApiParam(value = "Id of the badge that needs to be updated", required = true) @PathVariable("badgeId") Long badgeId, @ApiParam(value = "token to be passed as a header", required = true) @RequestHeader(value = "token", required = true) String token) {
         String name = JWTutils.getAppNameInToken(token);
@@ -175,7 +221,7 @@ public class BadgeEndpoint implements BadgesApi {
         if (badgeDB == null || badge.getName() == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-        if(application.getId() != badgeDB.getApplication().getId()) //TODO désormais on peux supprimer le dage uniquement si on en est le proprio
+        if(application.getId() != badgeDB.getApplication().getId())
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
         try {

@@ -13,7 +13,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 @EnableAutoConfiguration
 @ComponentScan
-//@ComponentScan(basePackages = "io.swagger")
+
+/**
+ * AUTO-GENERATED
+ */
 public class Swagger2SpringBoot implements CommandLineRunner {
 
 	@Override

@@ -19,9 +19,19 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class AuthEndpoint implements AuthApi{
+
     @Autowired
     private ApplicationRepository applicationRepository;
 
+    /**
+     * Authenticate this application.
+     *
+     * @param credentials: the authentication credentials.
+     * @return
+     *      400 if you have empty credentials or if you don't exists in the system.
+     *      401 if you provided the wrong credentials.
+     *      200 otherwise
+     */
     @Override
     public ResponseEntity<Token> loginApplication(@ApiParam(value = "application object to add to the store", required = true) @RequestBody Credentials credentials) {
 
@@ -30,7 +40,6 @@ public class AuthEndpoint implements AuthApi{
         }
 
         ch.heigvd.gamification.database.model.Application application = applicationRepository.findByName(credentials.getName());
-
         if(application == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

@@ -5,6 +5,7 @@ import ch.heigvd.gamification.database.dao.*;
 import ch.heigvd.gamification.database.model.*;
 import org.hibernate.StaleObjectStateException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -15,7 +16,7 @@ import javax.persistence.LockModeType;
 import java.util.List;
 
 /**
- * Created by antoi on 11.12.2016.
+ * Concurrent service that provides the needs to handle events. It is based on optimistic locking.
  */
 @Service
 public class EventProcessor {
@@ -32,14 +33,23 @@ public class EventProcessor {
     @Autowired
     private UserRepository userRepository;
 
+    /**
+     * Handle the process of this event. Throw an ObjectOptimisticLockingFailureException if a concurrency modification has
+     * been detected. The caller must then catch this exception and retry to call this method to give her an other chance of
+     * succeeding.
+     *
+     * @param user: the user to be processed with the event.
+     * @param event: the event to be processed.
+     * @throws ObjectOptimisticLockingFailureException
+     */
+    @Async
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void processEvent(User user, Event event) {
+    public void processEvent(User user, Event event) throws ObjectOptimisticLockingFailureException {
         PointScaleRule pointScaleRule = pointScaleRuleRepository.findByType(event.getType());
 
         if (pointScaleRule != null) //if it's a pointscale event
         {
             List<UserPointScale> userPointScales = userPointScaleRepository.findByUser(user);
-            System.out.println(userPointScales.size());
 
             //if the user dosen't exists
             if (userPointScales.isEmpty()) {
