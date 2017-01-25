@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -92,7 +93,7 @@ public class UserEndpoint implements UsersApi {
             UserPointScale userPointScaleDto = new UserPointScale();
             userPointScaleDto.setName((String)userPointScale[1]);
             userPointScaleDto.setPoints(((BigDecimal)userPointScale[2]).longValue());
-            userPointScaleDto.setLocation("/pointScales/" + ((BigDecimal)userPointScale[0]).longValue());
+            userPointScaleDto.setLocation("/pointScales/" + ((BigInteger)userPointScale[0]).longValue());
             userPointScalesDto.add(userPointScaleDto);
         }
         return ResponseEntity.ok(userPointScalesDto);
