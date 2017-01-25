@@ -8,6 +8,7 @@ import ch.heigvd.gamification.database.dao.PointScaleRuleRepository;
 import ch.heigvd.gamification.database.model.Application;
 import ch.heigvd.gamification.database.model.PointScale;
 import ch.heigvd.gamification.utils.JWTutils;
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -62,7 +63,12 @@ public class PointScaleRulesEndPoint implements PointScaleRulesApi {
                         pointScale,
                         pointScaleRule.getIncrement());
 
-        pointScaleRuleRepository.save(pointScaleRuleDB);
+        try {
+            pointScaleRuleRepository.save(pointScaleRuleDB);
+        } catch (DataIntegrityViolationException e){
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set("location", "/pointScaleRules/" + pointScaleRuleDB.getId());
         return ResponseEntity.status(HttpStatus.CREATED).headers(responseHeaders).build();
@@ -177,7 +183,12 @@ public class PointScaleRulesEndPoint implements PointScaleRulesApi {
         pointScaleRuleDB.setType(pointScaleRule.getType());
         pointScaleRuleDB.setIncrement(pointScaleRule.getIncrement());
         pointScaleRuleDB.setPointscale(pointScale);
-        pointScaleRuleRepository.save(pointScaleRuleDB);
+
+        try {
+            pointScaleRuleRepository.save(pointScaleRuleDB);
+        } catch (DataIntegrityViolationException e){
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
 
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
