@@ -14,7 +14,7 @@ $(document).ready(function() {
 			success: function (data) {
 				console.info("Received the leaderboard : " + JSON.stringify(data));
 				$("#leaderboardBody").text("");
-				for(var i in data){
+				for(var i = 0; i < 5 && i < data.length; i++){
 					$("#leaderboardBody").append("<tr><td>" + data[i].username + "</td><td>" + data[i].numberOfBadges + "</td></tr>");
 				}
 			},
