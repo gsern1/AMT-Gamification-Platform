@@ -1,5 +1,6 @@
 package ch.heigvd.gamification;
 
+import ch.heigvd.gamification.utils.JWTConfigReader;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.ExitCodeGenerator;
 import org.springframework.boot.SpringApplication;
@@ -27,6 +28,7 @@ public class Swagger2SpringBoot implements CommandLineRunner {
 	}
 
 	public static void main(String[] args) throws Exception {
+		JWTConfigReader.readProperties();
 		new SpringApplication(Swagger2SpringBoot.class).run(args);
 	}
 
