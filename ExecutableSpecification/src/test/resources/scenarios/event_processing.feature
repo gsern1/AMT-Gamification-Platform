@@ -34,3 +34,13 @@ Scenario: some users POST an event for a pointscale simultaneously
   When 15 user POST an PointScaleTyped event simultaneously
   Then Each response should return 201
   And Each user should have a pointscale score
+
+Scenario: an application post pointscale wining event while user don't have a badge
+  Given I have a list of 1 new user
+  When a user POST 3 times an event for a pointscale
+  Then Each user should have a badge
+
+Scenario: an application post pointscale wining event but the user don't reach the treshold
+  Given I have a list of 1 new user
+  When a user POST 2 times an event for a pointscale
+  Then The user shouldn't have a badge
