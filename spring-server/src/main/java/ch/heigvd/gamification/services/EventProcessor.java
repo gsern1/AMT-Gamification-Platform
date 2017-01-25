@@ -53,8 +53,6 @@ public class EventProcessor {
 
             //check if this user dosent have have this point scale
             List<UserPointScale> up = userPointScaleRepository.findByUserAndPointScale(user, pointScaleRule.getPointscale());
-            System.out.println(up.size());
-            System.out.println(user.getId() + " // " + pointScaleRule.getPointscale().getId());
 
             //if the user dosen't exists
             if (userPointScales.isEmpty() || up.isEmpty()) {

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Created by antoi on 11.12.2016.
+ * Auth endpoint
  */
 @RestController
 public class AuthEndpoint implements AuthApi{
