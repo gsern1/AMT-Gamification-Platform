@@ -62,7 +62,9 @@ public class EventEndpoint implements EventsApi {
         boolean done = false;
         while (!done) {
             try {
-                eventProcessor.processEvent(user, event);
+                if(!eventProcessor.processEvent(user, event)){
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+                }
                 done = true;
             } catch (ObjectOptimisticLockingFailureException e) {
                 System.out.println("FAILED TO UPDATE (concurrency)... LET'S GO AGAIN");
