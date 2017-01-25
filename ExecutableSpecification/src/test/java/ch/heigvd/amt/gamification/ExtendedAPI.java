@@ -15,7 +15,7 @@ import java.util.Map;
 /**
  * Created by Ornidon on 19.12.2016.
  */
-public class ExtendedAPI  {
+public class ExtendedAPI {
     private ApiClient apiClient;
 
     public ExtendedAPI() {
@@ -28,7 +28,7 @@ public class ExtendedAPI  {
 
     public ApiResponse<Object> callWithParams(String method, String path, Object body, String token, String returnType) throws ApiException {
 
-        String localVarPath = path.replaceAll("\\{format\\}","json");
+        String localVarPath = path.replaceAll("\\{format\\}", "json");
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
 
@@ -52,19 +52,20 @@ public class ExtendedAPI  {
         if (token != null)
             localVarHeaderParams.put("token", token);
 
-        String[] localVarAuthNames = new String[] {  };
+        String[] localVarAuthNames = new String[]{};
 
         Call call = apiClient.buildCall(localVarPath, method, localVarQueryParams, body, localVarHeaderParams, localVarFormParams, localVarAuthNames, null);
 
-        Type localVarReturnType = new TypeToken<List<PointScale>>(){}.getType();
+        Type localVarReturnType = new TypeToken<List<PointScale>>() {
+        }.getType();
 
-        if(returnType.equals("PointScales")){
-            localVarReturnType = new TypeToken<List<PointScale>>(){}.getType();
+        if (returnType.equals("PointScales")) {
+            localVarReturnType = new TypeToken<List<PointScale>>() {
+            }.getType();
+        } else if (returnType.equals("Badge")) {
+            localVarReturnType = new TypeToken<Badge>() {
+            }.getType();
         }
-        else if(returnType.equals("Badge")){
-            localVarReturnType = new TypeToken<Badge>(){}.getType();
-        }
-
 
 
         return apiClient.execute(call, localVarReturnType);

@@ -36,7 +36,6 @@ public class SharedData {
     private long pointScaleNbr;
 
 
-
     public int getStatusCode() {
         return statusCode;
     }

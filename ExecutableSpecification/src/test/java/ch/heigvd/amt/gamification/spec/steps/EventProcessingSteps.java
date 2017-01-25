@@ -12,7 +12,6 @@ import ch.heigvd.gamification.api.dto.BadgeWithLocation;
 import ch.heigvd.gamification.api.dto.Event;
 import ch.heigvd.gamification.api.dto.User;
 import ch.heigvd.gamification.api.dto.UserPointScale;
-import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -25,7 +24,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
- *
  * @author guillaume
  */
 public class EventProcessingSteps {
@@ -35,7 +33,7 @@ public class EventProcessingSteps {
 
     private SharedData world;
 
-    public EventProcessingSteps(SharedData world){
+    public EventProcessingSteps(SharedData world) {
         this.world = world;
     }
 
@@ -46,9 +44,9 @@ public class EventProcessingSteps {
     @Given("^I have a list of (\\d+) new user$")
     public void iHaveAListOfNewUser(int number) throws Throwable {
         users = new User[number];
-        for(int i = 0; i < number ;++i){
+        for (int i = 0; i < number; ++i) {
             users[i] = new User();
-            users[i].setUsername("User-" + System.currentTimeMillis()+i);
+            users[i].setUsername("User-" + System.currentTimeMillis() + i);
         }
 
     }
@@ -56,7 +54,7 @@ public class EventProcessingSteps {
     @When("^(\\d+) user POST an BadgeTyped event$")
     public void userPOSTAnBadgeTypedEvent(int number) throws Throwable {
         responses = new ApiResponse[number];
-        for(int i = 0; i < number ;++i){
+        for (int i = 0; i < number; ++i) {
             Event userEvent = new Event();
             userEvent.setUsername(users[i].getUsername());
             userEvent.setType(world.getBadgeRuleName());
@@ -67,8 +65,8 @@ public class EventProcessingSteps {
 
     @Then("^Each user should have a badge$")
     public void eachUserShouldHaveABadge() throws Throwable {
-        for(User u : users){
-            List<BadgeWithLocation> list = api.findUserBadges(u.getUsername(),world.getToken().getToken());
+        for (User u : users) {
+            List<BadgeWithLocation> list = api.findUserBadges(u.getUsername(), world.getToken().getToken());
 
             assertFalse(list.isEmpty());
 
@@ -79,7 +77,7 @@ public class EventProcessingSteps {
     @When("^(\\d+) user POST an BadgeTyped event simultaneously$")
     public void userPOSTAnBadgeTypedEventSimultaneously(int number) throws Throwable {
         responses = new ApiResponse[number];
-        for(int i = 0; i < number ;++i){
+        for (int i = 0; i < number; ++i) {
             final int ii = i;
             new Thread(() -> {
                 Event userEvent = new Event();
@@ -98,7 +96,7 @@ public class EventProcessingSteps {
     @When("^(\\d+) user POST an PointScaleTyped event$")
     public void userPOSTAnPointScaleTypedEvent(int number) throws Throwable {
         responses = new ApiResponse[number];
-        for(int i = 0; i < number ;++i){
+        for (int i = 0; i < number; ++i) {
             Event userEvent = new Event();
             userEvent.setUsername(users[i].getUsername());
             userEvent.setType(world.getPointScaleRuleName());
@@ -109,9 +107,9 @@ public class EventProcessingSteps {
 
     @Then("^Each user should have a pointscale score$")
     public void eachUserShouldHaveAPointscaleScore() throws Throwable {
-        for(User u : users){
-            List<UserPointScale> list = api.findUserPointScales(u.getUsername(),world.getToken().getToken());
-            for(UserPointScale ps : list){
+        for (User u : users) {
+            List<UserPointScale> list = api.findUserPointScales(u.getUsername(), world.getToken().getToken());
+            for (UserPointScale ps : list) {
                 assertTrue(ps.getPoints() > 0);
             }
         }
@@ -119,15 +117,15 @@ public class EventProcessingSteps {
 
     @Then("^Each response should return (\\d+)$")
     public void eachResponseShouldReturn(int number) throws Throwable {
-        for(ApiResponse r : responses ){
-            assertEquals(r.getStatusCode(),number);
+        for (ApiResponse r : responses) {
+            assertEquals(r.getStatusCode(), number);
         }
     }
 
     @When("^(\\d+) user POST an PointScaleTyped event simultaneously$")
     public void userPOSTAnPointScaleTypedEventSimultaneously(int number) throws Throwable {
         responses = new ApiResponse[number];
-        for(int i = 0; i < number ;++i){
+        for (int i = 0; i < number; ++i) {
             final int ii = i;
             new Thread(() -> {
                 Event userEvent = new Event();
@@ -145,19 +143,19 @@ public class EventProcessingSteps {
 
     @When("^a user POST (\\d+) times an event for a pointscale$")
     public void aUserPOSTTimesAnEventForAPointscale(int number) throws Throwable {
-        for(int i = 0 ; i < number; ++i){
+        for (int i = 0; i < number; ++i) {
             Event userEvent = new Event();
             userEvent.setUsername(users[0].getUsername());
             userEvent.setType(world.getPointScaleRuleName());
-            api.addEvent(userEvent,world.getToken().getToken());
+            api.addEvent(userEvent, world.getToken().getToken());
         }
     }
 
     @Then("^The user shouldn't have a badge$")
     public void theUserShouldnTHaveABadge() throws Throwable {
 
-        for(User u : users){
-            List<BadgeWithLocation> list = api.findUserBadges(u.getUsername(),world.getToken().getToken());
+        for (User u : users) {
+            List<BadgeWithLocation> list = api.findUserBadges(u.getUsername(), world.getToken().getToken());
             assertTrue(list.isEmpty());
         }
     }
@@ -165,23 +163,23 @@ public class EventProcessingSteps {
 
     @Then("^the user should have (\\d+) times the increment of the pointscale$")
     public void theUserShouldHaveTimesTheIncrementOfThePointscale(int number) throws Throwable {
-        List<UserPointScale> list = api.findUserPointScales(users[0].getUsername(),world.getToken().getToken());
-        assertEquals(list.get(0).getPoints().longValue(),number*INCREMENT);
+        List<UserPointScale> list = api.findUserPointScales(users[0].getUsername(), world.getToken().getToken());
+        assertEquals(list.get(0).getPoints().longValue(), number * INCREMENT);
     }
 
     @When("^a user POST (\\d+) x (\\d+) times an event for a pointscale simultaneously$")
     public void aUserPOSTXTimesAnEventForAPointscaleSimultaneously(int number, int number2) throws Throwable {
-        for(int i = 0; i < number ;++i){
+        for (int i = 0; i < number; ++i) {
             new Thread(() -> {
                 Event userEvent = new Event();
                 userEvent.setUsername(users[0].getUsername());
                 userEvent.setType(world.getPointScaleRuleName());
-                for(int j = 0; j < number2 ; ++j){
+                for (int j = 0; j < number2; ++j) {
                     try {
-                        api.addEvent(userEvent,world.getToken().getToken());
+                        api.addEvent(userEvent, world.getToken().getToken());
                     } catch (ApiException e) {
                         try {
-                            api.addEvent(userEvent,world.getToken().getToken());
+                            api.addEvent(userEvent, world.getToken().getToken());
                         } catch (ApiException e1) {
                             e1.printStackTrace();
                         }
@@ -189,6 +187,6 @@ public class EventProcessingSteps {
                 }
             }).start();
         }
-        Thread.sleep(number*number2*22);
+        Thread.sleep(number * number2 * 22);
     }
 }
