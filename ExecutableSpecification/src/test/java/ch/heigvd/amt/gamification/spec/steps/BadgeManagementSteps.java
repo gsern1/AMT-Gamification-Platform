@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import static org.junit.Assert.*;
 
 /**
- *
  * @author guillaume
  */
 public class BadgeManagementSteps {
@@ -37,7 +36,7 @@ public class BadgeManagementSteps {
     private SharedData world;
     private long badgeNbr;
 
-    public BadgeManagementSteps(SharedData world){
+    public BadgeManagementSteps(SharedData world) {
         this.world = world;
     }
 
@@ -79,12 +78,12 @@ public class BadgeManagementSteps {
     @When("^I POST it to the /badges endpoint$")
     public void i_POST_it_to_the_badges_endpoint() throws Throwable {
         try {
-            response = api.addBadgeWithHttpInfo(world.getBadge(),world.getToken().getToken());
+            response = api.addBadgeWithHttpInfo(world.getBadge(), world.getToken().getToken());
             world.setStatusCode(response.getStatusCode());
-            badgeNbr = Integer.valueOf((String)response.getHeaders().get("location").toString().replaceAll("[^\\d]",""));
+            badgeNbr = Integer.valueOf((String) response.getHeaders().get("location").toString().replaceAll("[^\\d]", ""));
             world.setBadgeNbr(badgeNbr);
 
-        }catch (ApiException e){
+        } catch (ApiException e) {
             world.setStatusCode(e.getCode());
         }
 
@@ -92,11 +91,10 @@ public class BadgeManagementSteps {
     }
 
 
-
     @And("^I receive a reference about the created badge$")
     public void iReceiveAReferenceAboutTheCreatedBadge() throws Throwable {
         String location = (response.getHeaders().get("location")).toString();
-        location = location.substring(1,location.length()-1);
+        location = location.substring(1, location.length() - 1);
         assertTrue(location.matches("/badges/(?:\\d++\\w)*+\\d++"));
 
 
@@ -111,7 +109,7 @@ public class BadgeManagementSteps {
 
     @And("^I receive a list of badges$")
     public void iReceiveAListOfBadges() throws Throwable {
-        if(world.getResponse() != null)
+        if (world.getResponse() != null)
             assertNotNull(world.getResponse().getData());
         else
             assertNotNull(response.getData());
@@ -120,12 +118,12 @@ public class BadgeManagementSteps {
 
     @When("^I PUT in to the /badge/id endpoint$")
     public void iPUTInToTheBadgeIdEndpoint() throws Throwable {
-        if(badge.getName() != null)
-             badge.setName("modified-" + System.currentTimeMillis());
-        try{
+        if (badge.getName() != null)
+            badge.setName("modified-" + System.currentTimeMillis());
+        try {
             response = api.updateBadgeWithHttpInfo(badge, badgeNbr, token.getToken());
             world.setStatusCode(response.getStatusCode());
-        }catch (ApiException e){
+        } catch (ApiException e) {
             world.setStatusCode(e.getCode());
         }
 
@@ -133,7 +131,7 @@ public class BadgeManagementSteps {
 
     @And("^The badge has been modified$")
     public void theBadgeHasBeenModified() throws Throwable {
-        assertEquals(api.findBadge( badgeNbr,token.getToken()).getName(),badge.getName());
+        assertEquals(api.findBadge(badgeNbr, token.getToken()).getName(), badge.getName());
     }
 
     @And("^I have a bad token$")
@@ -143,7 +141,7 @@ public class BadgeManagementSteps {
 
     @And("^The badge is unchanged$")
     public void theBadgeIsUnchanged() throws Throwable {
-        assertNotEquals(api.findBadge( badgeNbr,tokenSaved.getToken()).getName(),badge.getName());
+        assertNotEquals(api.findBadge(badgeNbr, tokenSaved.getToken()).getName(), badge.getName());
 
     }
 
@@ -157,12 +155,12 @@ public class BadgeManagementSteps {
 
     @And("^I GET on smth$")
     public void iGETOnSmth() throws Throwable {
-        response = api.findBadgeWithHttpInfo(badgeNbr,token.getToken());
+        response = api.findBadgeWithHttpInfo(badgeNbr, token.getToken());
     }
 
     @And("^I don't receive any bages$")
     public void iDonTReceiveAnyBages() throws Throwable {
-        if(response != null)
+        if (response != null)
             assertEquals(response.getData(), new ArrayList<>());
         else
             assertEquals(world.getResponse().getData(), new ArrayList<>());

@@ -16,23 +16,19 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
 
 /**
- *
  * @author guillaume
  */
 public class PointScaleManagementSteps {
 
     private final DefaultApi api = new DefaultApi();
 
-    private Token token;
-    private Token tokenSaved;
-    private Badge badge;
     private ApiResponse response;
     private SharedData world;
     private long pointScaleNbr;
 
     private PointScale pointScale;
 
-    public PointScaleManagementSteps(SharedData world){
+    public PointScaleManagementSteps(SharedData world) {
         this.world = world;
     }
 
@@ -51,16 +47,15 @@ public class PointScaleManagementSteps {
     @When("^I POST it to the /pointScales endpoint$")
     public void i_POST_it_to_the_pointScales_endpoint() throws Throwable {
         try {
-            response = api.addPointScaleWithHttpInfo(pointScale,world.getToken().getToken());
+            response = api.addPointScaleWithHttpInfo(pointScale, world.getToken().getToken());
             world.setStatusCode(response.getStatusCode());
-            pointScaleNbr = Integer.valueOf((String)response.getHeaders().get("location").toString().replaceAll("[^\\d]",""));
+            pointScaleNbr = Integer.valueOf((String) response.getHeaders().get("location").toString().replaceAll("[^\\d]", ""));
             world.setPointScaleNbr(pointScaleNbr);
 
-        }catch (ApiException e){
+        } catch (ApiException e) {
             world.setStatusCode(e.getCode());
         }
     }
-
 
 
 }

@@ -26,7 +26,7 @@ public class SharedSteps {
     private final DefaultApi api = new DefaultApi();
 
 
-    public SharedSteps(SharedData world){
+    public SharedSteps(SharedData world) {
         this.world = world;
     }
 
@@ -38,38 +38,35 @@ public class SharedSteps {
 
     @When("^I perform a \"([^\"]*)\" on \"([^\"]*)\" endpoint with a wrong payload that return \"([^\"]*)\"$")
     public void iPerformAOnEndpointWithAWrongPayloadThatReturn(String action, String endpoint, String returnType) throws Throwable {
-        class WrongDTO{
+        class WrongDTO {
             private int a;
             private boolean b;
             private char c;
         }
-        try{
-            world.setResponse(world.getApi().callWithParams(action,endpoint, new WrongDTO(),world.getToken().getToken(),returnType));
+        try {
+            world.setResponse(world.getApi().callWithParams(action, endpoint, new WrongDTO(), world.getToken().getToken(), returnType));
             world.setStatusCode(world.getResponse().getStatusCode());
-        }
-        catch (ApiException e){
+        } catch (ApiException e) {
             world.setStatusCode(e.getCode());
         }
     }
 
     @When("^I perform a \"([^\"]*)\" on \"([^\"]*)\" endpoint with an empty payload tha return \"([^\"]*)\"$")
     public void iPerformAOnEndpointWithAnEmptyPayloadThaReturn(String action, String endpoint, String returnType) throws Throwable {
-        try{
-            world.setResponse(world.getApi().callWithParams(action,endpoint, null,world.getToken().getToken(),returnType));
+        try {
+            world.setResponse(world.getApi().callWithParams(action, endpoint, null, world.getToken().getToken(), returnType));
             world.setStatusCode(world.getResponse().getStatusCode());
-        }
-        catch (ApiException e){
+        } catch (ApiException e) {
             world.setStatusCode(e.getCode());
         }
     }
 
     @And("^I perform a \"([^\"]*)\" on \"([^\"]*)\" endpoint with id that return \"([^\"]*)\"$")
     public void iPerformAOnEndpointWithIdThatReturn(String action, String endpoint, String returnType) throws Throwable {
-        try{
-            world.setResponse(world.getApi().callWithParams(action,endpoint+ "/" + world.getBadgeNbr(), null,world.getToken().getToken(),returnType));
+        try {
+            world.setResponse(world.getApi().callWithParams(action, endpoint + "/" + world.getBadgeNbr(), null, world.getToken().getToken(), returnType));
             world.setStatusCode(world.getResponse().getStatusCode());
-        }
-        catch (ApiException e){
+        } catch (ApiException e) {
             world.setStatusCode(e.getCode());
         }
     }
@@ -83,7 +80,7 @@ public class SharedSteps {
 
     @Given("^a token for a new gamified application and its credentials$")
     public void aTokenForANewGamifiedApplicationAndItsCredentials() throws Throwable {
-       world.setApplication(new Application());
+        world.setApplication(new Application());
 
         String randomAppName = "random-app-1-" + System.currentTimeMillis();
         world.getApplication().setName(randomAppName);
@@ -91,7 +88,7 @@ public class SharedSteps {
         String password = "56789";
         world.getApplication().setPassword(password);
 
-        Credentials credentials =new Credentials();
+        Credentials credentials = new Credentials();
         credentials.setName(randomAppName);
         credentials.setPassword(password);
         world.setCredentials(credentials);
@@ -101,7 +98,7 @@ public class SharedSteps {
 
         ApiResponse<Token> response = api.loginApplicationWithHttpInfo(world.getCredentials());
         token = response.getData();
-        assertEquals(200,response.getStatusCode());
+        assertEquals(200, response.getStatusCode());
 
         world.setToken(token);
 
