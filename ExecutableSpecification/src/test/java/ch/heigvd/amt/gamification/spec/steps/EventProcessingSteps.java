@@ -170,6 +170,7 @@ public class EventProcessingSteps {
     @When("^a user POST (\\d+) x (\\d+) times an event for a pointscale simultaneously$")
     public void aUserPOSTXTimesAnEventForAPointscaleSimultaneously(int number, int number2) throws Throwable {
         for (int i = 0; i < number; ++i) {
+            Thread.sleep(50);
             new Thread(() -> {
                 Event userEvent = new Event();
                 userEvent.setUsername(users[0].getUsername());
@@ -181,12 +182,12 @@ public class EventProcessingSteps {
                         try {
                             api.addEvent(userEvent, world.getToken().getToken());
                         } catch (ApiException e1) {
-                            e1.printStackTrace();
+
                         }
                     }
                 }
             }).start();
         }
-        Thread.sleep(number * number2 * 22);
+        Thread.sleep(number * number2 * 20);
     }
 }
