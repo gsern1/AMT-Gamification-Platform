@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	var token = "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhdXRoMCIsIm5hbWUiOiJzdHJpbmcifQ.MRBKP1GrBf2iUH2iS3J7aoLTpmwHDqNlrrPFV-k81YI";
+	var token = "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhdXRoMCIsIm5hbWUiOiJDYXRDbGlja2VyIn0.fyWxmMVrLaeokkgXv_4RIzEAa_APLpIcRBNAR0PqGWg";
 	var updateTables = function(){
 		console.log("Updating tables...");
 		$.ajax({
@@ -85,18 +85,18 @@ $(document).ready(function() {
 		$.ajax({
 			url: "http://127.0.0.1:8090/api/events",
 			type: 'post',
-			data: JSON.stringify({type: "cat1Click", username: localStorage.getItem("username")}),
+			data: JSON.stringify({type: "catOneClick", username: localStorage.getItem("username")}),
 			headers: {
 				token: token,
 				'Content-Type': 'application/json' 
 			},
 			dataType: 'text',
 			success: function (data) {
-				console.info("Posted a new cat1Click event : " + JSON.stringify(data));
+				console.info("Posted a new catOneClick event : " + JSON.stringify(data));
 				updateTables();
 			},
 			error: function (err) {
-				console.info("Error posting a new cat1Click event : " + JSON.stringify(err));
+				console.info("Error posting a new catOneClick event : " + JSON.stringify(err));
 			}
 		});
 	});
@@ -106,18 +106,18 @@ $(document).ready(function() {
 		$.ajax({
 			url: "http://127.0.0.1:8090/api/events",
 			type: 'post',
-			data: JSON.stringify({type: "cat2Click", username: localStorage.getItem("username")}),
+			data: JSON.stringify({type: "catTwoClick", username: localStorage.getItem("username")}),
 			headers: {
 				token: token,
 				'Content-Type': 'application/json' 
 			},
 			dataType: 'text',
 			success: function (data) {
-				console.info("Posted a new cat2Click event : " + JSON.stringify(data));
+				console.info("Posted a new catTwoClick event : " + JSON.stringify(data));
 				updateTables();
 			},
 			error: function (err) {
-				console.info("Error posting a new cat2Click event : " + JSON.stringify(err));
+				console.info("Error posting a new catTwoClick event : " + JSON.stringify(err));
 			}
 		});
 	});
